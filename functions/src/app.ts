@@ -1643,6 +1643,7 @@ app.post('/api/membership/subscribe', requireAuth, async (req, res) => {
       customer: stripeCustomerId,
       payment_method_types: ['card'],
       line_items: [{ price: priceId, quantity: 1 }],
+      allow_promotion_codes: true,
       metadata: { userId, billingPeriod, tier: 'plus' },
       success_url: `${appUrl}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url:  `${appUrl}/payment/cancel`,
@@ -2938,6 +2939,7 @@ app.post('/api/stripe/create-checkout-session', requireAuth, async (req: Request
       const session = await stripeClient.checkout.sessions.create({
         mode: 'payment', payment_method_types: ['card'],
         line_items: [{ price_data: { currency: draft.currency.toLowerCase(), product_data: { name: `${draft.eventTitle} — ${draft.tierName}`, description: `${draft.quantity} × ticket(s) · ${draft.eventDate ?? 'Date TBA'}` }, unit_amount: draft.totalPriceCents }, quantity: 1 }],
+        allow_promotion_codes: true,
         metadata: { ticketId: draft.id, userId: draft.userId, eventId: draft.eventId },
         success_url: `${appUrl}/payment/success?session_id={CHECKOUT_SESSION_ID}&ticketId=${draft.id}`,
         cancel_url: `${appUrl}/payment/cancel?ticketId=${draft.id}`,
