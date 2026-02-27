@@ -16,17 +16,10 @@ import {
   type ViewStyle,
   Platform,
 } from 'react-native';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring,
-} from 'react-native-reanimated';
 import { shadows, glass } from '@/constants/theme';
 import { CardTokens } from '@/constants/theme';
 import { useColors } from '@/hooks/useColors';
 import { useColorScheme } from 'react-native';
-
-const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 interface CardProps {
   onPress?: () => void;
@@ -53,20 +46,6 @@ export function Card({
   const colors = useColors();
   const scheme = useColorScheme();
   const isDark = scheme === 'dark';
-  const scale = useSharedValue(1);
-
-  const animStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
-  }));
-
-  function handlePressIn() {
-    if (!onPress) return;
-    scale.value = withSpring(0.98, { damping: 20, stiffness: 300 });
-  }
-  function handlePressOut() {
-    if (!onPress) return;
-    scale.value = withSpring(1, { damping: 20, stiffness: 300 });
-  }
 
   const glassPreset = isDark ? glass.dark : glass.light;
   const glassStyle: { backgroundColor: string; borderColor?: string } = isGlass
@@ -91,22 +70,23 @@ export function Card({
 
   if (onPress) {
     return (
-      <AnimatedPressable
+      <Pressable
         onPress={onPress}
-        onPressIn={handlePressIn}
-        onPressOut={handlePressOut}
-        style={[animStyle, cardStyle]}
+        style={({ pressed }) => [
+          { transform: [{ scale: pressed ? 0.98 : 1 }] },
+          ...cardStyle,
+        ] as StyleProp<ViewStyle>}
         accessibilityRole="button"
       >
         {children}
-      </AnimatedPressable>
+      </Pressable>
     );
   }
 
   return (
-    <Animated.View style={[animStyle, cardStyle]}>
+    <View style={cardStyle}>
       {children}
-    </Animated.View>
+    </View>
   );
 }
 

@@ -1,7 +1,6 @@
 import { View, Text, Pressable, StyleSheet, Image, Platform } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Colors } from '@/constants/theme';
 
@@ -68,7 +67,7 @@ function CardContent({ event, highlight }: Pick<EventCardProps, 'event' | 'highl
 
 export default function EventCard({ event, highlight, index = 0 }: EventCardProps) {
   return (
-    <Animated.View entering={FadeInDown.delay((index || 0) * 80 + 100).duration(500)}>
+    <View>
       <Pressable
         style={({ pressed }) => [
           styles.card,
@@ -96,7 +95,7 @@ export default function EventCard({ event, highlight, index = 0 }: EventCardProp
           <CardContent event={event} highlight={highlight} />
         </View>
       </Pressable>
-    </Animated.View>
+    </View>
   );
 }
 

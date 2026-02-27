@@ -14,7 +14,6 @@ import { useOnboarding } from '@/contexts/OnboardingContext';
 import { locations } from '@/data/mockData';
 import { Colors } from '@/constants/theme';
 import * as Haptics from 'expo-haptics';
-import Animated, { FadeInDown, FadeIn } from 'react-native-reanimated';
 
 const COUNTRY_FLAGS: Record<string, string> = {
   AU: '🇦🇺',
@@ -111,7 +110,7 @@ export function LocationPicker() {
               {locations.map((loc, i) => {
                 const isCurrentCountry = state.country === loc.country;
                 return (
-                  <Animated.View key={loc.countryCode} entering={FadeInDown.delay(i * 60).duration(300)}>
+                  <View key={loc.countryCode}>
                     <Pressable
                       style={[styles.countryCard, isCurrentCountry && styles.countryCardActive]}
                       onPress={() => selectCountry(loc.country)}
@@ -130,7 +129,7 @@ export function LocationPicker() {
                       )}
                       <Ionicons name="chevron-forward" size={18} color={Colors.textTertiary} />
                     </Pressable>
-                  </Animated.View>
+                  </View>
                 );
               })}
             </ScrollView>
@@ -149,7 +148,7 @@ export function LocationPicker() {
                 {selectedLocation?.cities.map((city, i) => {
                   const isCurrentCity = state.city === city && state.country === pendingCountry;
                   return (
-                    <Animated.View key={city} entering={FadeInDown.delay(i * 40).duration(250)}>
+                    <View key={city}>
                       <Pressable
                         style={[styles.cityCard, isCurrentCity && styles.cityCardActive]}
                         onPress={() => selectCity(city)}
@@ -166,7 +165,7 @@ export function LocationPicker() {
                           <Ionicons name="checkmark-circle" size={18} color="#FFF" />
                         )}
                       </Pressable>
-                    </Animated.View>
+                    </View>
                   );
                 })}
               </View>

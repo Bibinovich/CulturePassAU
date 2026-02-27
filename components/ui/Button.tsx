@@ -22,15 +22,8 @@ import {
   type TextStyle,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring,
-} from 'react-native-reanimated';
 import { ButtonTokens } from '@/constants/theme';
 import { useColors } from '@/hooks/useColors';
-
-const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger' | 'gold';
 export type ButtonSize = 'sm' | 'md' | 'lg';
@@ -62,18 +55,6 @@ export function Button({
   ...rest
 }: ButtonProps) {
   const colors = useColors();
-  const scale = useSharedValue(1);
-
-  const animStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
-  }));
-
-  function handlePressIn() {
-    scale.value = withSpring(0.97, { damping: 20, stiffness: 300 });
-  }
-  function handlePressOut() {
-    scale.value = withSpring(1, { damping: 20, stiffness: 300 });
-  }
 
   const height = ButtonTokens.height[size];
   const paddingH = ButtonTokens.paddingH[size];
@@ -94,14 +75,11 @@ export function Button({
   const vc = variantColors[variant];
 
   return (
-    <AnimatedPressable
+    <Pressable
       {...rest}
       onPress={onPress}
-      onPressIn={handlePressIn}
-      onPressOut={handlePressOut}
       disabled={isDisabled}
-      style={[
-        animStyle,
+      style={({ pressed }) => [
         styles.base,
         {
           height,
@@ -112,8 +90,9 @@ export function Button({
           borderRadius: ButtonTokens.radius,
           opacity: isDisabled ? 0.5 : 1,
           alignSelf: fullWidth ? 'stretch' : 'auto',
+          transform: [{ scale: pressed ? 0.97 : 1 }],
         },
-        style,
+        style as ViewStyle,
       ]}
     >
       {loading ? (
@@ -148,7 +127,7 @@ export function Button({
           )}
         </View>
       )}
-    </AnimatedPressable>
+    </Pressable>
   );
 }
 

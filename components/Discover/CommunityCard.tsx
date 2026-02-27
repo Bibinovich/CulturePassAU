@@ -1,7 +1,6 @@
 import { View, Text, Pressable, StyleSheet, Platform } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import { Colors } from '@/constants/theme';
 
 interface CommunityCardProps {
@@ -22,7 +21,7 @@ export default function CommunityCard({ community, index = 0 }: CommunityCardPro
   const members = community.memberCount || 0;
 
   return (
-    <Animated.View entering={FadeInDown.delay((index || 0) * 80 + 100).duration(500)}>
+    <View>
       <Pressable
         style={({ pressed }) => [
           styles.card,
@@ -54,7 +53,7 @@ export default function CommunityCard({ community, index = 0 }: CommunityCardPro
           </Text>
         ) : null}
       </Pressable>
-    </Animated.View>
+    </View>
   );
 }
 

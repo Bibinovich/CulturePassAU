@@ -5,7 +5,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors } from '@/constants/theme';
 import { useState, useMemo } from 'react';
 import * as Haptics from 'expo-haptics';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import { FilterChipRow, FilterItem } from '@/components/FilterChip';
 
 export interface CategoryFilter {
@@ -100,7 +99,7 @@ export default function BrowsePage({
         refreshControl={refreshControl}
       >
         {promotedItems.length > 0 && (
-          <Animated.View entering={FadeInDown.duration(400)} style={styles.section}>
+          <View style={styles.section}>
             <View style={styles.sectionHead}>
               <View style={[styles.sectionDot, { backgroundColor: accentColor }]} />
               <Text style={styles.sectionTitle}>{promotedTitle}</Text>
@@ -115,7 +114,7 @@ export default function BrowsePage({
               contentContainerStyle={{ paddingHorizontal: 20, gap: 14 }}
             >
               {promotedItems.map((item, i) => (
-                <Animated.View key={item.id} entering={FadeInDown.delay(i * 80).duration(400)}>
+                <View key={item.id}>
                   <Pressable style={styles.promoCard} onPress={() => { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); onItemPress(item); }}>
                     {item.imageUrl ? (
                       <Image source={{ uri: item.imageUrl }} style={styles.promoImage} resizeMode="cover" />
@@ -138,10 +137,10 @@ export default function BrowsePage({
                       </View>
                     </View>
                   </Pressable>
-                </Animated.View>
+                </View>
               ))}
             </ScrollView>
-          </Animated.View>
+          </View>
         )}
 
         {categories.length > 0 && (() => {
@@ -182,7 +181,7 @@ export default function BrowsePage({
             </View>
           ) : (
             filtered.map((item, index) => (
-              <Animated.View key={item.id} entering={FadeInDown.delay(index * 50).duration(400)}>
+              <View key={item.id}>
                 <Pressable style={styles.card} onPress={() => { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); onItemPress(item); }}>
                   {item.imageUrl ? (
                     <Image source={{ uri: item.imageUrl }} style={styles.cardImage} resizeMode="cover" />
@@ -220,7 +219,7 @@ export default function BrowsePage({
                     {renderItemExtra?.(item)}
                   </View>
                 </Pressable>
-              </Animated.View>
+              </View>
             ))
           )}
         </View>
