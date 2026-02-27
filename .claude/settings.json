@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(npm install --save-dev @types/pg)",
-      "Bash(file /Users/wedoboring/Documents/CultureOS/CulturePassAU/assets/images/*.png)",
-      "Bash(npm run)"
-    ]
-  }
-}

@@ -36,6 +36,13 @@ yarn-error.*
 # local env files
 .env*.local
 
+# Claude Code dev tooling (skills, settings — not part of the app)
+.agents/
+.claude/
+
+# Firebase build cache
+.firebase/
+
 # Google Play service account key (sensitive)
 google-play-service-account.json
 
