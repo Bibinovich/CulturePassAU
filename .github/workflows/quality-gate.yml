@@ -1,0 +1,133 @@
+name: Quality Gate & Deploy
+
+on:
+  pull_request:
+    branches: [main, master, develop]
+  push:
+    branches: [main, master, develop]
+
+jobs:
+  # ─── 1. TypeScript + Lint + Tests ────────────────────────────────────────────
+  quality-gate:
+    name: TypeScript, Lint & Unit Tests
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: TypeScript type check
+        run: ./node_modules/.bin/tsc --noEmit
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Unit tests
+        run: npm run test:unit
+
+      - name: Package validation
+        run: npm run test:package-json
+
+  # ─── 2. Web Export ───────────────────────────────────────────────────────────
+  web-build:
+    name: Web Export
+    runs-on: ubuntu-latest
+    needs: quality-gate
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Export web bundle
+        run: npx expo export --platform web
+        env:
+          EXPO_PUBLIC_API_URL: https://us-central1-culturepass-2e058.cloudfunctions.net/api/
+          EXPO_PUBLIC_FIREBASE_PROJECT_ID: culturepass-2e058
+
+      - name: Upload dist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-dist
+          path: dist/
+          retention-days: 1
+
+  # ─── 3. Deploy (main branch only) ────────────────────────────────────────────
+  deploy:
+    name: Deploy to Firebase
+    runs-on: ubuntu-latest
+    needs: [quality-gate, web-build]
+    # Only deploy on pushes to main — not on PRs
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    permissions:
+      contents: read
+      id-token: write   # Required for Workload Identity Federation (if used)
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install root dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Install functions dependencies
+        run: npm ci --prefix functions
+
+      - name: Download web dist artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: web-dist
+          path: dist/
+
+      - name: Write functions/.env
+        run: |
+          cat <<EOF > functions/.env
+          STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}
+          STRIPE_WEBHOOK_SECRET=${{ secrets.STRIPE_WEBHOOK_SECRET }}
+          STRIPE_PRICE_MONTHLY_ID=${{ secrets.STRIPE_PRICE_MONTHLY_ID }}
+          STRIPE_PRICE_YEARLY_ID=${{ secrets.STRIPE_PRICE_YEARLY_ID }}
+          ROLLOUT_PHASE=full
+          SEED_SECRET=
+          EOF
+
+      - name: Authenticate with Firebase
+        run: |
+          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > /tmp/sa.json
+          echo "GOOGLE_APPLICATION_CREDENTIALS=/tmp/sa.json" >> $GITHUB_ENV
+
+      - name: Deploy Functions
+        run: npx firebase-tools deploy --only functions --project culturepass-2e058 --non-interactive
+
+      - name: Deploy Hosting
+        run: npx firebase-tools deploy --only hosting --project culturepass-2e058 --non-interactive
+
+      - name: Clean up credentials
+        if: always()
+        run: rm -f /tmp/sa.json
