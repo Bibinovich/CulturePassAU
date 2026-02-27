@@ -17,7 +17,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useOnboarding } from '@/contexts/OnboardingContext';
 import { useAuth } from '@/lib/auth';
 import { LinearGradient } from 'expo-linear-gradient';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import * as Haptics from 'expo-haptics';
 import { useQuery } from '@tanstack/react-query';
 import type { User, EventData, Community } from '@shared/schema';
@@ -143,7 +142,7 @@ function SectionHeader({ title, subtitle, onSeeAll }: { title: string; subtitle?
 
 function SpotlightCard({ item, index = 0 }: { item: SpotlightItem; index?: number }) {
   return (
-    <Animated.View entering={isWeb ? undefined : FadeInDown.delay((index || 0) * 80 + 100).duration(500)}>
+    <View>
       <Pressable
         style={({ pressed }) => [
           styles.spotlightCard,
@@ -173,7 +172,7 @@ function SpotlightCard({ item, index = 0 }: { item: SpotlightItem; index?: numbe
           <Text style={styles.spotlightDesc} numberOfLines={2}>{item.description}</Text>
         </View>
       </Pressable>
-    </Animated.View>
+    </View>
   );
 }
 
@@ -696,15 +695,15 @@ export default function HomeScreen() {
           />
         }
       >
-        <Animated.View entering={isWeb ? undefined : FadeInDown.delay(100).duration(500)} style={styles.heroSection}>
+        <View style={styles.heroSection}>
           <Text style={styles.heroSubtitle}>{timeGreeting}, {firstName}</Text>
           <Text style={styles.heroTitle}>
             What&apos;s happening in{'\n'}your culture this week?
           </Text>
-        </Animated.View>
+        </View>
 
         {land && (
-          <Animated.View entering={isWeb ? undefined : FadeInDown.delay(120).duration(500)} style={styles.landBanner}>
+          <View style={styles.landBanner}>
             <LinearGradient
               colors={['rgba(139,69,19,0.15)', 'rgba(139,69,19,0.05)']}
               start={{ x: 0, y: 0 }}
@@ -716,10 +715,10 @@ export default function HomeScreen() {
               <Text style={styles.landBannerTitle}>You are on {land.landName}</Text>
             </View>
             <Text style={styles.landBannerSub}>Traditional Custodians: {land.traditionalCustodians}</Text>
-          </Animated.View>
+          </View>
         )}
 
-        <Animated.View entering={isWeb ? undefined : FadeInDown.delay(150).duration(500)} style={styles.quickChipRow}>
+        <View style={styles.quickChipRow}>
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
@@ -735,7 +734,7 @@ export default function HomeScreen() {
               />
             ))}
           </ScrollView>
-        </Animated.View>
+        </View>
 
         {discoverLoading && (
           <View style={styles.loadingWrap}>
@@ -745,16 +744,16 @@ export default function HomeScreen() {
         )}
 
         {featuredEvent && (
-          <Animated.View entering={isWeb ? undefined : FadeInDown.delay(180).duration(500)} style={{ marginBottom: 28}}>
+          <View style={{ marginBottom: 28}}>
             <View style={{ paddingHorizontal: 16 }}>
               <SectionHeader title="Cultural Highlight " subtitle="Don't miss this week" />
             </View>
             <EventCard event={featuredEvent} highlight index={0} />
-          </Animated.View>
+          </View>
         )}
 
         {popularEvents.length > 0 && (
-          <Animated.View entering={isWeb ? undefined : FadeInDown.delay(220).duration(500)} style={{ marginBottom: 32 }}>
+          <View style={{ marginBottom: 32 }}>
             <View style={{ paddingHorizontal: 16 }}>
               <SectionHeader
                 title="Popular Near You"
@@ -773,11 +772,11 @@ export default function HomeScreen() {
                 <EventCard key={(event as unknown as EventData).id} event={event as unknown as EventData} index={i} />
               ))}
             </ScrollView>
-          </Animated.View>
+          </View>
         )}
 
         {allCommunities.length > 0 && (
-          <Animated.View entering={isWeb ? undefined : FadeInDown.delay(260).duration(500)} style={{ marginBottom: 32 }}>
+          <View style={{ marginBottom: 32 }}>
             <View style={{ paddingHorizontal: 20 }}>
               <SectionHeader
                 title="Cultural Communities"
@@ -797,11 +796,11 @@ export default function HomeScreen() {
                 <CommunityCard key={c.id} community={c} index={i} />
               ))}
             </ScrollView>
-          </Animated.View>
+          </View>
         )}
 
         {spotlights.length > 0 && (
-          <Animated.View entering={isWeb ? undefined : FadeInDown.delay(300).duration(500)} style={{ marginBottom: 32 }}>
+          <View style={{ marginBottom: 32 }}>
             <View style={{ paddingHorizontal: 20 }}>
               <SectionHeader title="First Nations Spotlight" subtitle="Celebrating Indigenous culture" />
             </View>
@@ -817,11 +816,11 @@ export default function HomeScreen() {
                 <SpotlightCard key={item.id} item={item} index={i} />
               ))}
             </ScrollView>
-          </Animated.View>
+          </View>
         )}
 
         {cultureCards.length > 0 && (
-          <Animated.View entering={isWeb ? undefined : FadeInDown.delay(340).duration(500)} style={{ marginBottom: 32 }}>
+          <View style={{ marginBottom: 32 }}>
             <View style={{ paddingHorizontal: 20 }}>
               <SectionHeader title="Explore Your Culture" />
             </View>
@@ -841,11 +840,11 @@ export default function HomeScreen() {
                 />
               ))}
             </ScrollView>
-          </Animated.View>
+          </View>
         )}
 
         {otherSections.filter(s => s.type === 'events' || s.type === 'mixed').map((section) => (
-          <Animated.View key={section.title} entering={isWeb ? undefined : FadeInDown.delay(380).duration(500)} style={{ marginBottom: 32 }}>
+          <View key={section.title} style={{ marginBottom: 32 }}>
             <View style={{ paddingHorizontal: 20 }}>
               <SectionHeader title={section.title} subtitle={section.subtitle} />
             </View>
@@ -861,10 +860,10 @@ export default function HomeScreen() {
                 <EventCard key={String((event as unknown as EventData).id)} event={event as unknown as EventData} index={i} />
               ))}
             </ScrollView>
-          </Animated.View>
+          </View>
         ))}
 
-        <Animated.View entering={isWeb ? undefined : FadeInDown.delay(400).duration(500)} style={{ marginBottom: 32 }}>
+        <View style={{ marginBottom: 32 }}>
           <View style={{ paddingHorizontal: 20 }}>
             <SectionHeader title="Browse Categories" />
           </View>
@@ -884,9 +883,9 @@ export default function HomeScreen() {
               />
             ))}
           </ScrollView>
-        </Animated.View>
+        </View>
 
-        <Animated.View entering={isWeb ? undefined : FadeInDown.delay(420).duration(500)} style={{ marginBottom: 32 }}>
+        <View style={{ marginBottom: 32 }}>
           <View style={{ paddingHorizontal: 20 }}>
             <SectionHeader title="Explore Cities" subtitle="Discover culture worldwide" />
           </View>
@@ -903,9 +902,9 @@ export default function HomeScreen() {
               />
             ))}
           </View>
-        </Animated.View>
+        </View>
 
-        <Animated.View entering={isWeb ? undefined : FadeInDown.delay(420).duration(500)} style={styles.bannerWrap}>
+        <View style={styles.bannerWrap}>
           <Pressable
             style={({ pressed }) => [
               styles.plusBanner,
@@ -935,9 +934,9 @@ export default function HomeScreen() {
               <Text style={styles.plusBannerCtaText}>Explore</Text>
             </View>
           </Pressable>
-        </Animated.View>
+        </View>
 
-        <Animated.View entering={isWeb ? undefined : FadeInDown.delay(440).duration(500)} style={styles.bannerWrap}>
+        <View style={styles.bannerWrap}>
           <Pressable
             style={({ pressed }) => [
               styles.perksBanner,
@@ -963,9 +962,9 @@ export default function HomeScreen() {
             </View>
             <Ionicons name="chevron-forward" size={18} color="rgba(255,255,255,0.6)" />
           </Pressable>
-        </Animated.View>
+        </View>
 
-        <Animated.View entering={isWeb ? undefined : FadeInDown.delay(460).duration(500)} style={styles.bannerWrap}>
+        <View style={styles.bannerWrap}>
           <Pressable
             style={({ pressed }) => [
               styles.exploreCta,
@@ -983,7 +982,7 @@ export default function HomeScreen() {
             </View>
             <Ionicons name="chevron-forward" size={18} color="#636366" />
           </Pressable>
-        </Animated.View>
+        </View>
       </ScrollView>
     </View>
     </ErrorBoundary>

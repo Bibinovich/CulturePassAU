@@ -8,7 +8,6 @@ import { useState, useCallback } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { apiRequest, queryClient, getQueryFn } from '@/lib/query-client';
 import { api } from '@/lib/api';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import { FilterChipRow, FilterItem } from '@/components/FilterChip';
 import { useAuth } from '@/lib/auth';
 
@@ -141,7 +140,7 @@ export default function PerksTabScreen() {
         showsVerticalScrollIndicator={false}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={Colors.primary} />}
       >
-        <Animated.View entering={isWeb ? undefined : FadeInDown.delay(100).duration(400)} style={styles.heroBanner}>
+        <View style={styles.heroBanner}>
           <View style={styles.heroIconWrap}>
             <Ionicons name="gift" size={26} color="#FFF" />
           </View>
@@ -163,10 +162,10 @@ export default function PerksTabScreen() {
               <Text style={styles.heroStatLabel}>Your Tier</Text>
             </View>
           </View>
-        </Animated.View>
+        </View>
 
         {membership?.tier === 'free' && (
-          <Animated.View entering={isWeb ? undefined : FadeInDown.delay(150).duration(400)}>
+          <View>
             <Pressable
               style={styles.upgradePrompt}
               onPress={() => {
@@ -183,12 +182,12 @@ export default function PerksTabScreen() {
               </View>
               <Ionicons name="chevron-forward" size={16} color="#2E86C1" />
             </Pressable>
-          </Animated.View>
+          </View>
         )}
 
-        <Animated.View entering={isWeb ? undefined : FadeInDown.delay(200).duration(400)}>
+        <View>
           <FilterChipRow items={filterItems} selectedId={selectedCategory} onSelect={setSelectedCategory} size="small" />
-        </Animated.View>
+        </View>
 
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>
@@ -213,7 +212,7 @@ export default function PerksTabScreen() {
               const redeemable = canRedeem(perk);
               const usagePercent = perk.usageLimit ? Math.round(((perk.usedCount || 0) / perk.usageLimit) * 100) : 0;
               return (
-                <Animated.View key={perk.id} entering={isWeb ? undefined : FadeInDown.delay(250 + i * 60).duration(400)}>
+                <View key={perk.id}>
                   <Pressable style={styles.perkCard} onPress={() => router.push(`/perks/${perk.id}`)}>
                     <View style={styles.perkTop}>
                       <View style={[styles.perkBadge, { backgroundColor: typeInfo.color + '12' }]}>
@@ -291,7 +290,7 @@ export default function PerksTabScreen() {
                       </Text>
                     </Pressable>
                   </Pressable>
-                </Animated.View>
+                </View>
               );
             })
           )}

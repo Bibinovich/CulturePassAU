@@ -25,7 +25,6 @@ import { queryClient, getQueryFn } from '@/lib/query-client';
 import { api, type RewardsSummary } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
 import type { User, Wallet, Membership, EventData } from '@shared/schema';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 
 const isWeb = Platform.OS === 'web';
@@ -299,7 +298,7 @@ export default function ProfileScreen() {
         contentContainerStyle={{ paddingBottom: 100 }}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} tintColor={Colors.primary} colors={[Colors.primary]} />}
       >
-        <Animated.View entering={isWeb ? undefined : FadeInDown.duration(400)} style={styles.profileHeader}>
+        <View style={styles.profileHeader}>
           <View style={styles.headerTopBar}>
             <Pressable style={styles.headerBtn} onPress={handleShare}>
               <Ionicons name="share-outline" size={20} color={Colors.primary} />
@@ -381,7 +380,7 @@ export default function ProfileScreen() {
               </Pressable>
             </View>
           </View>
-        </Animated.View>
+        </View>
 
         {nextTierInfo && (
           <Pressable
@@ -455,7 +454,7 @@ export default function ProfileScreen() {
           </Pressable>
         </View>
 
-        <Animated.View entering={isWeb ? undefined : FadeInDown.delay(100).duration(400)} style={styles.statsRow}>
+        <View style={styles.statsRow}>
           <Pressable style={styles.statCard} onPress={() => router.push('/(tabs)/communities')}>
             <Text style={styles.statNum}>{joinedCommunities.length}</Text>
             <Text style={styles.statLabel}>Communities</Text>
@@ -475,9 +474,9 @@ export default function ProfileScreen() {
             <Text style={styles.statNum}>{savedEvents.length}</Text>
             <Text style={styles.statLabel}>Saved</Text>
           </Pressable>
-        </Animated.View>
+        </View>
 
-        <Animated.View entering={isWeb ? undefined : FadeInDown.delay(150).duration(400)} style={styles.section}>
+        <View style={styles.section}>
           <View style={styles.activityCard}>
             <Text style={styles.activityTitle}>Recent Activity</Text>
             <View style={styles.activityRow}>
@@ -489,10 +488,10 @@ export default function ProfileScreen() {
               <Text style={styles.activityText}>{joinedCommunities.length} communities active</Text>
             </View>
           </View>
-        </Animated.View>
+        </View>
 
         {joinedCommunitiesList.length > 0 && (
-          <Animated.View entering={isWeb ? undefined : FadeInDown.delay(200).duration(400)} style={styles.section}>
+          <View style={styles.section}>
             <SectionTitle title="My Communities" />
             <View style={styles.menuCard}>
               {joinedCommunitiesList.slice(0, 3).map((c, idx) => (
@@ -526,11 +525,11 @@ export default function ProfileScreen() {
                 </Text>
               </Pressable>
             )}
-          </Animated.View>
+          </View>
         )}
 
         {savedEventsList.length > 0 && (
-          <Animated.View entering={isWeb ? undefined : FadeInDown.delay(250).duration(400)} style={styles.section}>
+          <View style={styles.section}>
             <SectionTitle title="Saved Events" />
             <View style={styles.menuCard}>
               {savedEventsList.slice(0, 3).map((e, idx) => (
@@ -556,10 +555,10 @@ export default function ProfileScreen() {
                 </View>
               ))}
             </View>
-          </Animated.View>
+          </View>
         )}
 
-        <Animated.View entering={isWeb ? undefined : FadeInDown.delay(300).duration(400)} style={styles.section}>
+        <View style={styles.section}>
           <SectionTitle title="Location & Preferences" />
           <View style={styles.menuCard}>
             <MenuItem
@@ -590,9 +589,9 @@ export default function ProfileScreen() {
               showDivider={false}
             />
           </View>
-        </Animated.View>
+        </View>
 
-        <Animated.View entering={isWeb ? undefined : FadeInDown.delay(350).duration(400)} style={styles.section}>
+        <View style={styles.section}>
           <SectionTitle title="Tickets & Wallet" />
           <View style={styles.menuCard}>
             <MenuItem
@@ -650,9 +649,9 @@ export default function ProfileScreen() {
               showDivider={false}
             />
           </View>
-        </Animated.View>
+        </View>
 
-        <Animated.View entering={isWeb ? undefined : FadeInDown.delay(400).duration(400)} style={styles.section}>
+        <View style={styles.section}>
           <SectionTitle title="Payment & Billing" />
           <View style={styles.menuCard}>
             <MenuItem
@@ -669,9 +668,9 @@ export default function ProfileScreen() {
               showDivider={false}
             />
           </View>
-        </Animated.View>
+        </View>
 
-        <Animated.View entering={isWeb ? undefined : FadeInDown.delay(450).duration(400)} style={styles.section}>
+        <View style={styles.section}>
           <SectionTitle title="Notifications" />
           <View style={styles.menuCard}>
             <MenuItem
@@ -689,9 +688,9 @@ export default function ProfileScreen() {
               showDivider={false}
             />
           </View>
-        </Animated.View>
+        </View>
 
-        <Animated.View entering={isWeb ? undefined : FadeInDown.delay(500).duration(400)} style={styles.section}>
+        <View style={styles.section}>
           <SectionTitle title="Settings" />
           <View style={styles.menuCard}>
             <MenuItem
@@ -708,9 +707,9 @@ export default function ProfileScreen() {
               showDivider={false}
             />
           </View>
-        </Animated.View>
+        </View>
 
-        <Animated.View entering={isWeb ? undefined : FadeInDown.delay(550).duration(400)} style={styles.section}>
+        <View style={styles.section}>
           <SectionTitle title="Help & Support" />
           <View style={styles.menuCard}>
             <MenuItem
@@ -739,9 +738,9 @@ export default function ProfileScreen() {
               showDivider={false}
             />
           </View>
-        </Animated.View>
+        </View>
 
-        <Animated.View entering={isWeb ? undefined : FadeInDown.delay(550).duration(400)} style={styles.bottomActions}>
+        <View style={styles.bottomActions}>
           <Pressable style={styles.logoutBtn} onPress={handleSignOut}>
             <Ionicons name="log-out-outline" size={18} color={Colors.error} />
             <Text style={styles.logoutText}>Sign Out</Text>
@@ -750,7 +749,7 @@ export default function ProfileScreen() {
             <Ionicons name="refresh-outline" size={18} color={Colors.error} />
             <Text style={styles.resetText}>Reset App Data</Text>
           </Pressable>
-        </Animated.View>
+        </View>
 
         <Text style={styles.version}>CulturePass v1.0.0</Text>
       </ScrollView>

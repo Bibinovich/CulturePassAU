@@ -4,11 +4,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors } from '@/constants/theme';
-import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
 import { useCallback } from 'react';
 import { useOnboarding } from '@/contexts/OnboardingContext';
-
-const isWeb = Platform.OS === 'web';
 
 const FEATURES = [
   { icon: 'calendar' as const, color: Colors.primary, bg: Colors.primaryGlow, text: 'Discover cultural events near you' },
@@ -48,42 +45,31 @@ export default function WelcomeScreen() {
       <View style={[styles.orb, styles.orbBottom]} />
 
       <View style={[styles.topSection, { paddingTop: topInset + 48 }]}>
-        <Animated.View entering={isWeb ? undefined : FadeInDown.delay(100).duration(800)} style={styles.logoRow}>
+        <View style={styles.logoRow}>
           <View style={styles.logoContainer}>
             <Ionicons name="earth" size={40} color="#FFFFFF" />
           </View>
-        </Animated.View>
+        </View>
 
-        <Animated.Text entering={isWeb ? undefined : FadeInDown.delay(300).duration(800)} style={styles.title}>
-          CulturePass
-        </Animated.Text>
-        <Animated.Text entering={isWeb ? undefined : FadeInDown.delay(500).duration(800)} style={styles.tagline}>
-          Connect · Celebrate · Belong
-        </Animated.Text>
-        <Animated.Text entering={isWeb ? undefined : FadeInDown.delay(700).duration(800)} style={styles.subtitle}>
+        <Text style={styles.title}>CulturePass</Text>
+        <Text style={styles.tagline}>Connect · Celebrate · Belong</Text>
+        <Text style={styles.subtitle}>
           Discover cultural events, connect with communities, and celebrate diversity across Australia and beyond.
-        </Animated.Text>
+        </Text>
 
         <View style={styles.featureList}>
-          {FEATURES.map((f, i) => (
-            <Animated.View
-              key={f.text}
-              entering={isWeb ? undefined : FadeInDown.delay(900 + i * 120).duration(600)}
-              style={styles.featureRow}
-            >
+          {FEATURES.map((f) => (
+            <View key={f.text} style={styles.featureRow}>
               <View style={[styles.featureIcon, { backgroundColor: f.bg }]}>
                 <Ionicons name={f.icon} size={18} color={f.color} />
               </View>
               <Text style={styles.featureText}>{f.text}</Text>
-            </Animated.View>
+            </View>
           ))}
         </View>
       </View>
 
-      <Animated.View
-        entering={isWeb ? undefined : FadeInUp.delay(900).duration(800)}
-        style={[styles.bottomSection, { paddingBottom: bottomInset + 16 }]}
-      >
+      <View style={[styles.bottomSection, { paddingBottom: bottomInset + 16 }]}>
         <Pressable
           style={({ pressed }) => [styles.primaryButton, pressed && styles.buttonPressed]}
           onPress={goToSignup}
@@ -130,7 +116,7 @@ export default function WelcomeScreen() {
           <Text style={styles.skipText}>Skip and explore</Text>
           <Ionicons name="arrow-forward" size={14} color="rgba(255,255,255,0.4)" />
         </Pressable>
-      </Animated.View>
+      </View>
     </View>
   );
 }
@@ -142,17 +128,17 @@ const styles = StyleSheet.create({
   orbTop: {
     width: 300, height: 300,
     top: -80, right: -80,
-    backgroundColor: 'rgba(0,129,200,0.25)',   // Olympic Blue
+    backgroundColor: 'rgba(0,129,200,0.25)',
   },
   orbMid: {
     width: 200, height: 200,
     top: '35%', left: -60,
-    backgroundColor: 'rgba(238,51,78,0.18)',    // Olympic Red
+    backgroundColor: 'rgba(238,51,78,0.18)',
   },
   orbBottom: {
     width: 180, height: 180,
     bottom: '20%', right: -50,
-    backgroundColor: 'rgba(252,177,49,0.16)',   // Olympic Gold
+    backgroundColor: 'rgba(252,177,49,0.16)',
   },
 
   topSection: { flex: 1, alignItems: 'center', paddingHorizontal: 32 },
