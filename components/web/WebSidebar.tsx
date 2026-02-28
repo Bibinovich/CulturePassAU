@@ -23,7 +23,6 @@ const MAIN_NAV: NavItem[] = [
   { label: 'Discover',   icon: 'compass-outline',       iconActive: 'compass',        route: '/(tabs)' },
   { label: 'Calendar',   icon: 'calendar-outline',      iconActive: 'calendar',       route: '/(tabs)/calendar' },
   { label: 'Community',  icon: 'people-outline',        iconActive: 'people',         route: '/(tabs)/communities' },
-  { label: 'Perks',      icon: 'gift-outline',          iconActive: 'gift',           route: '/(tabs)/perks' },
 ];
 
 const ORGANIZER_NAV: NavItem[] = [
@@ -82,7 +81,7 @@ export function WebSidebar() {
         </View>
         <View>
           <Text style={[styles.logoText, { color: isDark ? '#E8F4FF' : '#001628' }]}>CulturePass</Text>
-          <Text style={[styles.logoUrl, { color: isDark ? 'rgba(232,244,255,0.35)' : 'rgba(0,22,40,0.35)' }]}>culturepass.app</Text>
+          <Text style={[styles.logoUrl, { color: isDark ? 'rgba(232,244,255,0.35)' : 'rgba(0,22,40,0.35)' }]}>CulturePass.App</Text>
         </View>
       </Pressable>
 

@@ -88,7 +88,10 @@ function NavBar({ isDesktop, featuresRef, citiesRef, pricingRef, scrollRef }: {
         <View style={navStyles.logoIcon}>
           <Ionicons name="globe-outline" size={20} color="#fff" />
         </View>
-        <Text style={navStyles.logoText}>CulturePass</Text>
+        <View>
+          <Text style={navStyles.logoText}>CulturePass</Text>
+          <Text style={navStyles.logoUrl}>CulturePass.App</Text>
+        </View>
       </View>
 
       {isDesktop && (
@@ -352,7 +355,10 @@ export default function Get2KnowPage() {
                 <View style={[navStyles.logoIcon, { backgroundColor: Colors.primary }]}>
                   <Ionicons name="globe-outline" size={16} color="#fff" />
                 </View>
-                <Text style={[navStyles.logoText, { color: isDark ? '#E8F4FF' : '#001628' }]}>CulturePass</Text>
+                <View>
+                  <Text style={[navStyles.logoText, { color: isDark ? '#E8F4FF' : '#001628' }]}>CulturePass</Text>
+                  <Text style={[navStyles.logoUrl, { color: isDark ? '#E8F4FF' : '#001628' }]}>CulturePass.App</Text>
+                </View>
               </View>
               <Text style={[footerStyles.tagline, { color: isDark ? 'rgba(232,244,255,0.5)' : 'rgba(0,22,40,0.5)' }]}>
                 Celebrating culture, connecting communities.
@@ -407,6 +413,7 @@ const navStyles = StyleSheet.create({
     backgroundColor: '#0081C8', alignItems: 'center', justifyContent: 'center',
   },
   logoText: { fontSize: 18, fontFamily: 'Poppins_700Bold', color: '#fff' },
+  logoUrl: { fontSize: 10, fontFamily: 'Poppins_400Regular', color: 'rgba(255,255,255,0.8)' },
   links: { flexDirection: 'row', gap: 32 },
   link: { fontSize: 14, fontFamily: 'Poppins_500Medium', color: 'rgba(255,255,255,0.8)' },
   ctaRow: { flexDirection: 'row', gap: 10, alignItems: 'center' },
