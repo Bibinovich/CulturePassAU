@@ -63,6 +63,10 @@ export default function SignUpScreen() {
 
   const formContent = (
     <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled" contentContainerStyle={styles.scrollContent}>
+          <View style={styles.logoRow}>
+            <View style={styles.logoCircle}><Ionicons name="globe-outline" size={34} color={Colors.primary} /></View>
+            <Text style={styles.brandLabel}>CulturePass</Text>
+          </View>
           <Text style={styles.title}>Create Account</Text>
           <Text style={styles.benefitsRow}>Free events · Community access · Exclusive perks</Text>
           <Text style={styles.subtitle}>Join thousands of community members celebrating culture together.</Text>
@@ -182,7 +186,7 @@ export default function SignUpScreen() {
           style={StyleSheet.absoluteFillObject}
         />
         <View style={styles.header}>
-          <Pressable onPress={() => router.back()} hitSlop={8}><Ionicons name="arrow-back" size={24} color="#FFFFFF" /></Pressable>
+          <Pressable onPress={() => router.canGoBack() ? router.back() : router.replace('/get2know')} hitSlop={8}><Ionicons name="arrow-back" size={24} color="#FFFFFF" /></Pressable>
         </View>
         {formContent}
       </View>
@@ -194,6 +198,9 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#001F4D' },
   header: { paddingHorizontal: 20, paddingVertical: 12 },
   scrollContent: { paddingHorizontal: 24, paddingBottom: 40 },
+  logoRow: { alignItems: 'center', marginTop: 12, marginBottom: 20 },
+  logoCircle: { width: 68, height: 68, borderRadius: 34, backgroundColor: 'rgba(255,255,255,0.2)', alignItems: 'center', justifyContent: 'center' },
+  brandLabel: { fontSize: 13, fontFamily: 'Poppins_600SemiBold', color: 'rgba(255,255,255,0.6)', letterSpacing: 1.5, textTransform: 'uppercase', marginTop: 10 },
   title: { fontSize: 28, fontFamily: 'Poppins_700Bold', color: '#FFFFFF', marginBottom: 8 },
   subtitle: { fontSize: 15, fontFamily: 'Poppins_400Regular', color: 'rgba(255,255,255,0.85)', lineHeight: 22, marginBottom: 28 },
   errorText: { fontSize: 14, fontFamily: 'Poppins_500Medium', color: Colors.error, textAlign: 'center', marginBottom: 16, backgroundColor: Colors.error + '15', paddingVertical: 10, paddingHorizontal: 16, borderRadius: 12 },

@@ -86,6 +86,7 @@ export default function LoginScreen() {
     <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled" contentContainerStyle={styles.scrollContent}>
       <View style={styles.logoRow}>
         <View style={styles.logoCircle}><Ionicons name="globe-outline" size={34} color={Colors.primary} /></View>
+        <Text style={styles.brandLabel}>CulturePass</Text>
       </View>
 
       <Text style={styles.title}>Welcome back</Text>
@@ -98,7 +99,7 @@ export default function LoginScreen() {
           <Text style={styles.label}>Email Address</Text>
           <View style={styles.inputWrap}>
             <Ionicons name="mail-outline" size={20} color={Colors.textSecondary} />
-            <TextInput style={styles.input} placeholder="Enter username or email" placeholderTextColor={Colors.textTertiary}
+            <TextInput style={styles.input} placeholder="Enter your email address" placeholderTextColor={Colors.textTertiary}
               value={email} onChangeText={setEmail} autoCapitalize="none" keyboardType="email-address" />
           </View>
         </View>
@@ -200,7 +201,7 @@ export default function LoginScreen() {
           style={StyleSheet.absoluteFillObject}
         />
         <View style={styles.header}>
-          <Pressable onPress={() => router.back()} hitSlop={8}><Ionicons name="arrow-back" size={24} color="#FFFFFF" /></Pressable>
+          <Pressable onPress={() => router.canGoBack() ? router.back() : router.replace('/get2know')} hitSlop={8}><Ionicons name="arrow-back" size={24} color="#FFFFFF" /></Pressable>
         </View>
         {formContent}
       </View>
@@ -242,8 +243,9 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     ...(Platform.OS === 'web' ? { boxShadow: '0 24px 64px rgba(0,0,0,0.45)' } as object : {}),
   },
-  logoRow: { alignItems: 'center', marginTop: 12, marginBottom: 28 },
+  logoRow: { alignItems: 'center', marginTop: 12, marginBottom: 28, gap: 0 },
   logoCircle: { width: 68, height: 68, borderRadius: 34, backgroundColor: 'rgba(255,255,255,0.2)', alignItems: 'center', justifyContent: 'center' },
+  brandLabel: { fontSize: 13, fontFamily: 'Poppins_600SemiBold', color: 'rgba(255,255,255,0.6)', letterSpacing: 1.5, textTransform: 'uppercase', marginTop: 10 },
   title: { fontSize: 34, fontFamily: 'Poppins_700Bold', color: '#FFFFFF', textAlign: 'center', marginBottom: 8, letterSpacing: 0.37 },
   subtitle: { fontSize: 15, fontFamily: 'Poppins_400Regular', color: 'rgba(255,255,255,0.85)', lineHeight: 22, textAlign: 'center', marginBottom: 32 },
   errorText: { fontSize: 14, fontFamily: 'Poppins_500Medium', color: Colors.error, textAlign: 'center', marginBottom: 16, backgroundColor: Colors.error + '15', paddingVertical: 10, paddingHorizontal: 16, borderRadius: 12 },

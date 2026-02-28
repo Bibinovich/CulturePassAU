@@ -23,6 +23,7 @@ import { useQuery } from '@tanstack/react-query';
 import { queryClient, getQueryFn } from '@/lib/query-client';
 import { api, type RewardsSummary } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
+import { useRole } from '@/hooks/useRole';
 import type { User, Wallet, Membership, EventData } from '@shared/schema';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -168,6 +169,7 @@ export default function ProfileScreen() {
   }, []);
 
   const { userId } = useAuth();
+  const { isOrganizer } = useRole();
 
   // Fetch full profile (includes bio, socialLinks, culturePassId not in AuthUser)
   const { data: user } = useQuery<User>({
@@ -652,12 +654,14 @@ export default function ProfileScreen() {
               color={Colors.primary}
               onPress={() => router.push('/scanner')}
             />
-            <MenuItem
-              icon="grid-outline"
-              label="Organizer Dashboard"
-              color={Colors.secondary}
-              onPress={() => router.push('/dashboard/organizer' as any)}
-            />
+            {isOrganizer && (
+              <MenuItem
+                icon="grid-outline"
+                label="Organizer Dashboard"
+                color={Colors.secondary}
+                onPress={() => router.push('/dashboard/organizer' as any)}
+              />
+            )}
             <MenuItem
               icon="gift-outline"
               label="Perks & Benefits"

@@ -660,7 +660,13 @@ export default function HomeScreen() {
     <ErrorBoundary>
     <View style={[styles.container, { paddingTop: topInset }]}>
       <View style={[styles.topBar, Platform.OS === 'web' && { maxWidth: 900, alignSelf: 'center', width: '100%' }]}>
-        <LocationPicker />
+        <View style={styles.brandBlock}>
+          <Ionicons name="globe-outline" size={20} color={Colors.primary} />
+          <View>
+            <Text style={styles.brandName}>CulturePass</Text>
+            <Text style={styles.brandUrl}>culturepass.app</Text>
+          </View>
+        </View>
         <View style={styles.topBarRight}>
           <Pressable style={styles.iconButton} onPress={() => router.push('/search')} testID="search-btn" accessibilityLabel="Search">
             <Ionicons name="search" size={24} color={Colors.text} />
@@ -689,6 +695,10 @@ export default function HomeScreen() {
           />
         }
       >
+        <View style={styles.locationPickerRow}>
+          <LocationPicker />
+        </View>
+
         <View style={styles.heroSection}>
           <Text style={styles.heroSubtitle}>{timeGreeting}, {firstName}</Text>
           <Text style={styles.heroTitle}>
@@ -997,6 +1007,27 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: Colors.borderLight,
     backgroundColor: Colors.backgroundSecondary,
+  },
+  brandBlock: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  brandName: {
+    fontSize: 16,
+    fontFamily: 'Poppins_700Bold',
+    color: Colors.text,
+    lineHeight: 18,
+  },
+  brandUrl: {
+    fontSize: 10,
+    fontFamily: 'Poppins_400Regular',
+    color: Colors.textSecondary,
+    lineHeight: 13,
+  },
+  locationPickerRow: {
+    paddingHorizontal: 20,
+    paddingTop: 12,
   },
   topBarRight: {
     flexDirection: 'row',
