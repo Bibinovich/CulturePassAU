@@ -1301,13 +1301,18 @@ app.get('/api/businesses', async (req, res) => {
       const snap = await query.get();
       let items = snap.docs.map((d) => d.data());
       // Sponsored businesses float to the top
-      items = items.sort((a, b) => {
-        const aSponsored = a.isSponsored ? 1 : 0;
-        const bSponsored = b.isSponsored ? 1 : 0;
-        if (bSponsored !== aSponsored) return bSponsored - aSponsored;
-        return (b.rating ?? 0) - (a.rating ?? 0);
-      });
-      if (sponsored) items = items.filter((x) => x.isSponsored);
+      if (sponsored) {
+        // Optimized: If we only want sponsored items, filter before sorting
+        items = items.filter((x) => x.isSponsored);
+        items = items.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0));
+      } else {
+        items = items.sort((a, b) => {
+          const aSponsored = a.isSponsored ? 1 : 0;
+          const bSponsored = b.isSponsored ? 1 : 0;
+          if (bSponsored !== aSponsored) return bSponsored - aSponsored;
+          return (b.rating ?? 0) - (a.rating ?? 0);
+        });
+      }
       return res.json(items);
     } catch (err) {
       console.error('[GET /api/businesses]:', err);
