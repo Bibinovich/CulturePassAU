@@ -22,8 +22,9 @@
     "test:native-intent": "tsx scripts/test-native-intent.ts",
     "test:unit": "tsx scripts/tests/unit-services-middleware.ts",
     "test:integration": "tsx scripts/tests/integration-api-routes.ts",
+    "test:query-client": "tsx lib/tests/query-client.test.ts",
     "test:e2e:smoke": "tsx scripts/tests/e2e-critical-smoke.ts",
-    "qa:all": "npm run test:package-json && npm run test:unit && npm run test:integration && npm run test:e2e:smoke",
+    "qa:all": "npm run test:package-json && npm run test:unit && npm run test:query-client && npm run test:integration && npm run test:e2e:smoke",
     "test:package-json": "tsx scripts/tests/validate-package-json.ts",
     "deploy-all": "cd functions && npm run build && cd .. && firebase deploy --only functions && EXPO_NO_TELEMETRY=1 npx expo export --platform web && firebase deploy --only hosting"
   },
