@@ -31,6 +31,14 @@ import { useAuth } from '@/lib/auth';
 
 type SampleEvent = any;
 
+interface Tier {
+  id?: string;
+  name: string;
+  priceCents: number;
+  available: number;
+  description?: string;
+}
+
 function formatDate(dateStr: string): string {
   const [year, month, day] = dateStr.split('-').map(Number);
   if (!year || !month || !day) return dateStr;
@@ -610,7 +618,7 @@ function EventDetail({ event, topInset, bottomInset }: EventDetailProps) {
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Tickets</Text>
-          {event.tiers.map((tier: any, idx: number) => (
+          {event.tiers.map((tier: Tier, idx: number) => (
             <Pressable key={`${tier.name}-${idx}`} style={styles.tierCard} onPress={() => openTicketModal(idx)}>
               <View style={styles.tierInfo}>
                 <Text style={styles.tierName}>{tier.name}</Text>
@@ -877,7 +885,7 @@ function EventDetail({ event, topInset, bottomInset }: EventDetailProps) {
               )}
 
               <Text style={[modalStyles.sectionLabel, { marginTop: 20 }]}>Ticket Tier</Text>
-              {event.tiers.map((tier: any, idx: number) => {
+              {event.tiers.map((tier: Tier, idx: number) => {
                 const isSelected = idx === selectedTierIndex;
                 return (
                   <Pressable
