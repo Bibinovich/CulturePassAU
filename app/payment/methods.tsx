@@ -22,6 +22,17 @@ interface PaymentMethod {
   createdAt: string | null;
 }
 
+interface AddPaymentMethodData {
+  userId: string | null;
+  type: string;
+  label: string;
+  last4: string;
+  brand: string;
+  expiryMonth: number;
+  expiryYear: number;
+  isDefault: boolean;
+}
+
 function getBrandIcon(brand: string | null): string {
   switch (brand?.toLowerCase()) {
     case 'visa': return 'card';
@@ -63,7 +74,7 @@ export default function PaymentMethodsScreen() {
   });
 
   const createMutation = useMutation({
-    mutationFn: async (data: any) => {
+    mutationFn: async (data: AddPaymentMethodData) => {
       await apiRequest('POST', '/api/payment-methods', data);
     },
     onSuccess: () => {
