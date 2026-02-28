@@ -67,12 +67,12 @@ const WEB_CATEGORIES = ['All', 'Music', 'Dance', 'Food', 'Art', 'Wellness', 'Fil
 const FEATURED_CITIES = [
   { name: 'Sydney', country: 'Australia' },
   { name: 'Melbourne', country: 'Australia' },
-  { name: 'Auckland', country: 'New Zealand' },
-  { name: 'Dubai', country: 'UAE' },
-  { name: 'London', country: 'United Kingdom' },
-  { name: 'Toronto', country: 'Canada' },
-  { name: 'Vancouver', country: 'Canada' },
   { name: 'Brisbane', country: 'Australia' },
+  { name: 'Perth', country: 'Australia' },
+  { name: 'Adelaide', country: 'Australia' },
+  { name: 'Gold Coast', country: 'Australia' },
+  { name: 'Canberra', country: 'Australia' },
+  { name: 'Darwin', country: 'Australia' },
 ];
 
 interface DiscoverSection {

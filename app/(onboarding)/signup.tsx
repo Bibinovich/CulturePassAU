@@ -159,7 +159,7 @@ export default function SignUpScreen() {
             style={StyleSheet.absoluteFillObject}
           />
           <View style={styles.desktopBackRow}>
-            <Pressable onPress={() => router.replace('/landing')} hitSlop={8} style={styles.desktopBackBtn}>
+            <Pressable onPress={() => router.replace('/get2know')} hitSlop={8} style={styles.desktopBackBtn}>
               <Ionicons name="arrow-back" size={18} color="#FFFFFF" />
               <Text style={styles.desktopBackText}>Back to Home</Text>
             </Pressable>

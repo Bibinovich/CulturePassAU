@@ -38,6 +38,7 @@ function RootLayoutNav() {
         headerShadowVisible: false,
       }}
     >
+      <Stack.Screen name="get2know" />
       <Stack.Screen name="landing" />
       <Stack.Screen name="(onboarding)" />
       <Stack.Screen name="(tabs)" />

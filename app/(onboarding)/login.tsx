@@ -95,7 +95,7 @@ export default function LoginScreen() {
 
       <View style={styles.form}>
         <View style={styles.inputGroup}>
-          <Text style={styles.label}>Username or Email</Text>
+          <Text style={styles.label}>Email Address</Text>
           <View style={styles.inputWrap}>
             <Ionicons name="mail-outline" size={20} color={Colors.textSecondary} />
             <TextInput style={styles.input} placeholder="Enter username or email" placeholderTextColor={Colors.textTertiary}
@@ -177,7 +177,7 @@ export default function LoginScreen() {
           />
           {/* Back to landing */}
           <View style={styles.desktopBackRow}>
-            <Pressable onPress={() => router.replace('/landing')} hitSlop={8} style={styles.desktopBackBtn}>
+            <Pressable onPress={() => router.replace('/get2know')} hitSlop={8} style={styles.desktopBackBtn}>
               <Ionicons name="arrow-back" size={18} color="#FFFFFF" />
               <Text style={styles.desktopBackText}>Back to Home</Text>
             </Pressable>

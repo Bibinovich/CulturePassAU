@@ -20,7 +20,7 @@ export default function OnboardingLayout() {
 
   // Web visitors who haven't authenticated yet see the landing page
   if (isWeb) {
-    return <Redirect href="/landing" />;
+    return <Redirect href="/get2know" />;
   }
 
   return (
