@@ -138,7 +138,7 @@ function TicketCard({ ticket, index }: { ticket: WalletTicket; index: number }) 
 function StatBox({ value, label, icon }: { value: string | number; label: string; icon: string }) {
   return (
     <View style={styles.statBox}>
-      <Ionicons name={icon as any} size={18} color={Colors.primary} style={{ marginBottom: 4 }} />
+      <Ionicons name={icon as keyof typeof Ionicons.glyphMap} size={18} color={Colors.primary} style={{ marginBottom: 4 }} />
       <Text style={styles.statValue}>{value}</Text>
       <Text style={styles.statLabel}>{label}</Text>
     </View>
@@ -238,7 +238,7 @@ export default function WalletScreen() {
                 <Text style={styles.membershipTier}>{tierConfig.label}</Text>
               </View>
               <View style={styles.membershipIconWrap}>
-                <Ionicons name={tierConfig.icon as any} size={28} color="rgba(255,255,255,0.9)" />
+                <Ionicons name={tierConfig.icon as keyof typeof Ionicons.glyphMap} size={28} color="rgba(255,255,255,0.9)" />
               </View>
             </View>
 
