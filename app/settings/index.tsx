@@ -5,7 +5,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors } from '@/constants/theme';
-import { router } from 'expo-router';
+import { router, Href } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import { useAuth } from '@/lib/auth';
 import { useRole } from '@/hooks/useRole';
@@ -18,7 +18,7 @@ interface SettingItem {
   label: string;
   sub?: string;
   color: string;
-  route?: string;
+  route?: Href;
   action?: () => void;
   rightText?: string;
   badge?: string;
@@ -48,9 +48,9 @@ export default function AccountSettingsScreen() {
   const tierColor = TIER_COLORS[tier] ?? Colors.primary;
   const tierLabel = tier.charAt(0).toUpperCase() + tier.slice(1);
 
-  const navigate = (route: string) => {
+  const navigate = (route: Href) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    router.push(route as any);
+    router.push(route);
   };
 
   const handleSignOut = () => {
