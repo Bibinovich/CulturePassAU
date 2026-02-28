@@ -25,6 +25,7 @@ import { api, type RewardsSummary } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
 import type { User, Wallet, Membership, EventData } from '@shared/schema';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
+import { LinearGradient } from 'expo-linear-gradient';
 
 interface CommunityListItem {
   id: string;
@@ -54,6 +55,63 @@ const TIER_COLORS: Record<string, { bg: string; text: string; icon: string }> = 
 function SectionTitle({ title }: { title: string }) {
   return (
     <Text style={styles.sectionTitle}>{title}</Text>
+  );
+}
+
+// Shown to guests who haven't signed in yet
+function GuestProfileView({ topInset }: { topInset: number }) {
+  return (
+    <View style={{ flex: 1, backgroundColor: '#001028' }}>
+      <LinearGradient
+        colors={['#001028', '#00305A', '#0081C8']}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 0.6, y: 1 }}
+        style={StyleSheet.absoluteFill}
+      />
+      <View style={[guestStyles.orb, guestStyles.orbTop]} />
+      <View style={[guestStyles.orb, guestStyles.orbBottom]} />
+      <View style={[guestStyles.header, { paddingTop: topInset }]}>
+        <Text style={guestStyles.headerTitle}>Profile</Text>
+      </View>
+      <ScrollView contentContainerStyle={guestStyles.content} showsVerticalScrollIndicator={false}>
+        <View style={guestStyles.iconWrap}>
+          <Ionicons name="person-circle-outline" size={64} color="rgba(255,255,255,0.9)" />
+        </View>
+        <Text style={guestStyles.title}>Your Cultural Passport</Text>
+        <Text style={guestStyles.subtitle}>
+          Sign in to access your profile, tickets, saved events, wallet, and connect with communities across Australia.
+        </Text>
+        <View style={guestStyles.featureList}>
+          {[
+            { icon: 'ticket-outline' as const, text: 'View your event tickets & QR codes' },
+            { icon: 'bookmark-outline' as const, text: 'Save events and join communities' },
+            { icon: 'wallet-outline' as const, text: 'Manage your wallet & payment methods' },
+            { icon: 'qr-code-outline' as const, text: 'Share your CulturePass profile & ID' },
+          ].map((f) => (
+            <View key={f.text} style={guestStyles.featureRow}>
+              <View style={guestStyles.featureIcon}>
+                <Ionicons name={f.icon} size={18} color='#FCB131' />
+              </View>
+              <Text style={guestStyles.featureText}>{f.text}</Text>
+            </View>
+          ))}
+        </View>
+        <Pressable
+          style={guestStyles.primaryBtn}
+          onPress={() => router.push('/(onboarding)/signup')}
+        >
+          <Text style={guestStyles.primaryBtnText}>Create Free Account</Text>
+          <Ionicons name="arrow-forward" size={18} color="#001028" />
+        </Pressable>
+        <Pressable
+          style={guestStyles.secondaryBtn}
+          onPress={() => router.push('/(onboarding)/login')}
+        >
+          <Text style={guestStyles.secondaryBtnText}>I already have an account</Text>
+        </Pressable>
+        <View style={{ height: 40 }} />
+      </ScrollView>
+    </View>
   );
 }
 
@@ -243,6 +301,11 @@ export default function ProfileScreen() {
   const walletBalance = Number(wallet?.balance ?? 0);
   const tickets = ticketCount?.count ?? 0;
   const unreadCount = unreadNotifs?.count ?? 0;
+
+  // Guest view — show sign-in prompt instead of profile data
+  if (!userId) {
+    return <GuestProfileView topInset={topInset} />;
+  }
 
   return (
     <ErrorBoundary>
@@ -1099,4 +1162,102 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins_400Regular',
     color: Colors.textSecondary,
   },
+});
+
+const guestStyles = StyleSheet.create({
+  orb: { position: 'absolute', borderRadius: 300 },
+  orbTop: { width: 260, height: 260, top: -60, right: -80, backgroundColor: 'rgba(0,129,200,0.22)' },
+  orbBottom: { width: 200, height: 200, bottom: '20%', left: -60, backgroundColor: 'rgba(238,51,78,0.15)' },
+  header: {
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    alignItems: 'center',
+  },
+  headerTitle: {
+    fontSize: 17,
+    fontFamily: 'Poppins_600SemiBold',
+    color: '#FFFFFF',
+    letterSpacing: -0.4,
+  },
+  content: {
+    paddingHorizontal: 28,
+    paddingTop: 20,
+    alignItems: 'center',
+  },
+  iconWrap: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: 'rgba(0,129,200,0.25)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1.5,
+    borderColor: 'rgba(64,168,232,0.5)',
+    marginBottom: 24,
+  },
+  title: {
+    fontSize: 26,
+    fontFamily: 'Poppins_700Bold',
+    color: '#FFFFFF',
+    textAlign: 'center',
+    marginBottom: 12,
+    letterSpacing: -0.3,
+  },
+  subtitle: {
+    fontSize: 15,
+    fontFamily: 'Poppins_400Regular',
+    color: 'rgba(255,255,255,0.7)',
+    textAlign: 'center',
+    lineHeight: 23,
+    marginBottom: 28,
+  },
+  featureList: { gap: 10, marginBottom: 32, width: '100%' },
+  featureRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    backgroundColor: 'rgba(255,255,255,0.06)',
+    borderRadius: 12,
+    paddingHorizontal: 14,
+    paddingVertical: 11,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: 'rgba(255,255,255,0.08)',
+  },
+  featureIcon: {
+    width: 32,
+    height: 32,
+    borderRadius: 10,
+    backgroundColor: 'rgba(252,177,49,0.12)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  featureText: {
+    fontSize: 14,
+    fontFamily: 'Poppins_500Medium',
+    color: 'rgba(255,255,255,0.85)',
+    flex: 1,
+  },
+  primaryBtn: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 14,
+    height: 54,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    marginBottom: 12,
+    width: '100%',
+  },
+  primaryBtnText: { fontSize: 16, fontFamily: 'Poppins_700Bold', color: '#001028' },
+  secondaryBtn: {
+    height: 52,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 14,
+    borderWidth: 1.5,
+    borderColor: 'rgba(255,255,255,0.25)',
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    width: '100%',
+  },
+  secondaryBtnText: { fontSize: 15, fontFamily: 'Poppins_600SemiBold', color: '#FFFFFF' },
 });

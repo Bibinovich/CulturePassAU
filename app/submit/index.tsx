@@ -11,6 +11,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { manipulateAsync, SaveFormat } from '@/lib/image-manipulator';
 import { fetch } from 'expo/fetch';
 import { useRole } from '@/hooks/useRole';
+import { AuthGuard } from '@/components/AuthGuard';
 
 type SubmitType = 'event' | 'organisation' | 'business' | 'artist' | 'perk';
 
@@ -208,6 +209,7 @@ export default function SubmitScreen() {
   const isPending = submitProfileMutation.isPending || submitPerkMutation.isPending;
 
   return (
+    <AuthGuard icon="add-circle-outline" title="Submit Content" message="Sign in to submit events, organisations, and more.">
     <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={90}>
       <View style={[styles.container, { paddingTop: insets.top + webTop }]}>
         <View style={styles.header}>
@@ -461,6 +463,7 @@ export default function SubmitScreen() {
         </ScrollView>
       </View>
     </KeyboardAvoidingView>
+    </AuthGuard>
   );
 }
 

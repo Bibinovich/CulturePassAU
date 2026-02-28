@@ -18,6 +18,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useAuth } from '@/lib/auth';
 import { api, type MembershipSummary, type RewardsSummary } from '@/lib/api';
 import type { Ticket as ApiTicket } from '@/shared/schema';
+import { AuthGuard } from '@/components/AuthGuard';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -198,6 +199,7 @@ export default function WalletScreen() {
   const displayTickets = tab === 'upcoming' ? upcoming : past;
 
   return (
+    <AuthGuard icon="wallet-outline" title="My Wallet" message="Sign in to access your wallet, tickets, and rewards.">
     <View style={[styles.container, { paddingTop: topInset }]}>
       {/* Header */}
       <View style={styles.header}>
@@ -394,6 +396,7 @@ export default function WalletScreen() {
         )}
       </ScrollView>
     </View>
+    </AuthGuard>
   );
 }
 

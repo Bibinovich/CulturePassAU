@@ -23,6 +23,7 @@ import { api } from '@/lib/api';
 import { useRole } from '@/hooks/useRole';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { LinearGradient } from 'expo-linear-gradient';
+import { AuthGuard } from '@/components/AuthGuard';
 
 type ScanMode = 'tickets' | 'culturepass';
 
@@ -365,6 +366,7 @@ export default function ScannerScreen() {
   };
 
   return (
+    <AuthGuard icon="scan-outline" title="Ticket Scanner" message="Sign in as an organiser to scan and validate tickets.">
     <View style={[styles.container, { paddingTop: topInset }]}>
       {/* ── Header ─────────────────────────────────────────────────────────── */}
       <View style={styles.header}>
@@ -755,6 +757,7 @@ export default function ScannerScreen() {
         </>
       )}
     </View>
+    </AuthGuard>
   );
 }
 

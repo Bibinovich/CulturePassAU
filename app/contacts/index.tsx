@@ -14,6 +14,7 @@ import { router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import { useContacts, SavedContact } from '@/contexts/ContactsContext';
 import { useCallback } from 'react';
+import { AuthGuard } from '@/components/AuthGuard';
 
 const TIER_COLORS: Record<string, string> = {
   free: Colors.textSecondary,
@@ -127,6 +128,7 @@ export default function ContactsScreen() {
   ), [handleContactPress, handleRemove]);
 
   return (
+    <AuthGuard icon="people-outline" title="Cultural Contacts" message="Sign in to connect with your cultural community.">
     <View style={[styles.container, { paddingTop: topInset }]}>
       <View style={styles.header}>
         <Pressable onPress={() => router.back()} style={styles.backBtn}>
@@ -188,6 +190,7 @@ export default function ContactsScreen() {
         />
       )}
     </View>
+    </AuthGuard>
   );
 }
 
