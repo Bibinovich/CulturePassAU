@@ -1,5 +1,6 @@
 import React from "react";
 import { Platform, StyleSheet, View, useWindowDimensions, useColorScheme, Animated } from "react-native";
+import type { ViewStyle } from "react-native";
 import { Tabs } from "expo-router";
 import { BlurView } from "expo-blur";
 import { Ionicons } from "@expo/vector-icons";
@@ -8,6 +9,8 @@ import { useColors } from "@/hooks/useColors";
 import { useRole } from "@/hooks/useRole";
 import { TabBarTokens, gradients } from "@/constants/theme";
 import { WebSidebar } from "@/components/web/WebSidebar";
+
+type WebStyle = ViewStyle & { cursor?: string };
 
 // ---------------------------------------------------------------------------
 // Animated tab icon — scale + opacity pulse + active indicator dot
@@ -146,7 +149,7 @@ export default function TabLayout() {
           fontSize: TabBarTokens.labelSize,
           marginTop: -2,
         },
-        tabBarItemStyle: isWeb ? ({ cursor: "pointer" } as object) : undefined,
+        tabBarItemStyle: isWeb ? ({ cursor: "pointer" } as WebStyle) : undefined,
         tabBarIcon: ({ color, size, focused }) => {
           const [active, inactive] = ICONS[route.name] ?? ["ellipse", "ellipse-outline"];
           return (

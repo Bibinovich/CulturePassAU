@@ -1,4 +1,5 @@
 import { View, Text, Pressable, StyleSheet, Platform, ActivityIndicator, ScrollView, Image } from 'react-native';
+import type { ViewStyle } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -45,6 +46,8 @@ type CityGroup = {
 
 type CityGroupMap = Record<string, CityGroup>;
 
+type WebStyle = ViewStyle & { cursor?: string };
+
 function WebCityList({ cityGroups, selectedCity, onSelectCity, onEventPress }: {
   cityGroups: CityGroupMap;
   selectedCity: string | null;
@@ -69,7 +72,7 @@ function WebCityList({ cityGroups, selectedCity, onSelectCity, onEventPress }: {
         {Object.entries(cityGroups).map(([city, group]) => (
           <Pressable
             key={city}
-            style={[webStyles.cityRow, selectedCity === city && webStyles.cityRowActive, Platform.OS === 'web' && { cursor: 'pointer' as any }]}
+            style={[webStyles.cityRow, selectedCity === city && webStyles.cityRowActive, Platform.OS === 'web' && ({ cursor: 'pointer' } as WebStyle)]}
             onPress={() => {
               Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
               onSelectCity(selectedCity === city ? null : city);
@@ -96,7 +99,7 @@ function WebCityList({ cityGroups, selectedCity, onSelectCity, onEventPress }: {
               <Text style={webStyles.panelCity}>{selectedCity}</Text>
               <Text style={webStyles.panelCount}>{selectedEvents.length} events</Text>
             </View>
-            <Pressable onPress={() => onSelectCity(null)} hitSlop={10} style={Platform.OS === 'web' ? { cursor: 'pointer' as any } : undefined}>
+            <Pressable onPress={() => onSelectCity(null)} hitSlop={10} style={Platform.OS === 'web' ? ({ cursor: 'pointer' } as WebStyle) : undefined}>
               <Ionicons name="close-circle" size={26} color="#636366" />
             </Pressable>
           </View>
@@ -104,7 +107,7 @@ function WebCityList({ cityGroups, selectedCity, onSelectCity, onEventPress }: {
             {selectedEvents.map((event) => (
               <Pressable
                 key={event.id}
-                style={[styles.eventCard, Platform.OS === 'web' && { cursor: 'pointer' as any }]}
+                style={[styles.eventCard, Platform.OS === 'web' && ({ cursor: 'pointer' } as WebStyle)]}
                 onPress={() => onEventPress(event.id)}
               >
                 {event.imageUrl ? (

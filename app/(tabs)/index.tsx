@@ -11,6 +11,7 @@ import {
   Dimensions,
   TextInput,
 } from 'react-native';
+import type { ViewStyle } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -32,6 +33,8 @@ import { Colors } from '@/constants/theme';
 import { FilterChip } from '@/components/FilterChip';
 
 const isWeb = Platform.OS === 'web';
+
+type WebStyle = ViewStyle & { cursor?: string };
 
 const superAppSections = [
   { id: 'movies', label: 'Movies', icon: 'film', color: Colors.error, route: '/movies' },
@@ -146,7 +149,7 @@ function SpotlightCard({ item, index = 0 }: { item: SpotlightItem; index?: numbe
         style={({ pressed }) => [
           styles.spotlightCard,
           pressed && { opacity: 0.9, transform: [{ scale: 0.98 }] },
-          Platform.OS === 'web' && { cursor: 'pointer' as any },
+          Platform.OS === 'web' && ({ cursor: 'pointer' } as WebStyle),
           Colors.shadows.medium,
         ]}
         onPress={() => {
@@ -190,7 +193,7 @@ function WebEventRailCard({ event }: { event: EventData }) {
       style={({ pressed }) => [
         styles.webRailCard,
         pressed && { opacity: 0.9 },
-        Platform.OS === 'web' && { cursor: 'pointer' as any },
+        Platform.OS === 'web' && ({ cursor: 'pointer' } as WebStyle),
       ]}
       onPress={() => router.push({ pathname: '/event/[id]', params: { id: event.id } })}
     >
@@ -913,7 +916,7 @@ export default function HomeScreen() {
             style={({ pressed }) => [
               styles.plusBanner,
               pressed && { opacity: 0.9, transform: [{ scale: 0.98 }] },
-              Platform.OS === 'web' && { cursor: 'pointer' as any },
+              Platform.OS === 'web' && ({ cursor: 'pointer' } as WebStyle),
             ]}
             onPress={() => router.push('/membership/upgrade')}
           >
@@ -945,7 +948,7 @@ export default function HomeScreen() {
             style={({ pressed }) => [
               styles.perksBanner,
               pressed && { opacity: 0.9, transform: [{ scale: 0.98 }] },
-              Platform.OS === 'web' && { cursor: 'pointer' as any },
+              Platform.OS === 'web' && ({ cursor: 'pointer' } as WebStyle),
             ]}
             onPress={() => router.push('/perks')}
           >
@@ -973,7 +976,7 @@ export default function HomeScreen() {
             style={({ pressed }) => [
               styles.exploreCta,
               pressed && { opacity: 0.9, transform: [{ scale: 0.98 }] },
-              Platform.OS === 'web' && { cursor: 'pointer' as any },
+              Platform.OS === 'web' && ({ cursor: 'pointer' } as WebStyle),
             ]}
             onPress={() => router.push('/allevents')}
           >
