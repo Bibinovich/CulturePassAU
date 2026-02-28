@@ -204,6 +204,7 @@ app.use(rateLimit({
 }));
 
 const searchCache = new InMemoryTtlCache(45_000);
+const profileCache = new InMemoryTtlCache(300_000); // 5 minutes TTL
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 8 * 1024 * 1024 },
@@ -718,20 +719,30 @@ app.get('/status', (_req, res) => res.json({ status: 'ok' }));
 
 app.get('/api/auth/me', requireAuth, async (req: Request, res: Response) => {
   const uid = req.user!.id;
+
+  const cachedProfile = profileCache.get<any>(uid);
+  if (cachedProfile) {
+    return res.json({ ...cachedProfile, cached: true });
+  }
+
   try {
     const snap = await db.collection('users').doc(uid).get();
     if (snap.exists) {
-      return res.json({ id: uid, role: req.user!.role, ...snap.data() });
+      const profile = { id: uid, role: req.user!.role, ...snap.data() };
+      profileCache.set(uid, profile);
+      return res.json({ ...profile, cached: false });
     }
     // Fallback: return minimal profile from token claims
-    return res.json({
+    const minimalProfile = {
       id: uid,
       role: req.user!.role,
       username: req.user!.username,
       email: req.user!.email,
       city: req.user!.city,
       country: req.user!.country,
-    });
+    };
+    profileCache.set(uid, minimalProfile);
+    return res.json({ ...minimalProfile, cached: false });
   } catch (err) {
     console.error('[auth/me]:', err);
     return res.status(500).json({ error: 'Failed to fetch user profile' });
@@ -829,7 +840,8 @@ app.get('/api/users/:id', async (req, res) => {
 });
 
 app.put('/api/users/:id', requireAuth, moderationCheck, async (req, res) => {
-  if (!isOwnerOrAdmin(req.user!, qparam(req.params.id))) {
+  const userId = qparam(req.params.id);
+  if (!isOwnerOrAdmin(req.user!, userId)) {
     return res.status(403).json({ error: 'Forbidden' });
   }
   if (textHasProfanity(req.body?.displayName) || textHasProfanity(req.body?.bio)) {
@@ -837,15 +849,17 @@ app.put('/api/users/:id', requireAuth, moderationCheck, async (req, res) => {
   }
 
   if (!hasFirestoreProject) {
-    const idx = users.findIndex((item) => item.id === qparam(req.params.id));
+    const idx = users.findIndex((item) => item.id === userId);
     if (idx === -1) return res.status(404).json({ error: 'User not found' });
     const current = users[idx];
     users[idx] = { ...current, ...req.body, id: current.id, culturePassId: current.culturePassId };
+    profileCache.del(userId);
     return res.json(users[idx]);
   }
 
   try {
-    const updated = await usersService.upsert(qparam(req.params.id), req.body);
+    const updated = await usersService.upsert(userId, req.body);
+    profileCache.del(userId);
     return res.json(updated);
   } catch (err) {
     console.error('[PUT /api/users/:id]:', err);
