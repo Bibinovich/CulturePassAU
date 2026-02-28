@@ -2553,11 +2553,23 @@ app.put('/api/privacy/settings/:userId', requireAuth, (req, res) => {
 // CPID Lookup
 // ---------------------------------------------------------------------------
 
-app.get('/api/cpid/lookup/:cpid', (req, res) => {
+app.get('/api/cpid/lookup/:cpid', async (req, res) => {
   const normalized = req.params.cpid.toUpperCase();
+
+  if (hasFirestoreProject) {
+    try {
+      const user = await usersService.getByCpid(normalized);
+      if (!user) return res.status(404).json({ error: 'CPID not found' });
+      return res.json({ entityType: 'user', targetId: user.id, profile: user });
+    } catch (err) {
+      console.error('[GET /api/cpid/lookup/:cpid]:', err);
+      return res.status(500).json({ error: 'Failed to lookup CPID' });
+    }
+  }
+
   const user = users.find((u) => u.culturePassId === normalized);
   if (!user) return res.status(404).json({ error: 'CPID not found' });
-  res.json({ entityType: 'user', targetId: user.id });
+  res.json({ entityType: 'user', targetId: user.id, profile: user });
 });
 
 // ---------------------------------------------------------------------------

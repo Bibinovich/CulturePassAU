@@ -87,6 +87,13 @@ export const usersService = {
     return { id: doc.id, ...doc.data() } as FirestoreUser;
   },
 
+  async getByCpid(cpid: string): Promise<FirestoreUser | null> {
+    const snap = await usersCol().where('culturePassId', '==', cpid).limit(1).get();
+    if (snap.empty) return null;
+    const doc = snap.docs[0];
+    return { id: doc.id, ...doc.data() } as FirestoreUser;
+  },
+
   async upsert(id: string, data: Partial<FirestoreUser>): Promise<FirestoreUser> {
     const ref = usersCol().doc(id);
     const existing = await ref.get();

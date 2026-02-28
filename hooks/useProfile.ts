@@ -147,13 +147,7 @@ export function useCpidLookup(cpid: string | null) {
       
       const data = await res.json();
       
-      // Sydney optimization - auto-fetch profile for users
-      if (data.entityType === 'user' && data.targetId) {
-        const profileRes = await fetch(`${base}api/users/${data.targetId}`);
-        if (profileRes.ok) {
-          data.profile = await profileRes.json();
-        }
-      }
+      // Profile data is now automatically fetched and included in the lookup response.
       
       return data;
     },
