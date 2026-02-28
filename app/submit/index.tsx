@@ -114,7 +114,7 @@ export default function SubmitScreen() {
     const blobRes = await fetch(processed.uri);
     const blob = await blobRes.blob();
     const formData = new FormData();
-    formData.append('image', blob as any, 'upload.jpg');
+    formData.append('image', blob as Blob, 'upload.jpg');
 
     const base = getApiUrl();
     const uploadRes = await fetch(`${base}api/uploads/image`, { method: 'POST', body: formData });

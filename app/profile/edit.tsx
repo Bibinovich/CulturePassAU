@@ -99,7 +99,7 @@ export default function EditProfileScreen() {
       const blobRes = await fetch(processed.uri);
       const blob = await blobRes.blob();
       const formData = new FormData();
-      formData.append('image', blob as any, 'profile.jpg');
+      formData.append('image', blob as Blob, 'profile.jpg');
 
       const base = getApiUrl();
       const uploadRes = await fetch(`${base}api/uploads/image`, {
