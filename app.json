@@ -58,6 +58,7 @@
       "expo-web-browser",
       "@react-native-google-signin/google-signin"
     ],
+    "newArchEnabled": true,
     "experiments": {
       "typedRoutes": false,
       "reactCompiler": true

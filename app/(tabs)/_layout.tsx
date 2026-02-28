@@ -2,6 +2,7 @@ import React from "react";
 import { Platform, StyleSheet, View, useWindowDimensions, useColorScheme, Animated } from "react-native";
 import { Tabs } from "expo-router";
 import { BlurView } from "expo-blur";
+import { GlassView, isGlassEffectAPIAvailable } from "expo-glass-effect";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useColors } from "@/hooks/useColors";
@@ -116,11 +117,19 @@ export default function TabLayout() {
         tabBarBackground: () => (
           <>
             {isIOS ? (
-              <BlurView
-                intensity={85}
-                tint={isDark ? "dark" : "light"}
-                style={StyleSheet.absoluteFill}
-              />
+              isGlassEffectAPIAvailable() ? (
+                <GlassView
+                  style={StyleSheet.absoluteFill}
+                  glassEffectStyle="regular"
+                  colorScheme={isDark ? "dark" : "light"}
+                />
+              ) : (
+                <BlurView
+                  intensity={85}
+                  tint={isDark ? "dark" : "light"}
+                  style={StyleSheet.absoluteFill}
+                />
+              )
             ) : (
               <View
                 style={[
