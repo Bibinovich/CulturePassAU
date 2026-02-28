@@ -67,14 +67,14 @@ function computeWeightedScore(item: SearchableItem, query: SearchQuery): number 
   if (title.includes(q)) score += 90;
 
   const queryTokens = tokenize(q);
-  const titleTokens = tokenize(title);
-  const subtitleTokens = tokenize(subtitle);
-  const descriptionTokens = tokenize(description);
+  const titleTokens = new Set(tokenize(title));
+  const subtitleTokens = new Set(tokenize(subtitle));
+  const descriptionTokens = new Set(tokenize(description));
 
   for (const token of queryTokens) {
-    if (titleTokens.includes(token)) score += 35;
-    if (subtitleTokens.includes(token)) score += 15;
-    if (descriptionTokens.includes(token)) score += 8;
+    if (titleTokens.has(token)) score += 35;
+    if (subtitleTokens.has(token)) score += 15;
+    if (descriptionTokens.has(token)) score += 8;
     if (itemTags.some((tag) => tag.includes(token))) score += 20;
   }
 
