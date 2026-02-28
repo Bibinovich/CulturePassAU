@@ -191,7 +191,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
 
     return unsubscribe;
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [onboarding.setCity, onboarding.setCountry]);
 
   // ------------------------------------------------------------------
   // Keep query-client token store in sync with Firebase's auto-refresh
@@ -214,7 +214,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }, 50 * 60 * 1000); // 50 min
 
     return () => clearInterval(interval);
-  }, [!!session]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [session]);
 
   // ------------------------------------------------------------------
   // login() — kept for compatibility; screens can call it with a known session
