@@ -1,0 +1,59 @@
+rules_version = '2';
+
+/**
+ * CulturePass AU — Firebase Storage Rules
+ *
+ * Bucket layout:
+ *   avatars/{userId}/{filename}      — user profile photos
+ *   events/{eventId}/{filename}      — event banner images
+ *   profiles/{profileId}/{filename}  — community/business/venue images
+ *   uploads/{userId}/{filename}      — general user uploads (temp staging)
+ *
+ * All writes flow through the Cloud Functions upload endpoint which uses
+ * the Admin SDK — those bypass these rules.
+ * Direct client uploads are allowed only for avatars (own user folder).
+ */
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // ── Helpers ─────────────────────────────────────────────────────────────
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return isSignedIn() && request.auth.uid == uid;
+    }
+
+    // ── Public reads — event and profile images are public ──────────────────
+    match /events/{eventId}/{filename} {
+      allow read: if true;
+      allow write: if false; // Cloud Functions only
+    }
+
+    match /profiles/{profileId}/{filename} {
+      allow read: if true;
+      allow write: if false; // Cloud Functions only
+    }
+
+    // ── Avatar uploads — user can write to their own folder ─────────────────
+    match /avatars/{userId}/{filename} {
+      allow read:  if true;
+      allow write: if isOwner(userId)
+                   && request.resource.size < 5 * 1024 * 1024   // max 5 MB
+                   && request.resource.contentType.matches('image/.*');
+    }
+
+    // ── Temp uploads (Cloud Functions staging) ──────────────────────────────
+    match /uploads/{userId}/{filename} {
+      allow read:  if isOwner(userId);
+      allow write: if false; // Cloud Functions only
+    }
+
+    // ── Deny everything else ────────────────────────────────────────────────
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

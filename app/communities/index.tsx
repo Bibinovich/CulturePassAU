@@ -1,0 +1,111 @@
+import { useMemo, useCallback } from 'react';
+import { View, Text, StyleSheet, RefreshControl } from 'react-native';
+import { router } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
+import { useQuery } from '@tanstack/react-query';
+import * as Haptics from 'expo-haptics';
+import { api } from '@/lib/api';
+
+import BrowsePage, { BrowseItem, CategoryFilter } from '@/components/BrowsePage';
+import { Colors } from '@/constants/theme';
+
+const COMMUNITY_CATEGORIES: CategoryFilter[] = [
+  { label: 'All', icon: 'apps', color: Colors.primary },
+  { label: 'Diaspora', icon: 'globe-outline', color: '#3498DB' },
+  { label: 'Indigenous', icon: 'leaf-outline', color: '#2ECC71' },
+  { label: 'Language', icon: 'language-outline', color: '#9B59B6' },
+  { label: 'Religion', icon: 'sunny-outline', color: '#E85D3A' },
+];
+
+export default function CommunitiesScreen() {
+  const { data: communities = [], isLoading, isRefetching, refetch } = useQuery({
+    queryKey: ['/api/communities'],
+    queryFn: () => api.communities.list(),
+  });
+
+  const items: BrowseItem[] = useMemo(() =>
+    communities.map((c: any) => ({
+      id: c.id,
+      title: c.name,
+      subtitle: c.communityType?.toUpperCase(),
+      description: c.description,
+      imageUrl: c.coverImage,
+      isPromoted: c.isPromoted,
+      meta: `${(c.memberCount || 0).toLocaleString()} members`,
+      communityType: c.communityType,
+    })),
+  [communities]);
+
+  const promoted = useMemo(() => items.filter((i) => i.isPromoted), [items]);
+
+  const handleItemPress = useCallback((item: BrowseItem) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    router.push({ pathname: '/community/[id]', params: { id: item.id } });
+  }, []);
+
+  return (
+    <BrowsePage
+      title="Communities"
+      accentColor="#9B59B6"
+      accentIcon="people"
+      categories={COMMUNITY_CATEGORIES}
+      categoryKey="communityType"
+      items={items}
+      isLoading={isLoading}
+      promotedItems={promoted}
+      promotedTitle="Featured"
+      onItemPress={handleItemPress}
+      refreshControl={
+        <RefreshControl refreshing={isRefetching} onRefresh={refetch} tintColor="#9B59B6" />
+      }
+      emptyMessage="No communities found in this category."
+      renderItemExtra={(item) => (
+        <View style={styles.badgeContainer}>
+          <View style={styles.memberRow}>
+            <Ionicons name="people" size={12} color={Colors.primary} />
+            <Text style={styles.memberText}>{item.meta}</Text>
+          </View>
+          {item.isPromoted && (
+            <View style={styles.promotedBadge}>
+              <Text style={styles.promotedText}>FEATURED</Text>
+            </View>
+          )}
+        </View>
+      )}
+    />
+  );
+}
+
+const styles = StyleSheet.create({
+  badgeContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 6,
+  },
+  memberRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.03)',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 6,
+    gap: 4,
+  },
+  memberText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: Colors.textSecondary,
+  },
+  promotedBadge: {
+    backgroundColor: '#F1E6F5',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 4,
+  },
+  promotedText: {
+    fontSize: 10,
+    fontWeight: '800',
+    color: '#9B59B6',
+  }
+});

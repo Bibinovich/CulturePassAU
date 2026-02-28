@@ -1,0 +1,71 @@
+{
+  "expo": {
+    "name": "CulturePass",
+    "slug": "culturepass",
+    "version": "1.0.0",
+    "description": "CulturePass - Your one-stop lifestyle platform for cultural diaspora communities. Discover events, connect with communities, and celebrate diversity across Australia, New Zealand, UAE, UK & Canada.",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "culturepass",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/images/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#FBF8F4"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "au.culturepass.app",
+      "buildNumber": "1",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "CulturePass uses your location to show events and communities near you.",
+        "NSCameraUsageDescription": "CulturePass uses the camera to update your profile photo.",
+        "NSPhotoLibraryUsageDescription": "CulturePass accesses your photo library to update your profile photo."
+      },
+      "config": {
+        "usesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "package": "au.culturepass.app",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/images/android-icon-foreground.png",
+        "backgroundImage": "./assets/images/android-icon-background.png",
+        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+      },
+      "permissions": [
+        "CAMERA",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "READ_EXTERNAL_STORAGE"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/images/favicon.png",
+      "name": "CulturePass - Cultural Events & Communities Platform",
+      "shortName": "CulturePass",
+      "description": "Discover cultural events, join diaspora communities, find local businesses, and celebrate diversity. CulturePass connects you with cultural experiences across Australia, New Zealand, UAE, UK & Canada.",
+      "lang": "en",
+      "themeColor": "#007AFF",
+      "backgroundColor": "#F2F2F7",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      "expo-web-browser",
+      "@react-native-google-signin/google-signin"
+    ],
+    "experiments": {
+      "typedRoutes": false,
+      "reactCompiler": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "FILL_IN_EAS_PROJECT_UUID"
+      }
+    }
+  }
+}

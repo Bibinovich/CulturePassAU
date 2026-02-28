@@ -1,0 +1,62 @@
+# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+
+# dependencies
+node_modules/
+
+# Expo
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+static-build/
+server_dist/
+
+# Native
+ios/
+android/
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Metro
+.metro-health-check*
+
+# debug
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# macOS
+.DS_Store
+*.pem
+
+# local env files
+.env*.local
+
+# Claude Code dev tooling (skills, settings — not part of the app)
+.agents/
+.claude/
+
+# Firebase build cache
+.firebase/
+
+# Google Play service account key (sensitive)
+google-play-service-account.json
+
+# Firebase service account keys (sensitive — never commit these)
+*firebase-adminsdk*.json
+*service-account*.json
+
+# typescript
+*.tsbuildinfo
+.vercel
+
+.env
+functions/.env
+functions/.env.*
+
+# Firebase project config (update .firebaserc with your new project ID)
+# .firebaserc is tracked — do NOT commit project IDs if open-sourcing
