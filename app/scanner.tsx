@@ -23,6 +23,7 @@ import { api } from '@/lib/api';
 import { useRole } from '@/hooks/useRole';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { LinearGradient } from 'expo-linear-gradient';
+import { AuthGuard } from '@/components/AuthGuard';
 
 type ScanMode = 'tickets' | 'culturepass';
 
@@ -192,12 +193,11 @@ export default function ScannerScreen() {
       const data = await api.tickets.scan({ ticketCode: trimmed, scannedBy: 'staff' });
       const valid = data.valid !== false;
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const result: TicketScanResult = {
         valid,
         message: data.message || (valid ? 'Ticket accepted' : 'Invalid ticket'),
         outcome: (data.outcome as TicketScanResult['outcome']) ?? (valid ? 'accepted' : 'rejected'),
-        ticket: (data.ticket as any) ?? undefined,
+        ticket: (data.ticket as unknown as TicketScanResult['ticket']) ?? undefined,
       };
 
       setTicketResult(result);
@@ -366,6 +366,7 @@ export default function ScannerScreen() {
   };
 
   return (
+    <AuthGuard icon="scan-outline" title="Ticket Scanner" message="Sign in as an organiser to scan and validate tickets.">
     <View style={[styles.container, { paddingTop: topInset }]}>
       {/* ── Header ─────────────────────────────────────────────────────────── */}
       <View style={styles.header}>
@@ -756,6 +757,7 @@ export default function ScannerScreen() {
         </>
       )}
     </View>
+    </AuthGuard>
   );
 }
 

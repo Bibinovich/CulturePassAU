@@ -7,7 +7,6 @@ import { Colors } from '@/constants/theme';
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getQueryFn } from '@/lib/query-client';
-import { api } from '@/lib/api';
 import type { LocationEntry } from '@/lib/api';
 
 export default function LocationScreen() {
@@ -26,7 +25,9 @@ export default function LocationScreen() {
   const locationList: LocationEntry[] = data?.locations ?? [];
   const acknowledgementOfCountry = data?.acknowledgementOfCountry ?? '';
 
-  const selectedLocation = locationList.find(l => l.country === selectedCountry);
+  // Auto-select the first (and only) country when loaded
+  const effectiveCountry = selectedCountry || (locationList.length === 1 ? locationList[0].country : selectedCountry);
+  const selectedLocation = locationList.find(l => l.country === effectiveCountry);
 
   const handleCountrySelect = (country: string) => {
     setSelectedCountry(country);
@@ -34,8 +35,8 @@ export default function LocationScreen() {
   };
 
   const handleNext = () => {
-    if (selectedCountry && selectedCity) {
-      setCountry(selectedCountry);
+    if (effectiveCountry && selectedCity) {
+      setCountry(effectiveCountry);
       setCity(selectedCity);
       router.push('/(onboarding)/communities');
     }
@@ -68,18 +69,18 @@ export default function LocationScreen() {
                     key={loc.countryCode}
                     style={[
                       styles.countryCard,
-                      selectedCountry === loc.country && styles.cardSelected,
+                      effectiveCountry === loc.country && styles.cardSelected,
                     ]}
                     onPress={() => handleCountrySelect(loc.country)}
                   >
                     <Ionicons
                       name="earth"
                       size={24}
-                      color={selectedCountry === loc.country ? Colors.primary : Colors.textSecondary}
+                      color={effectiveCountry === loc.country ? Colors.primary : Colors.textSecondary}
                     />
                     <Text style={[
                       styles.countryText,
-                      selectedCountry === loc.country && styles.textSelected,
+                      effectiveCountry === loc.country && styles.textSelected,
                     ]}>{loc.country}</Text>
                   </Pressable>
                 ))}
@@ -114,7 +115,7 @@ export default function LocationScreen() {
               </View>
             )}
 
-            {selectedCountry === 'Australia' && acknowledgementOfCountry ? (
+            {effectiveCountry === 'Australia' && acknowledgementOfCountry ? (
               <View style={styles.acknowledgementContainer}>
                 <View style={styles.acknowledgementBanner}>
                   <View style={styles.acknowledgementHeader}>
@@ -133,9 +134,9 @@ export default function LocationScreen() {
 
       <View style={[styles.footer, { paddingBottom: Platform.OS === 'web' ? 34 : insets.bottom + 16 }]}>
         <Pressable
-          style={[styles.nextButton, (!selectedCountry || !selectedCity) && styles.buttonDisabled]}
+          style={[styles.nextButton, (!effectiveCountry || !selectedCity) && styles.buttonDisabled]}
           onPress={handleNext}
-          disabled={!selectedCountry || !selectedCity}
+          disabled={!effectiveCountry || !selectedCity}
         >
           <Text style={styles.nextButtonText}>Continue</Text>
           <Ionicons name="arrow-forward" size={20} color="#FFF" />

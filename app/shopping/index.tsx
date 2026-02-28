@@ -20,11 +20,6 @@ const shoppingCategories: CategoryFilter[] = [
 export default function ShoppingScreen() {
   const { state } = useOnboarding();
 
-  const queryParams = new URLSearchParams();
-  if (state.country) queryParams.set('country', state.country);
-  if (state.city) queryParams.set('city', state.city);
-  const qs = queryParams.toString();
-
   const { data: stores = [], isLoading } = useQuery({
     queryKey: ['/api/shopping', state.country, state.city],
     queryFn: () => {

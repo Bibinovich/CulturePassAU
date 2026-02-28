@@ -6,8 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useColors } from "@/hooks/useColors";
 import { useRole } from "@/hooks/useRole";
-import { TabBarTokens } from "@/constants/theme";
-import { gradients } from "@/constants/theme";
+import { TabBarTokens, gradients } from "@/constants/theme";
 import { WebSidebar } from "@/components/web/WebSidebar";
 
 // ---------------------------------------------------------------------------
@@ -63,7 +62,7 @@ function TabScreens({ isOrganizer }: { isOrganizer: boolean }) {
       <Tabs.Screen name="calendar"    options={{ title: "Calendar" }} />
       <Tabs.Screen name="communities" options={{ title: "Community" }} />
       <Tabs.Screen name="perks"       options={{ title: "Perks" }} />
-      <Tabs.Screen name="dashboard"   options={{ title: "Dashboard", href: isOrganizer ? undefined : null }} />
+      <Tabs.Screen name="dashboard"   options={{ title: "Dashboard", href: null }} />
       <Tabs.Screen name="explore"     options={{ href: null }} />
       <Tabs.Screen name="directory"   options={{ href: null }} />
       <Tabs.Screen name="profile"     options={{ title: "Profile" }} />

@@ -1,11 +1,9 @@
-import { Stack } from "expo-router";
+import { Stack, Redirect } from "expo-router";
 import { useOnboarding } from "@/contexts/OnboardingContext";
-import { Redirect } from "expo-router";
-import { ActivityIndicator, Platform, View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 
 export default function OnboardingLayout() {
   const { state, isLoading } = useOnboarding();
-  const isWeb = Platform.OS === 'web';
 
   if (isLoading) {
     return (
@@ -15,13 +13,9 @@ export default function OnboardingLayout() {
     );
   }
 
+  // Already completed onboarding (authenticated + location set) → go straight to Discovery
   if (state.isComplete) {
     return <Redirect href="/(tabs)" />;
-  }
-
-  // Web visitors who haven't authenticated yet see the landing page
-  if (isWeb) {
-    return <Redirect href="/landing" />;
   }
 
   return (

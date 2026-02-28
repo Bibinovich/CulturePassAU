@@ -13,7 +13,8 @@ import { Colors } from '@/constants/theme';
 import { router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import { useContacts, SavedContact } from '@/contexts/ContactsContext';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback } from 'react';
+import { AuthGuard } from '@/components/AuthGuard';
 
 const TIER_COLORS: Record<string, string> = {
   free: Colors.textSecondary,
@@ -81,18 +82,7 @@ export default function ContactsScreen() {
   const topInset = Platform.OS === 'web' ? 67 : insets.top;
   const bottomInset = Platform.OS === 'web' ? 34 : insets.bottom;
   const { contacts, removeContact, clearContacts } = useContacts();
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const filteredContacts = useMemo(() => {
-    if (!searchQuery.trim()) return contacts;
-    const q = searchQuery.toLowerCase();
-    return contacts.filter(c =>
-      c.name?.toLowerCase().includes(q) ||
-      c.cpid?.toLowerCase().includes(q) ||
-      c.username?.toLowerCase().includes(q) ||
-      c.city?.toLowerCase().includes(q)
-    );
-  }, [contacts, searchQuery]);
+  const filteredContacts = contacts;
 
   const handleRemove = useCallback((contact: SavedContact) => {
     Alert.alert(
@@ -138,6 +128,7 @@ export default function ContactsScreen() {
   ), [handleContactPress, handleRemove]);
 
   return (
+    <AuthGuard icon="people-outline" title="Cultural Contacts" message="Sign in to connect with your cultural community.">
     <View style={[styles.container, { paddingTop: topInset }]}>
       <View style={styles.header}>
         <Pressable onPress={() => router.back()} style={styles.backBtn}>
@@ -199,6 +190,7 @@ export default function ContactsScreen() {
         />
       )}
     </View>
+    </AuthGuard>
   );
 }
 

@@ -19,8 +19,7 @@ import { useAuth } from '@/lib/auth';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
 import { useQuery } from '@tanstack/react-query';
-import type { User, EventData, Community } from '@shared/schema';
-import { getQueryFn } from '@/lib/query-client';
+import type { EventData, Community } from '@shared/schema';
 import { useMemo, useCallback, useState, useRef, useEffect } from 'react';
 import { LocationPicker } from '@/components/LocationPicker';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
@@ -68,12 +67,12 @@ const WEB_CATEGORIES = ['All', 'Music', 'Dance', 'Food', 'Art', 'Wellness', 'Fil
 const FEATURED_CITIES = [
   { name: 'Sydney', country: 'Australia' },
   { name: 'Melbourne', country: 'Australia' },
-  { name: 'Auckland', country: 'New Zealand' },
-  { name: 'Dubai', country: 'UAE' },
-  { name: 'London', country: 'United Kingdom' },
-  { name: 'Toronto', country: 'Canada' },
-  { name: 'Vancouver', country: 'Canada' },
   { name: 'Brisbane', country: 'Australia' },
+  { name: 'Perth', country: 'Australia' },
+  { name: 'Adelaide', country: 'Australia' },
+  { name: 'Gold Coast', country: 'Australia' },
+  { name: 'Canberra', country: 'Australia' },
+  { name: 'Darwin', country: 'Australia' },
 ];
 
 interface DiscoverSection {
@@ -364,11 +363,6 @@ export default function HomeScreen() {
   const topInset = Platform.OS === 'web' ? 67 : insets.top;
   const { state } = useOnboarding();
   const { isAuthenticated, userId: authUserId, user: authUser } = useAuth();
-
-  const { data: users } = useQuery<User[]>({
-    queryKey: ['/api/users'],
-    queryFn: getQueryFn({ on401: 'returnNull' }),
-  });
 
   const { data: traditionalLandsData = [] } = useQuery<TraditionalLand[]>({
     queryKey: ['/api/indigenous/traditional-lands'],
@@ -666,7 +660,13 @@ export default function HomeScreen() {
     <ErrorBoundary>
     <View style={[styles.container, { paddingTop: topInset }]}>
       <View style={[styles.topBar, Platform.OS === 'web' && { maxWidth: 900, alignSelf: 'center', width: '100%' }]}>
-        <LocationPicker />
+        <View style={styles.brandBlock}>
+          <Ionicons name="globe-outline" size={20} color={Colors.primary} />
+          <View>
+            <Text style={styles.brandName}>CulturePass</Text>
+            <Text style={styles.brandUrl}>culturepass.app</Text>
+          </View>
+        </View>
         <View style={styles.topBarRight}>
           <Pressable style={styles.iconButton} onPress={() => router.push('/search')} testID="search-btn" accessibilityLabel="Search">
             <Ionicons name="search" size={24} color={Colors.text} />
@@ -695,6 +695,10 @@ export default function HomeScreen() {
           />
         }
       >
+        <View style={styles.locationPickerRow}>
+          <LocationPicker />
+        </View>
+
         <View style={styles.heroSection}>
           <Text style={styles.heroSubtitle}>{timeGreeting}, {firstName}</Text>
           <Text style={styles.heroTitle}>
@@ -1003,6 +1007,27 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: Colors.borderLight,
     backgroundColor: Colors.backgroundSecondary,
+  },
+  brandBlock: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  brandName: {
+    fontSize: 16,
+    fontFamily: 'Poppins_700Bold',
+    color: Colors.text,
+    lineHeight: 18,
+  },
+  brandUrl: {
+    fontSize: 10,
+    fontFamily: 'Poppins_400Regular',
+    color: Colors.textSecondary,
+    lineHeight: 13,
+  },
+  locationPickerRow: {
+    paddingHorizontal: 20,
+    paddingTop: 12,
   },
   topBarRight: {
     flexDirection: 'row',

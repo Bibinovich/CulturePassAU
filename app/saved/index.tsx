@@ -1,4 +1,4 @@
-import { View, Text, Pressable, StyleSheet, ScrollView, Platform, Image, ActivityIndicator } from 'react-native';
+import { View, Text, Pressable, StyleSheet, ScrollView, Platform, Image } from 'react-native';
 import { router } from 'expo-router';
 import { goBackOrReplace } from '@/lib/navigation';
 import { Ionicons } from '@expo/vector-icons';
@@ -10,6 +10,7 @@ import * as Haptics from 'expo-haptics';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/api';
 import type { Community, EventData } from '@/shared/schema';
+import { AuthGuard } from '@/components/AuthGuard';
 
 type TabKey = 'events' | 'communities';
 
@@ -56,6 +57,7 @@ export default function SavedScreen() {
   ];
 
   return (
+    <AuthGuard icon="bookmark" title="My Saved" message="Sign in to save events and communities you love.">
     <View style={[styles.container, { paddingTop: topInset }]}>
       <View style={styles.header}>
         <Pressable onPress={() => goBackOrReplace('/(tabs)')} style={styles.backBtn} hitSlop={8}>
@@ -201,6 +203,7 @@ export default function SavedScreen() {
         )}
       </ScrollView>
     </View>
+    </AuthGuard>
   );
 }
 

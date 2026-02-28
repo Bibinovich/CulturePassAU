@@ -11,8 +11,6 @@ import { api } from '@/lib/api';
 import { FilterChipRow, FilterItem } from '@/components/FilterChip';
 import { useAuth } from '@/lib/auth';
 
-const isWeb = Platform.OS === 'web';
-
 interface Perk {
   id: string;
   title: string;

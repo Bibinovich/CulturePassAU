@@ -289,7 +289,7 @@ function EventDetail({ event, topInset, bottomInset }: EventDetailProps) {
       currency: 'AUD',
       imageColor: (event as any).imageColor ?? Colors.primary,
     });
-  }, [userId, event, selectedTier, quantity, totalPrice, effectiveQty, buyMode, purchaseMutation, purchaseFreeTicket]);
+  }, [userId, event, selectedTier, totalPrice, effectiveQty, buyMode, purchaseMutation, purchaseFreeTicket]);
 
   const openTicketModal = useCallback((tierIdx?: number) => {
     setSelectedTierIndex(tierIdx ?? 0);

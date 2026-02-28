@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
 import { useOnboarding } from '@/contexts/OnboardingContext';
 import { api } from '@/lib/api';
@@ -7,7 +7,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '@/constants/theme';
 import BrowsePage, { BrowseItem, CategoryFilter } from '@/components/BrowsePage';
 import { useMemo } from 'react';
-import { StyleSheet } from 'react-native';
 
 const restaurantCuisines: CategoryFilter[] = [
   { label: 'All', icon: 'restaurant', color: '#1C1C1E' },
@@ -38,11 +37,6 @@ interface RestaurantData {
 
 export default function RestaurantsScreen() {
   const { state } = useOnboarding();
-
-  const queryParams = new URLSearchParams();
-  if (state.country) queryParams.set('country', state.country);
-  if (state.city) queryParams.set('city', state.city);
-  const qs = queryParams.toString();
 
   const { data: restaurants = [], isLoading } = useQuery({
     queryKey: ['/api/restaurants', state.country, state.city],

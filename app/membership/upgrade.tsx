@@ -156,7 +156,7 @@ export default function UpgradeScreen() {
         },
       ]
     );
-  }, [userId]);
+  }, [userId, membership]);
 
   if (!isAuthenticated) {
     return (

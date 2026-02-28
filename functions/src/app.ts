@@ -881,6 +881,25 @@ app.post('/api/admin/seed', async (req, res) => {
     { title: 'Indigenous Storytelling Night — NAIDOC Week', description: 'An intimate evening of First Nations storytelling, traditional music, and art featuring local Gadigal artists. Proceeds go to local indigenous youth programs.', communityTag: 'Aboriginal', venue: 'Carriageworks', address: '245 Wilson St, Eveleigh NSW 2015', date: soon(35), time: '07:30 PM', city: 'Sydney', country: 'Australia', imageUrl: 'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=800', imageColor: '#92400E', cultureTag: ['Aboriginal', 'First Nations', 'Indigenous'], indigenousTags: ['Gadigal', 'Naidoc'], tags: ['storytelling', 'art', 'naidoc', 'cultural'], category: 'Arts', eventType: 'In-Person', ageSuitability: 'All Ages', priceTier: 'low', priceCents: 1500, priceLabel: '$15', isFree: false, isFeatured: true, capacity: 200, attending: 156, organizerId: 'seed-org-8', organizer: 'Gadigal Art Collective', organizerReputationScore: 94, status: 'published' as const, cpid: 'CP-E-INDSYD', tiers: [{ name: 'General', priceCents: 1500, available: 100 }] },
     { title: 'Melbourne Diwali Lights Festival', description: 'The city of Melbourne lights up for Diwali! Join thousands for the spectacular Federation Square light show, rangoli competition, and South Asian street food.', communityTag: 'South Asian', venue: 'Federation Square', address: 'Corner of Flinders & Swanston St, Melbourne VIC 3000', date: soon(12), time: '07:00 PM', city: 'Melbourne', country: 'Australia', imageUrl: 'https://images.unsplash.com/photo-1467810563316-b5476525c0f9?w=800', imageColor: '#F97316', cultureTag: ['South Asian', 'Hindu', 'Diwali'], tags: ['diwali', 'lights', 'festival', 'outdoor'], category: 'Festival', eventType: 'In-Person', ageSuitability: 'All Ages', priceTier: 'free', priceCents: 0, priceLabel: 'Free', isFree: true, isFeatured: true, capacity: 10000, attending: 7234, organizerId: 'seed-org-9', organizer: 'Festival of India Melbourne', organizerReputationScore: 97, status: 'published' as const, cpid: 'CP-E-DIVMLB', tiers: [] },
     { title: 'Vietnamese Tet New Year Market', description: "Celebrate Lunar New Year with the Vietnamese community. Traditional music, ao dai fashion show, bánh mì cook-off, and children's activities.", communityTag: 'Vietnamese', venue: 'Springvale Town Centre', address: 'Springvale Rd, Springvale VIC 3171', date: soon(8), time: '10:00 AM', city: 'Melbourne', country: 'Australia', imageUrl: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800', imageColor: '#FBBF24', cultureTag: ['Vietnamese', 'Southeast Asian'], tags: ['tet', 'new year', 'market', 'food'], category: 'Market', eventType: 'In-Person', ageSuitability: 'All Ages', priceTier: 'free', priceCents: 0, priceLabel: 'Free', isFree: true, isFeatured: false, capacity: 3000, attending: 1876, organizerId: 'seed-org-10', organizer: 'Vietnamese Community Australia', organizerReputationScore: 87, status: 'published' as const, cpid: 'CP-E-TETMLB', tiers: [] },
+    // Brisbane
+    { title: 'Multicultural Street Food Festival — Brisbane', description: "A weekend-long celebration of Brisbane's multicultural food scene, with 80+ stalls from every corner of the globe.", communityTag: 'Multicultural', venue: 'South Bank Parklands', address: 'Grey St, South Brisbane QLD 4101', date: soon(20), time: '10:00 AM', city: 'Brisbane', country: 'Australia', imageUrl: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800', imageColor: '#F59E0B', cultureTag: ['Multicultural', 'Food', 'Community'], tags: ['food', 'market', 'multicultural', 'outdoor'], category: 'Market', eventType: 'In-Person', ageSuitability: 'All Ages', priceTier: 'free', priceCents: 0, priceLabel: 'Free', isFree: true, isFeatured: true, capacity: 5000, attending: 2134, organizerId: 'seed-org-11', organizer: 'Brisbane Multicultural Alliance', organizerReputationScore: 90, status: 'published' as const, cpid: 'CP-E-MSFBRB', tiers: [] },
+    { title: 'Pacific Islander Cultural Day — Brisbane', description: 'Celebrate the vibrant cultures of the Pacific with traditional dance, music, and food from Samoa, Tonga, Fiji, and more.', communityTag: 'Pacific Islander', venue: 'Roma Street Parkland', address: '1 Parkland Blvd, Brisbane City QLD 4000', date: soon(25), time: '11:00 AM', city: 'Brisbane', country: 'Australia', imageUrl: 'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=800', imageColor: '#0EA5E9', cultureTag: ['Pacific Islander', 'Samoan', 'Tongan', 'Fijian'], tags: ['dance', 'music', 'food', 'pacific'], category: 'Cultural', eventType: 'In-Person', ageSuitability: 'All Ages', priceTier: 'low', priceCents: 1000, priceLabel: '$10', isFree: false, isFeatured: true, capacity: 1500, attending: 567, organizerId: 'seed-org-12', organizer: 'Pacific Community Queensland', organizerReputationScore: 84, status: 'published' as const, cpid: 'CP-E-PICBRB', tiers: [{ name: 'General', priceCents: 1000, available: 1200 }] },
+    // Perth
+    { title: 'Indian Classical Music Evening — Perth', description: 'An intimate evening of Indian classical music featuring Hindustani and Carnatic traditions, with tabla, sitar, and vocal performances.', communityTag: 'South Asian', venue: 'Perth Concert Hall', address: '5 St Georges Terrace, Perth WA 6000', date: soon(16), time: '07:30 PM', city: 'Perth', country: 'Australia', imageUrl: 'https://images.unsplash.com/photo-1507838153414-b4b713384a76?w=800', imageColor: '#7C3AED', cultureTag: ['South Asian', 'Indian', 'Classical Music'], tags: ['music', 'classical', 'performance'], category: 'Arts', eventType: 'In-Person', ageSuitability: 'All Ages', priceTier: 'mid', priceCents: 4500, priceLabel: '$45', isFree: false, isFeatured: true, capacity: 400, attending: 289, organizerId: 'seed-org-13', organizer: 'Indian Arts Society WA', organizerReputationScore: 91, status: 'published' as const, cpid: 'CP-E-ICMPER', tiers: [{ name: 'Standard', priceCents: 4500, available: 300 }, { name: 'Premium', priceCents: 9000, available: 50 }] },
+    // Adelaide
+    { title: 'Adelaide OzAsia Festival Showcase', description: 'A celebration of Asian-Australian arts and culture featuring theatre, dance, music, and visual arts from across Asia and the diaspora.', communityTag: 'Asian-Australian', venue: 'Adelaide Festival Centre', address: 'King William Rd, Adelaide SA 5000', date: soon(28), time: '06:00 PM', city: 'Adelaide', country: 'Australia', imageUrl: 'https://images.unsplash.com/photo-1545213156-d8e7c7a84e31?w=800', imageColor: '#EC4899', cultureTag: ['Asian-Australian', 'Arts', 'Theatre'], tags: ['arts', 'theatre', 'dance', 'music'], category: 'Arts', eventType: 'In-Person', ageSuitability: 'All Ages', priceTier: 'mid', priceCents: 3500, priceLabel: '$35', isFree: false, isFeatured: false, capacity: 800, attending: 421, organizerId: 'seed-org-14', organizer: 'OzAsia Festival', organizerReputationScore: 95, status: 'published' as const, cpid: 'CP-E-OZAADL', tiers: [{ name: 'General', priceCents: 3500, available: 600 }] },
+  ];
+
+  // Seed communities / profiles
+  const SEED_COMMUNITIES = [
+    { name: 'Kerala Cultural Society Sydney', entityType: 'community' as const, category: 'Cultural', city: 'Sydney', country: 'Australia', description: 'Connecting Malayali diaspora in Sydney through cultural events, Onam celebrations, and community support.', members: 1240, verified: true, ownerId: 'seed-org-1', rating: 4.8, cpid: 'CP-C-KCSSYD' },
+    { name: 'Tamil Sangam NSW', entityType: 'community' as const, category: 'Cultural', city: 'Sydney', country: 'Australia', description: 'Celebrating Tamil culture, language, and heritage in New South Wales.', members: 890, verified: true, ownerId: 'seed-org-2', rating: 4.7, cpid: 'CP-C-TSNNSW' },
+    { name: 'Chinese Community Sydney', entityType: 'community' as const, category: 'Cultural', city: 'Sydney', country: 'Australia', description: 'Fostering connections across Chinese-Australian communities in greater Sydney.', members: 3200, verified: true, ownerId: 'seed-org-5', rating: 4.9, cpid: 'CP-C-CCSSYD' },
+    { name: 'Filipino-Australian Network', entityType: 'community' as const, category: 'Social', city: 'Sydney', country: 'Australia', description: 'Building friendship and community among Filipino Australians through events and mutual support.', members: 650, verified: true, ownerId: 'seed-org-4', rating: 4.6, cpid: 'CP-C-FANSYD' },
+    { name: 'African Diaspora Melbourne', entityType: 'community' as const, category: 'Cultural', city: 'Melbourne', country: 'Australia', description: 'Celebrating the rich and diverse cultures of the African continent in Melbourne.', members: 780, verified: false, ownerId: 'seed-org-6', rating: 4.5, cpid: 'CP-C-ADMMLB' },
+    { name: 'South Asian Hub Melbourne', entityType: 'community' as const, category: 'Cultural', city: 'Melbourne', country: 'Australia', description: 'A welcoming space for Indian, Pakistani, Sri Lankan, and Bangladeshi communities in Melbourne.', members: 2100, verified: true, ownerId: 'seed-org-9', rating: 4.8, cpid: 'CP-C-SAHMML' },
+    { name: 'Pacific Community Queensland', entityType: 'community' as const, category: 'Cultural', city: 'Brisbane', country: 'Australia', description: 'Connecting Pacific Islander communities across Queensland, from Brisbane to the Gold Coast.', members: 540, verified: true, ownerId: 'seed-org-12', rating: 4.7, cpid: 'CP-C-PCQBRB' },
+    { name: 'Hellenic Community NSW', entityType: 'community' as const, category: 'Heritage', city: 'Sydney', country: 'Australia', description: 'Preserving Greek heritage and connecting Greek Australians across New South Wales.', members: 1560, verified: true, ownerId: 'seed-org-7', rating: 4.9, cpid: 'CP-C-HCNNSW' },
   ];
 
   try {
@@ -891,8 +910,13 @@ app.post('/api/admin/seed', async (req, res) => {
       batch.set(ref, { ...event, id: ref.id, createdAt: nowTs, updatedAt: nowTs });
       count++;
     }
+    for (const community of SEED_COMMUNITIES) {
+      const ref = db.collection('profiles').doc();
+      batch.set(ref, { ...community, id: ref.id, createdAt: nowTs, updatedAt: nowTs });
+      count++;
+    }
     await batch.commit();
-    return res.json({ seeded: count, ok: true });
+    return res.json({ seeded: count, events: SEED_EVENTS.length, communities: SEED_COMMUNITIES.length, ok: true });
   } catch (err) {
     console.error('[admin/seed]:', err);
     return res.status(500).json({ error: 'Seed failed', detail: String(err) });
@@ -1137,13 +1161,22 @@ app.post('/api/events/:id/publish', requireAuth, requireRole('organizer', 'admin
 app.get('/api/locations', (_req, res) => {
   res.json({
     locations: [
-      { country: 'Australia', countryCode: 'AU', cities: ['Sydney', 'Melbourne', 'Brisbane', 'Perth', 'Adelaide', 'Canberra', 'Hobart', 'Darwin'] },
-      { country: 'New Zealand', countryCode: 'NZ', cities: ['Auckland', 'Wellington', 'Christchurch', 'Hamilton', 'Dunedin'] },
-      { country: 'United Arab Emirates', countryCode: 'AE', cities: ['Dubai', 'Abu Dhabi', 'Sharjah'] },
-      { country: 'United Kingdom', countryCode: 'UK', cities: ['London', 'Manchester', 'Birmingham', 'Leeds'] },
-      { country: 'Canada', countryCode: 'CA', cities: ['Toronto', 'Vancouver', 'Calgary', 'Montreal'] },
+      {
+        country: 'Australia', countryCode: 'AU',
+        states: [
+          { name: 'New South Wales', code: 'NSW', cities: ['Sydney', 'Newcastle', 'Wollongong', 'Parramatta', 'Central Coast', 'Penrith', 'Liverpool', 'Blacktown'] },
+          { name: 'Victoria', code: 'VIC', cities: ['Melbourne', 'Geelong', 'Ballarat', 'Bendigo', 'Shepparton', 'Mildura'] },
+          { name: 'Queensland', code: 'QLD', cities: ['Brisbane', 'Gold Coast', 'Sunshine Coast', 'Cairns', 'Townsville', 'Toowoomba', 'Rockhampton'] },
+          { name: 'Western Australia', code: 'WA', cities: ['Perth', 'Mandurah', 'Bunbury', 'Geraldton', 'Kalgoorlie', 'Albany'] },
+          { name: 'South Australia', code: 'SA', cities: ['Adelaide', 'Mount Gambier', 'Whyalla', 'Murray Bridge', 'Port Augusta'] },
+          { name: 'Tasmania', code: 'TAS', cities: ['Hobart', 'Launceston', 'Devonport', 'Burnie'] },
+          { name: 'Australian Capital Territory', code: 'ACT', cities: ['Canberra', 'Belconnen', 'Tuggeranong', 'Woden'] },
+          { name: 'Northern Territory', code: 'NT', cities: ['Darwin', 'Alice Springs', 'Palmerston', 'Katherine'] },
+        ],
+        cities: ['Sydney', 'Melbourne', 'Brisbane', 'Perth', 'Adelaide', 'Canberra', 'Hobart', 'Darwin', 'Gold Coast', 'Newcastle', 'Sunshine Coast', 'Wollongong', 'Geelong', 'Cairns', 'Townsville', 'Toowoomba', 'Mandurah', 'Launceston', 'Alice Springs', 'Ballarat'],
+      },
     ],
-    acknowledgementOfCountry: 'CulturePass acknowledges the Traditional Custodians of the lands on which events are held and recognises Aboriginal and Torres Strait Islander peoples as the First Nations of Australia. We pay our respects to Elders past, present, and emerging.',
+    acknowledgementOfCountry: 'CulturePass acknowledges the Traditional Custodians of Country throughout Australia and recognises the continuing connection of Aboriginal and Torres Strait Islander peoples to land, sea and community. We pay our respects to Elders past, present, and emerging, and to all First Nations people of Australia.',
   });
 });
 

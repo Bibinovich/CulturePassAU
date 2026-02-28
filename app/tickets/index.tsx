@@ -7,6 +7,7 @@ import * as Haptics from 'expo-haptics';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { apiRequest, queryClient } from '@/lib/query-client';
 import { useAuth } from '@/lib/auth';
+import { AuthGuard } from '@/components/AuthGuard';
 
 interface Ticket {
   id: string;
@@ -234,6 +235,7 @@ export default function TicketsScreen() {
   };
 
   return (
+    <AuthGuard icon="ticket-outline" title="My Tickets" message="Sign in to view and manage your event tickets.">
     <View style={[styles.container, { paddingTop: insets.top + webTop }]}>
       <View style={styles.header}>
         <Pressable onPress={() => router.back()} style={styles.backBtn}>
@@ -279,6 +281,7 @@ export default function TicketsScreen() {
         )}
       </ScrollView>
     </View>
+    </AuthGuard>
   );
 }
 

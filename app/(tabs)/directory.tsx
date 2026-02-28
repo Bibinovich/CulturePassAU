@@ -20,7 +20,6 @@ import { queryClient } from '@/lib/query-client';
 import type { Profile } from '@shared/schema';
 import { FilterChipRow, FilterItem } from '@/components/FilterChip';
 
-const isWeb = Platform.OS === 'web';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 

@@ -115,7 +115,6 @@ export default function ProfileDetailScreen() {
   const hasCoordinates = profile.latitude && profile.longitude;
 
   const profileName = (profile.name || '').toLowerCase();
-  const profileCategory = (profile.category || '').toLowerCase();
   const profileTags = (profile.tags || []) as string[];
   const profileLocation = (profile.city || profile.location || '').toLowerCase();
 

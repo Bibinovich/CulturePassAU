@@ -1,6 +1,5 @@
-import { Stack } from 'expo-router';
+import { Stack, Redirect } from 'expo-router';
 import { useAuth } from '@/lib/auth';
-import { Redirect } from 'expo-router';
 
 /**
  * Dashboard layout — requires authentication.

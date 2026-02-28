@@ -80,7 +80,10 @@ export function WebSidebar() {
           <LinearGradient colors={['#0081C8', '#EE334E']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={StyleSheet.absoluteFill} />
           <Ionicons name="globe-outline" size={18} color="#fff" />
         </View>
-        <Text style={[styles.logoText, { color: isDark ? '#E8F4FF' : '#001628' }]}>CulturePass</Text>
+        <View>
+          <Text style={[styles.logoText, { color: isDark ? '#E8F4FF' : '#001628' }]}>CulturePass</Text>
+          <Text style={[styles.logoUrl, { color: isDark ? 'rgba(232,244,255,0.35)' : 'rgba(0,22,40,0.35)' }]}>culturepass.app</Text>
+        </View>
       </Pressable>
 
       {/* Divider */}
@@ -211,6 +214,7 @@ const styles = StyleSheet.create({
     alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
   },
   logoText: { fontSize: 16, fontFamily: 'Poppins_700Bold' },
+  logoUrl: { fontSize: 10, fontFamily: 'Poppins_400Regular', marginTop: 1 },
   divider: { height: 1, marginHorizontal: 18, marginVertical: 6 },
   navGroup: { paddingHorizontal: 10, paddingVertical: 4, gap: 2 },
   sectionLabel: { paddingHorizontal: 20, paddingTop: 16, paddingBottom: 4 },

@@ -18,8 +18,6 @@ import * as Haptics from 'expo-haptics';
 import type { User, Membership } from '@shared/schema';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useCallback, useMemo } from 'react';
-import { getApiUrl } from '@/lib/query-client';
-import { fetch } from 'expo/fetch';
 
 const CP = {
   teal:       '#00D4AA',

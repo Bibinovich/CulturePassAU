@@ -21,18 +21,13 @@ interface MovieData {
   rating: string;
   posterUrl: string;
   imdbScore: number;
-  showtimes: Array<{ price: number }>;
+  showtimes: { price: number }[];
   genre: string[];
   isPromoted: boolean;
 }
 
 export default function MoviesScreen() {
   const { state } = useOnboarding();
-
-  const queryParams = new URLSearchParams();
-  if (state.country) queryParams.set('country', state.country);
-  if (state.city) queryParams.set('city', state.city);
-  const qs = queryParams.toString();
 
   const { data: moviesData = [], isLoading } = useQuery({
     queryKey: ['/api/movies', state.country, state.city],

@@ -1,3 +1,5 @@
+import 'react-native-reanimated'; // <-- CRUCIAL FIX: Must be at the very top
+
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
@@ -36,6 +38,7 @@ function RootLayoutNav() {
         headerShadowVisible: false,
       }}
     >
+      <Stack.Screen name="get2know" />
       <Stack.Screen name="landing" />
       <Stack.Screen name="(onboarding)" />
       <Stack.Screen name="(tabs)" />
@@ -103,10 +106,7 @@ function RootLayoutNav() {
 }
 
 /**
- * Responsive web wrapper:
- * - Mobile web (<768px)  — narrow phone-shell (520px) centred on dark bg
- * - Tablet web (768–1023px) — wider container (900px) on light bg
- * - Desktop web (≥1024px) — FULL-WIDTH, no phone chrome; sidebar handles layout
+ * Responsive web wrapper
  */
 function WebShell({ children }: { children: React.ReactNode }) {
   const { width } = useWindowDimensions();
@@ -115,7 +115,6 @@ function WebShell({ children }: { children: React.ReactNode }) {
   const isDesktop = width >= Breakpoints.desktop;
   const isTablet = width >= Breakpoints.tablet && !isDesktop;
 
-  // Desktop: full-width, no phone chrome — content fills the entire viewport
   if (isDesktop) {
     return (
       <View style={[webStyles.outerContainer, webStyles.outerFull, { backgroundColor: isDark ? Colors.dark.background : Colors.light.background }]}>
@@ -136,7 +135,6 @@ function WebShell({ children }: { children: React.ReactNode }) {
     );
   }
 
-  // Mobile / Tablet: phone-shell chrome
   const maxWidth = isTablet
     ? Math.min(900, width - 40)
     : Math.min(520, width - 20);
@@ -196,7 +194,6 @@ export default function RootLayout() {
     Poppins_700Bold,
   });
 
-  // Hide splash screen as soon as fonts are ready (or failed — don't block on error)
   useEffect(() => {
     if (fontsLoaded || fontError) {
       SplashScreen.hideAsync().catch(() => {});
@@ -209,7 +206,6 @@ export default function RootLayout() {
     }
   }, [fontsLoaded, fontError]);
 
-  // Still loading — render nothing (transparent, not white) while fonts initialise
   if (!fontsLoaded && !fontError) {
     return null;
   }
@@ -230,9 +226,8 @@ export default function RootLayout() {
                   >
                     {isWeb ? (
                       <WebShell>
-                        <KeyboardProvider>
-                          <RootLayoutNav />
-                        </KeyboardProvider>
+                        {/* 🚨 KeyboardProvider removed for Web to prevent Reanimated crashes */}
+                        <RootLayoutNav />
                       </WebShell>
                     ) : (
                       <KeyboardProvider>
@@ -258,7 +253,6 @@ const webStyles = StyleSheet.create({
     overflow: 'hidden',
     paddingHorizontal: 12,
   },
-  // Desktop: full-width, no centering, no padding
   outerFull: {
     alignItems: 'stretch',
     justifyContent: 'flex-start',
@@ -270,7 +264,6 @@ const webStyles = StyleSheet.create({
     borderWidth: 1,
     overflow: 'hidden',
   },
-  // Cast to object since boxShadow is a web-only CSS prop.
   phoneShell: (Platform.OS === 'web'
     ? { boxShadow: '0 14px 40px rgba(0, 0, 0, 0.25)' }
     : {}) as object,

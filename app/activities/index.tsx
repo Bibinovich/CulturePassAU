@@ -16,11 +16,6 @@ const activityCategories: CategoryFilter[] = [
 export default function ActivitiesScreen() {
   const { state } = useOnboarding();
 
-  const queryParams = new URLSearchParams();
-  if (state.country) queryParams.set('country', state.country);
-  if (state.city) queryParams.set('city', state.city);
-  const qs = queryParams.toString();
-
   const { data: activities = [], isLoading } = useQuery({
     queryKey: ['/api/activities', state.country, state.city],
     queryFn: () => {

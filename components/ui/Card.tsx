@@ -16,8 +16,7 @@ import {
   type ViewStyle,
   Platform,
 } from 'react-native';
-import { shadows, glass } from '@/constants/theme';
-import { CardTokens } from '@/constants/theme';
+import { shadows, glass, CardTokens } from '@/constants/theme';
 import { useColors } from '@/hooks/useColors';
 import { useColorScheme } from 'react-native';
 
