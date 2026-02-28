@@ -1,0 +1,136 @@
+# Google Cloud Build pipeline
+#
+# Mirrors .github/workflows/quality-gate.yml for GCP-native CI/CD.
+# Deploy steps run only when BRANCH_NAME matches _DEPLOY_BRANCH (default: main).
+#
+# ── Trigger setup (Cloud Build console / gcloud CLI) ─────────────────────────
+#   1. Push trigger on main/master  → full pipeline (quality gate + deploy)
+#   2. PR trigger on all branches   → quality gate + web export (deploy skipped)
+#
+# ── Secret Manager secrets required (project: culturepass-2e058) ─────────────
+#   stripe-secret-key            maps to STRIPE_SECRET_KEY
+#   stripe-webhook-secret        maps to STRIPE_WEBHOOK_SECRET
+#   stripe-price-monthly-id      maps to STRIPE_PRICE_MONTHLY_ID
+#   stripe-price-yearly-id       maps to STRIPE_PRICE_YEARLY_ID
+#
+# ── Cloud Build service-account IAM roles required ───────────────────────────
+#   roles/firebase.admin
+#   roles/iam.serviceAccountTokenCreator
+
+substitutions:
+  _DEPLOY_BRANCH: main   # override to 'master' if your default branch differs
+
+steps:
+  # ── 1. Install root dependencies ─────────────────────────────────────────────
+  - id: install-deps
+    name: 'node:22'
+    entrypoint: npm
+    args: ['ci', '--legacy-peer-deps']
+
+  # ── 2. Quality gate (parallel) ───────────────────────────────────────────────
+  - id: typecheck
+    name: 'node:22'
+    entrypoint: ./node_modules/.bin/tsc
+    args: ['--noEmit']
+    waitFor: ['install-deps']
+
+  - id: lint
+    name: 'node:22'
+    entrypoint: npm
+    args: ['run', 'lint']
+    waitFor: ['install-deps']
+
+  - id: unit-tests
+    name: 'node:22'
+    entrypoint: npm
+    args: ['run', 'test:unit']
+    waitFor: ['install-deps']
+
+  - id: package-validation
+    name: 'node:22'
+    entrypoint: npm
+    args: ['run', 'test:package-json']
+    waitFor: ['install-deps']
+
+  # ── 3. Install functions deps & build web export (parallel) ──────────────────
+  - id: install-functions-deps
+    name: 'node:22'
+    entrypoint: npm
+    args: ['ci', '--prefix', 'functions']
+    waitFor: ['typecheck', 'lint', 'unit-tests', 'package-validation']
+
+  - id: web-export
+    name: 'node:22'
+    entrypoint: npx
+    args: ['expo', 'export', '--platform', 'web']
+    env:
+      - 'EXPO_PUBLIC_API_URL=https://us-central1-$PROJECT_ID.cloudfunctions.net/api/'
+      - 'EXPO_PUBLIC_FIREBASE_PROJECT_ID=$PROJECT_ID'
+    waitFor: ['typecheck', 'lint', 'unit-tests', 'package-validation']
+
+  # ── 4. Write functions/.env from Secret Manager ──────────────────────────────
+  - id: write-functions-env
+    name: 'node:22'
+    entrypoint: bash
+    args:
+      - '-c'
+      - |
+        {
+          echo "STRIPE_SECRET_KEY=$$STRIPE_SECRET_KEY"
+          echo "STRIPE_WEBHOOK_SECRET=$$STRIPE_WEBHOOK_SECRET"
+          echo "STRIPE_PRICE_MONTHLY_ID=$$STRIPE_PRICE_MONTHLY_ID"
+          echo "STRIPE_PRICE_YEARLY_ID=$$STRIPE_PRICE_YEARLY_ID"
+          echo "ROLLOUT_PHASE=full"
+          echo "SEED_SECRET="   # intentionally empty; set via Secret Manager if needed
+        } > functions/.env
+    secretEnv:
+      - STRIPE_SECRET_KEY
+      - STRIPE_WEBHOOK_SECRET
+      - STRIPE_PRICE_MONTHLY_ID
+      - STRIPE_PRICE_YEARLY_ID
+    waitFor: ['install-functions-deps', 'web-export']
+
+  # ── 5. Deploy Firebase Functions (main/master only) ───────────────────────────
+  - id: deploy-functions
+    name: 'node:22'
+    entrypoint: bash
+    args:
+      - '-c'
+      - |
+        if [ "$BRANCH_NAME" = "$_DEPLOY_BRANCH" ] || [ "$BRANCH_NAME" = "master" ]; then
+          npx firebase-tools deploy --only functions \
+            --project $PROJECT_ID --non-interactive
+        else
+          echo "Skipping Functions deploy on branch: $BRANCH_NAME"
+        fi
+    waitFor: ['write-functions-env']
+
+  # ── 6. Deploy Firebase Hosting (main/master only) ─────────────────────────────
+  - id: deploy-hosting
+    name: 'node:22'
+    entrypoint: bash
+    args:
+      - '-c'
+      - |
+        if [ "$BRANCH_NAME" = "$_DEPLOY_BRANCH" ] || [ "$BRANCH_NAME" = "master" ]; then
+          npx firebase-tools deploy --only hosting \
+            --project $PROJECT_ID --non-interactive
+        else
+          echo "Skipping Hosting deploy on branch: $BRANCH_NAME"
+        fi
+    waitFor: ['deploy-functions']
+
+availableSecrets:
+  secretManager:
+    - versionName: projects/$PROJECT_ID/secrets/stripe-secret-key/versions/latest
+      env: STRIPE_SECRET_KEY
+    - versionName: projects/$PROJECT_ID/secrets/stripe-webhook-secret/versions/latest
+      env: STRIPE_WEBHOOK_SECRET
+    - versionName: projects/$PROJECT_ID/secrets/stripe-price-monthly-id/versions/latest
+      env: STRIPE_PRICE_MONTHLY_ID
+    - versionName: projects/$PROJECT_ID/secrets/stripe-price-yearly-id/versions/latest
+      env: STRIPE_PRICE_YEARLY_ID
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+  machineType: E2_MEDIUM

@@ -198,7 +198,70 @@ firebase deploy --only hosting
 
 ---
 
-## 9. Post-Deploy Smoke Checklist
+## 9. Google Cloud Build Setup
+
+`cloudbuild.yaml` at the repo root mirrors the GitHub Actions pipeline.
+
+### Prerequisites
+
+1. Enable the Cloud Build API in your GCP project (`culturepass-2e058`).
+2. Store the following secrets in Secret Manager:
+
+   | Secret name                  | Value                        |
+   |------------------------------|------------------------------|
+   | `stripe-secret-key`          | `STRIPE_SECRET_KEY`          |
+   | `stripe-webhook-secret`      | `STRIPE_WEBHOOK_SECRET`      |
+   | `stripe-price-monthly-id`    | `STRIPE_PRICE_MONTHLY_ID`    |
+   | `stripe-price-yearly-id`     | `STRIPE_PRICE_YEARLY_ID`     |
+
+   > **Security note:** Run these commands in a shell with history disabled
+   > (`unset HISTFILE`) or enter secret values interactively with
+   > `gcloud secrets create <name> --data-file=-` (read from stdin).
+
+   ```bash
+   gcloud secrets create stripe-secret-key --data-file=<(echo -n "$STRIPE_SECRET_KEY")
+   gcloud secrets create stripe-webhook-secret --data-file=<(echo -n "$STRIPE_WEBHOOK_SECRET")
+   gcloud secrets create stripe-price-monthly-id --data-file=<(echo -n "$STRIPE_PRICE_MONTHLY_ID")
+   gcloud secrets create stripe-price-yearly-id --data-file=<(echo -n "$STRIPE_PRICE_YEARLY_ID")
+   ```
+
+3. Grant the Cloud Build service account the required roles:
+
+   ```bash
+   PROJECT_NUMBER=$(gcloud projects describe culturepass-2e058 --format='value(projectNumber)')
+   CB_SA="${PROJECT_NUMBER}@cloudbuild.gserviceaccount.com"
+
+   gcloud projects add-iam-policy-binding culturepass-2e058 \
+     --member="serviceAccount:${CB_SA}" --role="roles/firebase.admin"
+   gcloud projects add-iam-policy-binding culturepass-2e058 \
+     --member="serviceAccount:${CB_SA}" --role="roles/iam.serviceAccountTokenCreator"
+   gcloud projects add-iam-policy-binding culturepass-2e058 \
+     --member="serviceAccount:${CB_SA}" --role="roles/secretmanager.secretAccessor"
+   ```
+
+### Create triggers
+
+```bash
+# PR trigger — quality gate + web export on all branches (no deploy)
+gcloud builds triggers create github \
+  --repo-name=CulturePassAU \
+  --repo-owner=Bibinovich \
+  --pull-request-pattern=".+" \
+  --build-config=cloudbuild.yaml \
+  --name=pr-quality-gate
+
+# Push trigger — full pipeline including Firebase deploy on main
+gcloud builds triggers create github \
+  --repo-name=CulturePassAU \
+  --repo-owner=Bibinovich \
+  --branch-pattern="^(main|master)$" \
+  --build-config=cloudbuild.yaml \
+  --name=main-deploy
+```
+
+---
+
+## 10. Post-Deploy Smoke Checklist
 
 - Login/signup works
 - Event discovery loads

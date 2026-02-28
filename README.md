@@ -112,13 +112,25 @@ The app uses a unified design token system for a consistent, futuristic look and
 
 ## CI/CD
 
-GitHub Actions runs on every push and PR:
+Two CI/CD pipelines are provided — use either or both:
+
+**GitHub Actions** (`.github/workflows/quality-gate.yml`):
+- Runs on every push and PR to `main`, `master`, `develop`
+- Quality gate → web export → Firebase deploy (main/master only)
+
+**Google Cloud Build** (`cloudbuild.yaml`):
+- Mirrors the GitHub Actions pipeline for GCP-native deployments
+- Requires two triggers in the Cloud Build console:
+  - PR trigger (all branches) — quality gate + web export
+  - Push trigger (main/master) — full pipeline including Firebase deploy
+- Secrets (`STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_PRICE_MONTHLY_ID`, `STRIPE_PRICE_YEARLY_ID`) must be stored in Secret Manager
+- Cloud Build service account needs `roles/firebase.admin`, `roles/iam.serviceAccountTokenCreator`, and `roles/secretmanager.secretAccessor`
+
+Both pipelines run:
 - **TypeScript type check** — catches type errors
 - **ESLint** — enforces code style
 - **Unit tests** — validates services and middleware
 - **Web export** — verifies the web bundle compiles
-
-See `.github/workflows/quality-gate.yml` for the full pipeline.
 
 ## Documentation
 
