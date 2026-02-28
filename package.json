@@ -21,9 +21,10 @@
     "typecheck": "tsc --noEmit",
     "test:native-intent": "tsx scripts/test-native-intent.ts",
     "test:unit": "tsx scripts/tests/unit-services-middleware.ts",
+    "test:hooks": "tsx scripts/tests/unit-hooks.ts",
     "test:integration": "tsx scripts/tests/integration-api-routes.ts",
     "test:e2e:smoke": "tsx scripts/tests/e2e-critical-smoke.ts",
-    "qa:all": "npm run test:package-json && npm run test:unit && npm run test:integration && npm run test:e2e:smoke",
+    "qa:all": "npm run test:package-json && npm run test:unit && npm run test:hooks && npm run test:integration && npm run test:e2e:smoke",
     "test:package-json": "tsx scripts/tests/validate-package-json.ts",
     "deploy-all": "cd functions && npm run build && cd .. && firebase deploy --only functions && EXPO_NO_TELEMETRY=1 npx expo export --platform web && firebase deploy --only hosting"
   },
@@ -84,11 +85,16 @@
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@expo/ngrok": "^4.1.0",
+    "@testing-library/react-hooks": "^8.0.1",
+    "@types/jest": "^30.0.0",
     "@types/react": "~19.2.10",
     "babel-plugin-react-compiler": "^19.0.0-beta-e993439-20250117",
     "eslint": "^9.31.0",
     "eslint-config-expo": "~55.0.0",
+    "jest": "^30.2.0",
+    "jest-expo": "^55.0.9",
     "patch-package": "^8.0.0",
+    "react-test-renderer": "^19.2.4",
     "typescript": "~5.9.2"
   },
   "overrides": {

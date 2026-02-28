@@ -51,9 +51,7 @@ export function useMembership(userId: string | null) {
     queryKey: ['membership', userId],
     queryFn: async () => {
       if (!userId) throw new Error('No user ID');
-      const base = getApiUrl();
-      const res = await fetch(`${base}api/membership/${userId}`);
-      if (!res.ok) throw new Error('Failed to fetch membership');
+      const res = await apiRequest('GET', `/api/users/${userId}/membership`);
       return res.json();
     },
     enabled: !!userId,
