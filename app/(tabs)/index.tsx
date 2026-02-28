@@ -567,7 +567,7 @@ export default function HomeScreen() {
                 <Text style={styles.webHeading}>Discover experiences around you</Text>
               </View>
               <View style={styles.webTopActions}>
-                <Pressable style={styles.webIconBtn} onPress={() => router.push('/map' as any)}>
+                <Pressable style={styles.webIconBtn} onPress={() => router.push('/map')}>
                   <Ionicons name="map-outline" size={19} color="#EAF0FF" />
                 </Pressable>
                 <Pressable style={styles.webIconBtn} onPress={() => router.push('/notifications')}>
@@ -671,7 +671,7 @@ export default function HomeScreen() {
           <Pressable style={styles.iconButton} onPress={() => router.push('/search')} testID="search-btn" accessibilityLabel="Search">
             <Ionicons name="search" size={24} color={Colors.text} />
           </Pressable>
-          <Pressable style={styles.iconButton} onPress={() => router.push('/map' as any)} testID="map-btn" accessibilityLabel="Events Map">
+          <Pressable style={styles.iconButton} onPress={() => router.push('/map')} testID="map-btn" accessibilityLabel="Events Map">
             <Ionicons name="map-outline" size={24} color={Colors.text} />
           </Pressable>
           <Pressable style={styles.iconButton} onPress={() => router.push('/notifications')} testID="notifications-btn" accessibilityLabel="Notifications">
