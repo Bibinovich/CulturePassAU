@@ -7,7 +7,6 @@ import * as Haptics from 'expo-haptics';
 import { useState } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { apiRequest, queryClient } from '@/lib/query-client';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useAuth } from '@/lib/auth';
 
 interface Perk {
@@ -120,7 +119,7 @@ export default function PerksScreen() {
       </View>
 
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 40 + (Platform.OS === 'web' ? 34 : insets.bottom) }} showsVerticalScrollIndicator={false}>
-        <Animated.View entering={FadeInDown.delay(100).duration(400)} style={styles.heroBanner}>
+        <View style={styles.heroBanner}>
           <View style={styles.heroIconWrap}>
             <Ionicons name="gift" size={28} color="#FFF" />
           </View>
@@ -142,9 +141,9 @@ export default function PerksScreen() {
               <Text style={styles.heroStatLabel}>Your Tier</Text>
             </View>
           </View>
-        </Animated.View>
+        </View>
 
-        <Animated.View entering={FadeInDown.delay(200).duration(400)}>
+        <View>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.catRow}>
             {CATEGORIES.map(cat => {
               const isActive = selectedCategory === cat.id;
@@ -157,7 +156,7 @@ export default function PerksScreen() {
               );
             })}
           </ScrollView>
-        </Animated.View>
+        </View>
 
         <View style={styles.list}>
           {isLoading ? (
@@ -176,7 +175,7 @@ export default function PerksScreen() {
               const redeemable = canRedeem(perk);
               const usagePercent = perk.usageLimit ? Math.round(((perk.usedCount || 0) / perk.usageLimit) * 100) : 0;
               return (
-                <Animated.View key={perk.id} entering={FadeInDown.delay(250 + i * 60).duration(400)}>
+                <View key={perk.id}>
                   <Pressable style={styles.perkCard} onPress={() => router.push(`/perks/${perk.id}`)}>
                     <View style={styles.perkTop}>
                       <View style={[styles.perkBadge, { backgroundColor: typeInfo.color + '15' }]}>
@@ -247,7 +246,7 @@ export default function PerksScreen() {
                       </Text>
                     </Pressable>
                   </Pressable>
-                </Animated.View>
+                </View>
               );
             })
           )}

@@ -7,7 +7,6 @@ import * as Haptics from 'expo-haptics';
 import { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { apiRequest, getApiUrl, queryClient } from '@/lib/query-client';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import * as ImagePicker from 'expo-image-picker';
 import { manipulateAsync, SaveFormat } from '@/lib/image-manipulator';
 import { fetch } from 'expo/fetch';
@@ -224,7 +223,7 @@ export default function EditProfileScreen() {
         </View>
 
         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 40 + insets.bottom + webBottom }} keyboardShouldPersistTaps="handled">
-          <Animated.View entering={FadeInDown.delay(100).duration(400)} style={styles.avatarSection}>
+          <View style={styles.avatarSection}>
             <View style={styles.avatarDropZone} {...(Platform.OS === 'web' ? { onDrop: handleDropForWeb, onDragOver: (e: any) => e.preventDefault() } : {}) as any}>
               {avatarUri ? (
                 <Image source={{ uri: avatarUri }} style={styles.avatarImage} />
@@ -256,9 +255,9 @@ export default function EditProfileScreen() {
 
             {(uploadMutation.isPending || updateMutation.isPending) && <ActivityIndicator size="small" color={Colors.primary} style={{ marginTop: 8 }} />}
             {Platform.OS === 'web' && <Text style={styles.dragHint}>Tip: Drag & drop image here on web.</Text>}
-          </Animated.View>
+          </View>
 
-          <Animated.View entering={FadeInDown.delay(200).duration(400)} style={styles.formSection}>
+          <View style={styles.formSection}>
             <Text style={styles.sectionLabel}>Personal Information</Text>
 
             <Text style={styles.fieldLabel}>Display Name *</Text>
@@ -277,9 +276,9 @@ export default function EditProfileScreen() {
             <TextInput style={[styles.input, styles.bioInput]} value={form.bio} onChangeText={v => setForm(p => ({ ...p, bio: v }))}
               placeholder="Tell us about yourself..." placeholderTextColor={Colors.textTertiary} multiline numberOfLines={4} textAlignVertical="top" maxLength={280} />
             <Text style={styles.charCount}>{form.bio.length}/280</Text>
-          </Animated.View>
+          </View>
 
-          <Animated.View entering={FadeInDown.delay(300).duration(400)} style={styles.formSection}>
+          <View style={styles.formSection}>
             <Text style={styles.sectionLabel}>Location</Text>
 
             <Text style={styles.fieldLabel}>City</Text>
@@ -289,9 +288,9 @@ export default function EditProfileScreen() {
             <Text style={styles.fieldLabel}>Country</Text>
             <TextInput style={styles.input} value={form.country} onChangeText={v => setForm(p => ({ ...p, country: v }))}
               placeholder="Australia" placeholderTextColor={Colors.textTertiary} />
-          </Animated.View>
+          </View>
 
-          <Animated.View entering={FadeInDown.delay(400).duration(400)} style={styles.formSection}>
+          <View style={styles.formSection}>
             <Text style={styles.sectionLabel}>Social Links</Text>
 
             <View style={styles.socialRow}>
@@ -325,7 +324,7 @@ export default function EditProfileScreen() {
               <TextInput style={[styles.input, { flex: 1 }]} value={form.website} onChangeText={v => setForm(p => ({ ...p, website: v }))}
                 placeholder="Website URL" placeholderTextColor={Colors.textTertiary} autoCapitalize="none" />
             </View>
-          </Animated.View>
+          </View>
         </ScrollView>
       </View>
     </KeyboardAvoidingView>

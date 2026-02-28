@@ -15,7 +15,6 @@ import { Colors } from '@/constants/theme';
 import { router } from 'expo-router';
 import { useQuery } from '@tanstack/react-query';
 import type { User, Membership } from '@shared/schema';
-import Animated, { FadeInDown, FadeIn } from 'react-native-reanimated';
 import QRCode from 'react-native-qrcode-svg';
 import * as Haptics from 'expo-haptics';
 import { useMemo, useState } from 'react';
@@ -110,7 +109,7 @@ export default function QRScreen() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={[styles.scrollContent, { paddingBottom: bottomInset + 40 }]}
       >
-        <Animated.View entering={FadeInDown.duration(500)} style={styles.cardOuter}>
+        <View style={styles.cardOuter}>
           <View style={styles.card}>
             <LinearGradient
               colors={['#1A1A2E', '#16213E', '#0F3460']}
@@ -203,9 +202,9 @@ export default function QRScreen() {
               </View>
             </View>
           </View>
-        </Animated.View>
+        </View>
 
-        <Animated.View entering={FadeInDown.delay(150).duration(400)} style={styles.cpidSection}>
+        <View style={styles.cpidSection}>
           <Text style={styles.cpidLabel}>CULTUREPASS ID</Text>
           <Pressable onPress={handleCopy} style={styles.cpidRow}>
             <Text style={styles.cpidValue}>{cpid}</Text>
@@ -217,9 +216,9 @@ export default function QRScreen() {
               />
             </View>
           </Pressable>
-        </Animated.View>
+        </View>
 
-        <Animated.View entering={FadeInDown.delay(250).duration(400)} style={styles.actionsGrid}>
+        <View style={styles.actionsGrid}>
           <Pressable style={styles.actionCard} onPress={handleShare}>
             <View style={[styles.actionIcon, { backgroundColor: Colors.primary + '15' }]}>
               <Ionicons name="share-outline" size={22} color={Colors.primary} />
@@ -243,16 +242,16 @@ export default function QRScreen() {
             <Text style={styles.actionTitle}>Scan</Text>
             <Text style={styles.actionDesc}>Scan others</Text>
           </Pressable>
-        </Animated.View>
+        </View>
 
-        <Animated.View entering={FadeInDown.delay(350).duration(400)} style={styles.infoCard}>
+        <View style={styles.infoCard}>
           <View style={styles.infoIconWrap}>
             <Ionicons name="information-circle-outline" size={18} color={Colors.primary} />
           </View>
           <Text style={styles.infoText}>
             Your CulturePass Digital ID is a unique identifier that can be scanned at events, venues, and partner locations for quick check-in and verification.
           </Text>
-        </Animated.View>
+        </View>
       </ScrollView>
     </View>
   );

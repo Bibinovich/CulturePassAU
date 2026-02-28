@@ -7,7 +7,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors } from '@/constants/theme';
 import { router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useAuth } from '@/lib/auth';
 import { useRole } from '@/hooks/useRole';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -176,10 +175,7 @@ export default function AccountSettingsScreen() {
       >
         {/* ── Authenticated: Profile Card ── */}
         {isAuthenticated && user ? (
-          <Animated.View
-            entering={isWeb ? undefined : FadeInDown.delay(50).duration(400)}
-            style={styles.profileCardWrap}
-          >
+          <View style={styles.profileCardWrap}>
             <Pressable style={styles.profileCard} onPress={() => navigate('/profile/edit')}>
               <LinearGradient
                 colors={[Colors.primary, Colors.secondary]}
@@ -228,13 +224,10 @@ export default function AccountSettingsScreen() {
                 </View>
               ) : null}
             </Pressable>
-          </Animated.View>
+          </View>
         ) : (
           /* ── Guest: Sign In / Sign Up CTA ── */
-          <Animated.View
-            entering={isWeb ? undefined : FadeInDown.delay(50).duration(400)}
-            style={styles.guestCard}
-          >
+          <View style={styles.guestCard}>
             <View style={styles.guestIconCircle}>
               <Ionicons name="person-circle-outline" size={64} color={Colors.primary} />
             </View>
@@ -262,16 +255,12 @@ export default function AccountSettingsScreen() {
                 </Text>
               </Text>
             </Pressable>
-          </Animated.View>
+          </View>
         )}
 
         {/* ── Settings Sections ── */}
         {sections.map((section, si) => (
-          <Animated.View
-            key={section.title}
-            entering={isWeb ? undefined : FadeInDown.delay(120 + si * 60).duration(400)}
-            style={styles.section}
-          >
+          <View key={section.title} style={styles.section}>
             <Text style={styles.sectionTitle}>{section.title}</Text>
             <View style={styles.sectionCard}>
               {section.items.map((item, ii) => (
@@ -304,20 +293,17 @@ export default function AccountSettingsScreen() {
                 </View>
               ))}
             </View>
-          </Animated.View>
+          </View>
         ))}
 
         {/* ── Sign Out ── */}
         {isAuthenticated && (
-          <Animated.View
-            entering={isWeb ? undefined : FadeInDown.delay(600).duration(400)}
-            style={[styles.section, { marginBottom: 12 }]}
-          >
+          <View style={[styles.section, { marginBottom: 12 }]}>
             <Pressable style={styles.signOutBtn} onPress={handleSignOut}>
               <Ionicons name="log-out-outline" size={20} color={Colors.error} />
               <Text style={styles.signOutText}>Sign Out</Text>
             </Pressable>
-          </Animated.View>
+          </View>
         )}
 
         <Text style={styles.footerNote}>

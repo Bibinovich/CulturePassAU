@@ -21,7 +21,6 @@ import { useColors } from '@/hooks/useColors';
 import { useLayout } from '@/hooks/useLayout';
 import { useRole } from '@/hooks/useRole';
 import { Colors } from '@/constants/theme';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import type { EventData } from '@/shared/schema';
 
@@ -112,10 +111,7 @@ function EventRow({
   const accentColor = statusColor(status);
 
   return (
-    <Animated.View
-      entering={FadeInDown.duration(300)}
-      style={[styles.eventRow, { backgroundColor: colors.surface, borderColor: colors.cardBorder }]}
-    >
+    <View style={[styles.eventRow, { backgroundColor: colors.surface, borderColor: colors.cardBorder }]}>
       <Pressable
         style={styles.eventRowContent}
         onPress={() => router.push({ pathname: '/event/[id]', params: { id: event.id } })}
@@ -183,7 +179,7 @@ function EventRow({
           </Pressable>
         </View>
       )}
-    </Animated.View>
+    </View>
   );
 }
 
@@ -318,7 +314,7 @@ function OrganizerDashboardContent() {
         }
       >
         {/* Quick Actions */}
-        <Animated.View entering={FadeInDown.delay(50).duration(350)} style={styles.quickActions}>
+        <View style={styles.quickActions}>
           <Pressable
             style={[styles.quickAction, { backgroundColor: colors.primary }]}
             onPress={() => {
@@ -351,11 +347,11 @@ function OrganizerDashboardContent() {
             <Ionicons name="ticket-outline" size={18} color="#fff" />
             <Text style={styles.quickActionText}>All Tickets</Text>
           </Pressable>
-        </Animated.View>
+        </View>
 
         {/* Stats Row */}
         {!isLoading && (
-          <Animated.View entering={FadeInDown.delay(100).duration(350)} style={styles.statsRow}>
+          <View style={styles.statsRow}>
             <StatCard
               label="Total Events"
               value={String(stats.totalEvents)}
@@ -380,11 +376,11 @@ function OrganizerDashboardContent() {
               icon="wallet"
               accent={Colors.gold ?? Colors.accent}
             />
-          </Animated.View>
+          </View>
         )}
 
         {/* Events Section */}
-        <Animated.View entering={FadeInDown.delay(150).duration(350)}>
+        <View>
           <View style={styles.sectionHeader}>
             <Text style={[styles.sectionTitle, { color: colors.text }]}>My Events</Text>
             {stats.draftEvents > 0 && (
@@ -429,7 +425,7 @@ function OrganizerDashboardContent() {
               />
             ))
           )}
-        </Animated.View>
+        </View>
 
         <View style={{ height: insets.bottom + 32 }} />
       </ScrollView>

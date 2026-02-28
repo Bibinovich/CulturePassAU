@@ -19,7 +19,6 @@ import { apiRequest, queryClient } from '@/lib/query-client';
 import { useColors } from '@/hooks/useColors';
 import { useRole } from '@/hooks/useRole';
 import { Colors } from '@/constants/theme';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import type { UserRole } from '@/shared/schema';
 
 // ---------------------------------------------------------------------------
@@ -230,7 +229,7 @@ export default function AdminUsersScreen() {
       </View>
 
       {/* Search */}
-      <Animated.View entering={FadeInDown.delay(50).duration(300)} style={[styles.searchWrap, { backgroundColor: colors.surfaceElevated, borderColor: colors.border }]}>
+      <View style={[styles.searchWrap, { backgroundColor: colors.surfaceElevated, borderColor: colors.border }]}>
         <Ionicons name="search" size={18} color={colors.textTertiary} />
         <TextInput
           style={[styles.searchInput, { color: colors.text }]}
@@ -246,7 +245,7 @@ export default function AdminUsersScreen() {
             <Ionicons name="close-circle" size={18} color={colors.textTertiary} />
           </Pressable>
         )}
-      </Animated.View>
+      </View>
 
       {/* Role legend */}
       <View style={styles.legend}>
@@ -269,9 +268,9 @@ export default function AdminUsersScreen() {
           data={filteredUsers}
           keyExtractor={item => item.id}
           renderItem={({ item, index }) => (
-            <Animated.View entering={FadeInDown.delay(index * 30).duration(300)}>
+            <View>
               <UserRow user={item} onAssignRole={handleAssignRole} />
-            </Animated.View>
+            </View>
           )}
           contentContainerStyle={{ padding: 16, paddingBottom: 40 + insets.bottom }}
           ItemSeparatorComponent={() => <View style={{ height: 8 }} />}

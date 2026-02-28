@@ -14,7 +14,6 @@ import { router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import Animated, { FadeInDown, FadeInRight } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAuth } from '@/lib/auth';
 import { api, type MembershipSummary, type RewardsSummary } from '@/lib/api';
@@ -85,7 +84,7 @@ function TicketCard({ ticket, index }: { ticket: WalletTicket; index: number }) 
   const upcoming = isUpcoming(ticket.eventDate);
 
   return (
-    <Animated.View entering={FadeInRight.delay(index * 60).duration(350)}>
+    <View>
       <Pressable
         style={[styles.ticketCard, { borderLeftColor: accentColor, borderLeftWidth: 4 }]}
         onPress={() => {
@@ -129,7 +128,7 @@ function TicketCard({ ticket, index }: { ticket: WalletTicket; index: number }) 
           <Ionicons name="chevron-forward" size={14} color={Colors.textTertiary} />
         </View>
       </Pressable>
-    </Animated.View>
+    </View>
   );
 }
 
@@ -220,7 +219,7 @@ export default function WalletScreen() {
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: bottomInset + 24 }}>
 
         {/* Membership card */}
-        <Animated.View entering={FadeInDown.duration(400)} style={styles.membershipCardWrap}>
+        <View style={styles.membershipCardWrap}>
           <LinearGradient
             colors={tierConfig.colors}
             start={{ x: 0, y: 0 }}
@@ -262,9 +261,9 @@ export default function WalletScreen() {
               )}
             </View>
           </LinearGradient>
-        </Animated.View>
+        </View>
 
-        <Animated.View entering={FadeInDown.delay(40).duration(400)} style={styles.rewardsStrip}>
+        <View style={styles.rewardsStrip}>
           <View style={styles.rewardsLeft}>
             <View style={styles.rewardsIconWrap}>
               <Ionicons name="trophy-outline" size={15} color={Colors.warning} />
@@ -281,11 +280,11 @@ export default function WalletScreen() {
             </View>
           </View>
           <Text style={styles.rewardsPoints}>{rewards?.points ?? 0} pts</Text>
-        </Animated.View>
+        </View>
 
         {/* Upgrade prompt for free tier */}
         {(!membership || membership.tier === 'free') && (
-          <Animated.View entering={FadeInDown.delay(80).duration(400)}>
+          <View>
             <Pressable
               style={styles.upgradePrompt}
               onPress={() => router.push('/membership/upgrade')}
@@ -296,20 +295,20 @@ export default function WalletScreen() {
               </Text>
               <Ionicons name="chevron-forward" size={14} color="#F39C12" />
             </Pressable>
-          </Animated.View>
+          </View>
         )}
 
         {/* Stats row */}
-        <Animated.View entering={FadeInDown.delay(100).duration(400)} style={styles.statsRow}>
+        <View style={styles.statsRow}>
           <StatBox value={upcoming.length} label="Upcoming" icon="calendar" />
           <View style={styles.statsDivider} />
           <StatBox value={past.length} label="Attended" icon="checkmark-circle" />
           <View style={styles.statsDivider} />
           <StatBox value={confirmed.length} label="Total" icon="ticket" />
-        </Animated.View>
+        </View>
 
         {/* Apple/Google Wallet promo */}
-        <Animated.View entering={FadeInDown.delay(140).duration(400)} style={styles.digitalWalletRow}>
+        <View style={styles.digitalWalletRow}>
           <Pressable
             style={[styles.walletPassBtn, { backgroundColor: '#1C1C1E' }]}
             onPress={() => Alert.alert('Coming Soon', 'Apple Wallet integration coming soon!')}
@@ -324,10 +323,10 @@ export default function WalletScreen() {
             <Ionicons name="logo-google" size={16} color="#FFF" />
             <Text style={styles.walletPassText}>Google Wallet</Text>
           </Pressable>
-        </Animated.View>
+        </View>
 
         {/* Tabs */}
-        <Animated.View entering={FadeInDown.delay(160).duration(400)} style={styles.tabsRow}>
+        <View style={styles.tabsRow}>
           <Pressable
             style={[styles.tab, tab === 'upcoming' && styles.tabActive]}
             onPress={() => { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); setTab('upcoming'); }}
@@ -344,7 +343,7 @@ export default function WalletScreen() {
               Past {past.length > 0 && `(${past.length})`}
             </Text>
           </Pressable>
-        </Animated.View>
+        </View>
 
         {/* Ticket list */}
         <View style={styles.ticketList}>
@@ -353,7 +352,7 @@ export default function WalletScreen() {
               <Text style={styles.emptySubtitle}>Loading tickets...</Text>
             </View>
           ) : displayTickets.length === 0 ? (
-            <Animated.View entering={FadeInDown.delay(200).duration(400)} style={styles.emptyState}>
+            <View style={styles.emptyState}>
               <Ionicons
                 name={tab === 'upcoming' ? 'ticket-outline' : 'time-outline'}
                 size={48}
@@ -375,7 +374,7 @@ export default function WalletScreen() {
                   <Text style={styles.browseBtnText}>Discover Events</Text>
                 </Pressable>
               )}
-            </Animated.View>
+            </View>
           ) : (
             displayTickets.map((ticket: WalletTicket, index: number) => (
               <TicketCard key={ticket.id} ticket={ticket} index={index} />

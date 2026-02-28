@@ -6,7 +6,6 @@ import { router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { apiRequest, queryClient } from '@/lib/query-client';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useAuth } from '@/lib/auth';
 
 interface Notification {
@@ -118,7 +117,7 @@ export default function NotificationsScreen() {
           notifications.map((notif, i) => {
             const typeInfo = NOTIF_TYPE_INFO[notif.type] || NOTIF_TYPE_INFO.system;
             return (
-              <Animated.View key={notif.id} entering={FadeInDown.delay(i * 60).duration(400)}>
+              <View key={notif.id}>
                 <Pressable
                   onPress={() => {
                     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -144,7 +143,7 @@ export default function NotificationsScreen() {
                     {notif.createdAt && <Text style={styles.notifTime}>{timeAgo(notif.createdAt)}</Text>}
                   </View>
                 </Pressable>
-              </Animated.View>
+              </View>
             );
           })
         )}

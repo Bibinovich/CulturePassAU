@@ -7,7 +7,6 @@ import { useSaved } from '@/contexts/SavedContext';
 import { Colors } from '@/constants/theme';
 import { useMemo, useState } from 'react';
 import * as Haptics from 'expo-haptics';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/api';
 import type { Community, EventData } from '@/shared/schema';
@@ -107,7 +106,7 @@ export default function SavedScreen() {
               </View>
             ) : (
               savedEventItems.map((event: any, index: number) => (
-                <Animated.View key={event.id} entering={FadeInDown.delay(index * 60).duration(400)}>
+                <View key={event.id}>
                   <Pressable
                     style={styles.eventCard}
                     onPress={() => router.push({ pathname: '/event/[id]', params: { id: event.id } })}
@@ -141,7 +140,7 @@ export default function SavedScreen() {
                       </View>
                     </View>
                   </Pressable>
-                </Animated.View>
+                </View>
               ))
             )}
           </>
@@ -160,7 +159,7 @@ export default function SavedScreen() {
               </View>
             ) : (
               joinedCommunityItems.map((community: any, index: number) => (
-                <Animated.View key={community.id} entering={FadeInDown.delay(index * 60).duration(400)}>
+                <View key={community.id}>
                   <Pressable
                     style={styles.communityCard}
                     onPress={() => router.push({ pathname: '/community/[id]', params: { id: community.id } })}
@@ -195,7 +194,7 @@ export default function SavedScreen() {
                       <Text style={styles.leaveBtnText}>Joined</Text>
                     </Pressable>
                   </Pressable>
-                </Animated.View>
+                </View>
               ))
             )}
           </>

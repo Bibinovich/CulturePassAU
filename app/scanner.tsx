@@ -21,7 +21,6 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 import { useContacts } from '@/contexts/ContactsContext';
 import { api } from '@/lib/api';
 import { useRole } from '@/hooks/useRole';
-import Animated, { FadeInDown, FadeInUp, FadeIn, ZoomIn } from 'react-native-reanimated';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -421,7 +420,7 @@ export default function ScannerScreen() {
       {mode === 'tickets' && (
         <>
           {/* Session stats bar */}
-          <Animated.View entering={FadeIn.duration(300)} style={styles.statsBar}>
+          <View style={styles.statsBar}>
             <View style={styles.statItem}>
               <Text style={[styles.statNum, { color: Colors.success }]}>{session.accepted}</Text>
               <Text style={styles.statLabel}>Accepted</Text>
@@ -441,7 +440,7 @@ export default function ScannerScreen() {
               <Text style={[styles.statNum, { color: Colors.textSecondary }]}>{sessionDuration()}</Text>
               <Text style={styles.statLabel}>Session</Text>
             </View>
-          </Animated.View>
+          </View>
 
           {/* Camera view for ticket QR scan */}
           {ticketCameraActive && (
@@ -475,7 +474,7 @@ export default function ScannerScreen() {
             keyboardShouldPersistTaps="handled"
           >
             {!ticketCameraActive && (
-              <Animated.View entering={FadeInDown.delay(50).duration(350)} style={styles.scanInputSection}>
+              <View style={styles.scanInputSection}>
                 {/* Camera scan button */}
                 <Pressable style={styles.camScanBtn} onPress={startTicketCamera}>
                   <LinearGradient
@@ -522,12 +521,12 @@ export default function ScannerScreen() {
                     }
                   </Pressable>
                 </View>
-              </Animated.View>
+              </View>
             )}
 
             {/* ── Scan result card ─────────────────────────────────────────── */}
             {ticketResult && !ticketCameraActive && (
-              <Animated.View entering={ZoomIn.duration(300)} style={styles.resultWrapper}>
+              <View style={styles.resultWrapper}>
                 <TicketResultCard
                   result={ticketResult}
                   onClose={() => setTicketResult(null)}
@@ -544,12 +543,12 @@ export default function ScannerScreen() {
                     });
                   }}
                 />
-              </Animated.View>
+              </View>
             )}
 
             {/* ── Scan history ─────────────────────────────────────────────── */}
             {scanHistory.length > 0 && !ticketCameraActive && (
-              <Animated.View entering={FadeInDown.delay(100).duration(350)} style={styles.historySection}>
+              <View style={styles.historySection}>
                 <View style={styles.historySectionHeader}>
                   <Text style={styles.historyTitle}>Scan Log ({scanHistory.length})</Text>
                 </View>
@@ -576,17 +575,17 @@ export default function ScannerScreen() {
                     </View>
                   );
                 })}
-              </Animated.View>
+              </View>
             )}
 
             {scanHistory.length === 0 && !ticketResult && !ticketCameraActive && (
-              <Animated.View entering={FadeInDown.delay(200).duration(350)} style={styles.emptyState}>
+              <View style={styles.emptyState}>
                 <View style={styles.emptyIconBg}>
                   <Ionicons name="scan" size={40} color={Colors.primary} />
                 </View>
                 <Text style={styles.emptyTitle}>Ready to Check In</Text>
                 <Text style={styles.emptyDesc}>Scan a QR code or enter a ticket code above to verify and mark attendance.</Text>
-              </Animated.View>
+              </View>
             )}
           </ScrollView>
         </>
@@ -627,7 +626,7 @@ export default function ScannerScreen() {
             keyboardShouldPersistTaps="handled"
           >
             {!cpCameraActive && !cpContact && (
-              <Animated.View entering={FadeInDown.delay(100).duration(400)} style={styles.scanInputSection}>
+              <View style={styles.scanInputSection}>
                 <Pressable style={styles.cameraStartBtn} onPress={startCpCamera}>
                   <View style={styles.cameraIconCircle}>
                     <Ionicons name="camera" size={32} color="#FFF" />
@@ -664,11 +663,11 @@ export default function ScannerScreen() {
                     <Ionicons name="search" size={22} color="#FFF" />
                   </Pressable>
                 </View>
-              </Animated.View>
+              </View>
             )}
 
             {cpContact && (
-              <Animated.View entering={FadeInUp.duration(400)} style={styles.cpCard}>
+              <View style={styles.cpCard}>
                 <View style={styles.cpCardHeader}>
                   <View style={styles.cpAvatar}>
                     <Text style={styles.cpAvatarText}>
@@ -732,11 +731,11 @@ export default function ScannerScreen() {
                     </Text>
                   </Pressable>
                 </View>
-              </Animated.View>
+              </View>
             )}
 
             {!cpContact && !cpCameraActive && (
-              <Animated.View entering={FadeInDown.delay(200).duration(400)} style={styles.hintSection}>
+              <View style={styles.hintSection}>
                 <Text style={styles.hintTitle}>Supported Formats</Text>
                 {[
                   { icon: 'finger-print', color: Colors.primary, label: 'CulturePass ID', example: 'CP-123456' },
@@ -751,7 +750,7 @@ export default function ScannerScreen() {
                     </View>
                   </View>
                 ))}
-              </Animated.View>
+              </View>
             )}
           </ScrollView>
         </>

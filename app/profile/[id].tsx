@@ -5,7 +5,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useQuery } from '@tanstack/react-query';
 import { Colors } from '@/constants/theme';
 import * as Haptics from 'expo-haptics';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useState } from 'react';
 import type { Profile, Review, EventData } from '@/shared/schema';
 import { api } from '@/lib/api';
@@ -224,18 +223,18 @@ export default function ProfileDetailScreen() {
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 120 }}>
         {stats.length > 0 && (
-          <Animated.View entering={FadeInDown.delay(100).duration(500)} style={styles.statsRow}>
+          <View style={styles.statsRow}>
             {stats.map((stat, i) => (
               <View key={i} style={styles.statCard}>
                 <Text style={styles.statNum}>{formatNumber(stat.value)}</Text>
                 <Text style={styles.statLabel}>{stat.label}</Text>
               </View>
             ))}
-          </Animated.View>
+          </View>
         )}
 
         {activeSocials.length > 0 && (
-          <Animated.View entering={FadeInDown.delay(150).duration(500)} style={styles.socialRow}>
+          <View style={styles.socialRow}>
             {activeSocials.map(s => (
               <Pressable
                 key={s.key}
@@ -248,18 +247,18 @@ export default function ProfileDetailScreen() {
                 <Ionicons name={s.icon as any} size={22} color={entityColor} />
               </Pressable>
             ))}
-          </Animated.View>
+          </View>
         )}
 
         {(profile.description || profile.bio) && (
-          <Animated.View entering={FadeInDown.delay(200).duration(500)} style={styles.section}>
+          <View style={styles.section}>
             <Text style={styles.sectionTitle}>About</Text>
             <Text style={styles.description}>{profile.description || profile.bio}</Text>
-          </Animated.View>
+          </View>
         )}
 
         {(profile.address || profile.phone || profile.email || profile.website) && (
-          <Animated.View entering={FadeInDown.delay(300).duration(500)} style={styles.section}>
+          <View style={styles.section}>
             <Text style={styles.sectionTitle}>Contact</Text>
             <View style={styles.contactCard}>
               {profile.address && (
@@ -298,21 +297,21 @@ export default function ProfileDetailScreen() {
                 </Pressable>
               )}
             </View>
-          </Animated.View>
+          </View>
         )}
 
         {profile.openingHours && (
-          <Animated.View entering={FadeInDown.delay(350).duration(500)} style={styles.section}>
+          <View style={styles.section}>
             <Text style={styles.sectionTitle}>Opening Hours</Text>
             <View style={styles.hoursCard}>
               <Ionicons name="time-outline" size={20} color={entityColor} />
               <Text style={styles.hoursText}>{profile.openingHours}</Text>
             </View>
-          </Animated.View>
+          </View>
         )}
 
         {tags.length > 0 && (
-          <Animated.View entering={FadeInDown.delay(400).duration(500)} style={styles.section}>
+          <View style={styles.section}>
             <Text style={styles.sectionTitle}>Tags</Text>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               <View style={styles.tagsRow}>
@@ -323,11 +322,11 @@ export default function ProfileDetailScreen() {
                 ))}
               </View>
             </ScrollView>
-          </Animated.View>
+          </View>
         )}
 
         {upcomingEvents.length > 0 && (
-          <Animated.View entering={FadeInDown.delay(450).duration(500)} style={styles.section}>
+          <View style={styles.section}>
             <View style={styles.sectionHeader}>
               <Text style={[styles.sectionTitle, { marginBottom: 0 }]}>Upcoming Events</Text>
               <Pressable onPress={() => router.push('/(tabs)/explore')}>
@@ -375,11 +374,11 @@ export default function ProfileDetailScreen() {
                 </Pressable>
               ))}
             </ScrollView>
-          </Animated.View>
+          </View>
         )}
 
         {hasCoordinates && (
-          <Animated.View entering={FadeInDown.delay(500).duration(500)} style={styles.section}>
+          <View style={styles.section}>
             <Text style={styles.sectionTitle}>Location</Text>
             <Pressable
               style={styles.mapCard}
@@ -394,11 +393,11 @@ export default function ProfileDetailScreen() {
               </View>
               <Ionicons name="navigate" size={20} color={entityColor} />
             </Pressable>
-          </Animated.View>
+          </View>
         )}
 
         {reviews && reviews.length > 0 && (
-          <Animated.View entering={FadeInDown.delay(500).duration(500)} style={styles.section}>
+          <View style={styles.section}>
             <Text style={styles.sectionTitle}>Reviews ({reviews.length})</Text>
             {reviews.slice(0, 5).map((review) => (
               <View key={review.id} style={styles.reviewCard}>
@@ -424,10 +423,10 @@ export default function ProfileDetailScreen() {
                 {review.comment && <Text style={styles.reviewBody}>{review.comment}</Text>}
               </View>
             ))}
-          </Animated.View>
+          </View>
         )}
 
-        <Animated.View entering={FadeInDown.delay(550).duration(500)} style={styles.section}>
+        <View style={styles.section}>
           <View style={styles.membersCard}>
             <View style={styles.membersInfo}>
               <Ionicons name="people" size={24} color={entityColor} />
@@ -437,7 +436,7 @@ export default function ProfileDetailScreen() {
               </View>
             </View>
           </View>
-        </Animated.View>
+        </View>
       </ScrollView>
 
       <View style={[styles.bottomBar, { paddingBottom: bottomInset + 12 }]}>

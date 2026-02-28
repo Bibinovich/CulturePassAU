@@ -4,7 +4,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors } from '@/constants/theme';
 import { router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 
 const FEATURES = [
   { icon: 'calendar', label: 'Events', desc: 'Discover cultural events near you', color: '#E85D3A' },
@@ -34,24 +33,24 @@ export default function AboutScreen() {
       </View>
 
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 40 + (Platform.OS === 'web' ? 34 : insets.bottom) }} showsVerticalScrollIndicator={false}>
-        <Animated.View entering={FadeInDown.delay(100).duration(400)} style={styles.logoSection}>
+        <View style={styles.logoSection}>
           <View style={styles.logoContainer}>
             <Ionicons name="globe" size={40} color={Colors.primary} />
           </View>
           <Text style={styles.appName}>CulturePass</Text>
           <Text style={styles.version}>Version 1.0.0</Text>
-        </Animated.View>
+        </View>
 
-        <Animated.View entering={FadeInDown.delay(200).duration(400)} style={styles.section}>
+        <View style={styles.section}>
           <View style={styles.missionCard}>
             <Text style={styles.missionTitle}>Our Mission</Text>
             <Text style={styles.missionText}>
               CulturePass is built to empower cultural diaspora communities by connecting people with the events, businesses, and organisations that celebrate their heritage. We believe culture is best experienced together, and our platform makes it easier to discover, engage, and thrive within your community.
             </Text>
           </View>
-        </Animated.View>
+        </View>
 
-        <Animated.View entering={FadeInDown.delay(300).duration(400)} style={styles.section}>
+        <View style={styles.section}>
           <Text style={styles.sectionTitle}>Features</Text>
           <View style={styles.featuresGrid}>
             {FEATURES.map((feature, i) => (
@@ -64,9 +63,9 @@ export default function AboutScreen() {
               </View>
             ))}
           </View>
-        </Animated.View>
+        </View>
 
-        <Animated.View entering={FadeInDown.delay(400).duration(400)} style={styles.section}>
+        <View style={styles.section}>
           <Text style={styles.sectionTitle}>Follow Us</Text>
           <View style={styles.socialCard}>
             {SOCIAL_LINKS.map((link, i) => (
@@ -85,13 +84,13 @@ export default function AboutScreen() {
               </View>
             ))}
           </View>
-        </Animated.View>
+        </View>
 
-        <Animated.View entering={FadeInDown.delay(500).duration(400)} style={styles.taglineSection}>
+        <View style={styles.taglineSection}>
           <Ionicons name="heart" size={20} color={Colors.primary} />
           <Text style={styles.tagline}>Made with love for cultural communities</Text>
           <Text style={styles.copyright}>2024 CulturePass. All rights reserved.</Text>
-        </Animated.View>
+        </View>
       </ScrollView>
     </View>
   );

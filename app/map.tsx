@@ -7,7 +7,6 @@ import { Colors } from '@/constants/theme';
 import { api } from '@/lib/api';
 import { useState, useMemo } from 'react';
 import * as Haptics from 'expo-haptics';
-import Animated, { FadeInUp } from 'react-native-reanimated';
 import NativeMapView from '@/components/NativeMapView';
 import type { EventData } from '@/shared/schema';
 
@@ -91,7 +90,7 @@ function WebCityList({ cityGroups, selectedCity, onSelectCity, onEventPress }: {
       </ScrollView>
 
       {selectedCity && selectedEvents.length > 0 && (
-        <Animated.View entering={FadeInUp.duration(300)} style={webStyles.bottomPanel}>
+        <View style={webStyles.bottomPanel}>
           <View style={webStyles.panelHeader}>
             <View>
               <Text style={webStyles.panelCity}>{selectedCity}</Text>
@@ -128,7 +127,7 @@ function WebCityList({ cityGroups, selectedCity, onSelectCity, onEventPress }: {
               </Pressable>
             ))}
           </ScrollView>
-        </Animated.View>
+        </View>
       )}
     </View>
   );

@@ -3,7 +3,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors } from '@/constants/theme';
 import { router } from 'expo-router';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 
 const COOKIE_TYPES = [
   { name: 'Essential Cookies', desc: 'Required for the app to function. They enable core features like secure login, session management, and payment processing. These cannot be disabled.', icon: 'lock-closed', color: '#E74C3C', required: true },
@@ -38,16 +37,16 @@ export default function CookiesScreen() {
       </View>
 
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 40 + (Platform.OS === 'web' ? 34 : insets.bottom) }} showsVerticalScrollIndicator={false}>
-        <Animated.View entering={FadeInDown.delay(100).duration(400)} style={styles.intro}>
+        <View style={styles.intro}>
           <View style={[styles.iconWrap, { backgroundColor: '#F2A93B15' }]}>
             <Ionicons name="finger-print" size={28} color="#F2A93B" />
           </View>
           <Text style={styles.introTitle}>Data & Cookie Policy</Text>
           <Text style={styles.introDate}>Last updated: 1 February 2026</Text>
           <Text style={styles.introPara}>This policy explains how CulturePass uses cookies, local storage, and similar technologies to provide and improve our services.</Text>
-        </Animated.View>
+        </View>
 
-        <Animated.View entering={FadeInDown.delay(200).duration(400)} style={styles.cookieSection}>
+        <View style={styles.cookieSection}>
           <Text style={styles.cookieSectionTitle}>Types of Data We Collect</Text>
           {COOKIE_TYPES.map((ct, i) => (
             <View key={i} style={styles.cookieCard}>
@@ -63,13 +62,13 @@ export default function CookiesScreen() {
               <Text style={styles.cookieDesc}>{ct.desc}</Text>
             </View>
           ))}
-        </Animated.View>
+        </View>
 
         {SECTIONS.map((s, i) => (
-          <Animated.View key={i} entering={FadeInDown.delay(250 + i * 30).duration(400)} style={styles.section}>
+          <View key={i} style={styles.section}>
             <Text style={styles.sectionTitle}>{s.title}</Text>
             <Text style={styles.sectionBody}>{s.body}</Text>
-          </Animated.View>
+          </View>
         ))}
       </ScrollView>
     </View>

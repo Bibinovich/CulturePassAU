@@ -4,7 +4,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors, shadows } from '@/constants/theme';
 import * as Haptics from 'expo-haptics';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/api';
@@ -78,7 +77,7 @@ export default function BusinessDetailScreen() {
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 130 }}>
-        <Animated.View entering={FadeInDown.delay(100).duration(500)} style={styles.ratingSection}>
+        <View style={styles.ratingSection}>
           <View style={styles.ratingRow}>
             <View style={styles.starsRow}>
               {stars.map((filled, i) => (
@@ -93,10 +92,10 @@ export default function BusinessDetailScreen() {
             <Text style={styles.ratingNum}>{business.rating}</Text>
             <Text style={styles.reviewText}>({business.reviewsCount ?? 0} reviews)</Text>
           </View>
-        </Animated.View>
+        </View>
 
         {business.isIndigenousOwned && (
-          <Animated.View entering={FadeInDown.delay(150).duration(500)} style={styles.section}>
+          <View style={styles.section}>
             <View style={{
               backgroundColor: 'rgba(255, 149, 0, 0.08)',
               borderRadius: 16,
@@ -159,23 +158,23 @@ export default function BusinessDetailScreen() {
                 )}
               </View>
             </View>
-          </Animated.View>
+          </View>
         )}
 
-        <Animated.View entering={FadeInDown.delay(200).duration(500)} style={styles.section}>
+        <View style={styles.section}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 8 }}>
             <Ionicons name="finger-print-outline" size={14} color={Colors.secondary} />
             <Text style={{ fontFamily: 'Poppins_600SemiBold', fontSize: 12, color: Colors.secondary }}>{business.cpid}</Text>
           </View>
           <Text style={styles.sectionTitle}>About</Text>
           <Text style={styles.description}>{business.description}</Text>
-        </Animated.View>
+        </View>
 
         <View style={styles.sectionDivider}>
           <View style={styles.accentBar} />
         </View>
 
-        <Animated.View entering={FadeInDown.delay(300).duration(500)} style={styles.section}>
+        <View style={styles.section}>
           <Text style={styles.sectionTitle}>Services</Text>
           <View style={styles.servicesGrid}>
             {(business.services ?? []).map((service: string, idx: number) => (
@@ -187,13 +186,13 @@ export default function BusinessDetailScreen() {
               </View>
             ))}
           </View>
-        </Animated.View>
+        </View>
 
         <View style={styles.sectionDivider}>
           <View style={styles.accentBar} />
         </View>
 
-        <Animated.View entering={FadeInDown.delay(400).duration(500)} style={styles.section}>
+        <View style={styles.section}>
           <Text style={styles.sectionTitle}>Contact</Text>
           <View style={styles.contactCard}>
             <View style={styles.contactRow}>
@@ -210,13 +209,13 @@ export default function BusinessDetailScreen() {
               <Text style={styles.contactText}>{business.phone}</Text>
             </View>
           </View>
-        </Animated.View>
+        </View>
 
         <View style={styles.sectionDivider}>
           <View style={styles.accentBar} />
         </View>
 
-        <Animated.View entering={FadeInDown.delay(500).duration(500)} style={styles.section}>
+        <View style={styles.section}>
           <Text style={styles.sectionTitle}>Reviews</Text>
           <View style={styles.reviewCard}>
             <View style={styles.reviewHeader}>
@@ -253,7 +252,7 @@ export default function BusinessDetailScreen() {
             </View>
             <Text style={styles.reviewBody}>Great quality and professional team. Will definitely use again for our next community gathering.</Text>
           </View>
-        </Animated.View>
+        </View>
       </ScrollView>
 
       <View style={[styles.bottomBar, { paddingBottom: bottomInset + 14 }]}>

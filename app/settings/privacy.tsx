@@ -5,7 +5,6 @@ import { Colors } from '@/constants/theme';
 import { router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import { useState } from 'react';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '@/lib/auth';
 import { api } from '@/lib/api';
@@ -135,15 +134,15 @@ export default function PrivacySettingsScreen() {
       </View>
 
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 40 + (Platform.OS === 'web' ? 34 : insets.bottom) }} showsVerticalScrollIndicator={false}>
-        <Animated.View entering={FadeInDown.delay(100).duration(400)} style={styles.heroCard}>
+        <View style={styles.heroCard}>
           <View style={styles.heroIcon}>
             <Ionicons name="shield-checkmark" size={32} color="#FFF" />
           </View>
           <Text style={styles.heroTitle}>Privacy Settings</Text>
           <Text style={styles.heroSub}>Control how your data and profile are shared</Text>
-        </Animated.View>
+        </View>
 
-        <Animated.View entering={FadeInDown.delay(200).duration(400)} style={styles.section}>
+        <View style={styles.section}>
           {isLoading ? (
             <ActivityIndicator color={Colors.primary} style={{ marginVertical: 20 }} />
           ) : (
@@ -173,9 +172,9 @@ export default function PrivacySettingsScreen() {
               </View>
             ))
           )}
-        </Animated.View>
+        </View>
 
-        <Animated.View entering={FadeInDown.delay(300).duration(400)} style={styles.dangerSection}>
+        <View style={styles.dangerSection}>
           <Text style={styles.dangerLabel}>Danger Zone</Text>
           {showDeleteConfirm ? (
             <View style={styles.deleteConfirmCard}>
@@ -217,7 +216,7 @@ export default function PrivacySettingsScreen() {
           <Text style={styles.dangerNote}>
             This will permanently delete your account and all associated data including tickets, wallet balance, and community memberships.
           </Text>
-        </Animated.View>
+        </View>
       </ScrollView>
     </View>
   );

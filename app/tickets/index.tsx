@@ -6,7 +6,6 @@ import { router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { apiRequest, queryClient } from '@/lib/query-client';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useAuth } from '@/lib/auth';
 
 interface Ticket {
@@ -124,7 +123,7 @@ export default function TicketsScreen() {
     const isActive = ticket.status === 'confirmed';
 
     return (
-      <Animated.View key={ticket.id} entering={FadeInDown.delay(index * 80).duration(400)}>
+      <View key={ticket.id}>
         <Pressable
           style={styles.ticketCard}
           onPress={() => {
@@ -230,7 +229,7 @@ export default function TicketsScreen() {
             )}
           </View>
         </Pressable>
-      </Animated.View>
+      </View>
     );
   };
 

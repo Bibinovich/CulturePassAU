@@ -18,7 +18,6 @@ import { useQuery } from '@tanstack/react-query';
 import { queryClient } from '@/lib/query-client';
 import { useAuth } from '@/lib/auth';
 import { api, type MembershipSummary } from '@/lib/api';
-import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
 import { Colors } from '@/constants/theme';
 
 const PLUS_COLOR = Colors.primary;
@@ -189,7 +188,7 @@ export default function UpgradeScreen() {
         contentContainerStyle={[styles.scrollContent, { paddingBottom: insets.bottom + 40 }]}
         showsVerticalScrollIndicator={false}
       >
-        <Animated.View entering={FadeInDown.delay(100).duration(500)} style={styles.heroSection}>
+        <View style={styles.heroSection}>
           <View style={styles.heroIconWrap}>
             <Ionicons name="globe" size={40} color={PLUS_ACCENT} />
           </View>
@@ -198,19 +197,19 @@ export default function UpgradeScreen() {
           <Text style={styles.heroDesc}>
             Unlock premium cultural experiences with cashback rewards, early access to events, and exclusive perks from local businesses.
           </Text>
-        </Animated.View>
+        </View>
 
         {memberCount > 0 && (
-          <Animated.View entering={FadeInDown.delay(200).duration(500)} style={styles.socialProof}>
+          <View style={styles.socialProof}>
             <Ionicons name="people" size={16} color={PLUS_ACCENT} />
             <Text style={styles.socialProofText}>
               Join {memberCount.toLocaleString()}+ members already enjoying CulturePass+
             </Text>
-          </Animated.View>
+          </View>
         )}
 
         {!isPlus && (
-          <Animated.View entering={FadeInDown.delay(300).duration(500)} style={styles.pricingSection}>
+          <View style={styles.pricingSection}>
             <View style={styles.toggleRow}>
               <Pressable
                 style={[styles.toggleBtn, billingPeriod === 'monthly' && styles.toggleActive]}
@@ -236,10 +235,10 @@ export default function UpgradeScreen() {
                 <Text style={styles.priceBreakdown}>That&apos;s just {perMonth}/month</Text>
               )}
             </View>
-          </Animated.View>
+          </View>
         )}
 
-        <Animated.View entering={FadeInDown.delay(400).duration(500)} style={styles.comparisonSection}>
+        <View style={styles.comparisonSection}>
           <Text style={styles.sectionTitle}>What&apos;s Included</Text>
 
           <View style={styles.comparisonHeader}>
@@ -254,7 +253,7 @@ export default function UpgradeScreen() {
           </View>
 
           {FEATURES.map((f, i) => (
-            <Animated.View key={f.title} entering={FadeInDown.delay(450 + i * 50).duration(400)} style={styles.compRow}>
+            <View key={f.title} style={styles.compRow}>
               <View style={styles.compFeature}>
                 <Ionicons name={f.icon as any} size={18} color={PLUS_COLOR} style={{ marginRight: 10 }} />
                 <View style={{ flex: 1 }}>
@@ -272,11 +271,11 @@ export default function UpgradeScreen() {
               <View style={[styles.compCheck, styles.compCheckPlus]}>
                 <Ionicons name="checkmark-circle" size={20} color={PLUS_COLOR} />
               </View>
-            </Animated.View>
+            </View>
           ))}
-        </Animated.View>
+        </View>
 
-        <Animated.View entering={FadeInDown.delay(800).duration(500)} style={styles.highlightsSection}>
+        <View style={styles.highlightsSection}>
           <View style={styles.highlightCard}>
             <View style={[styles.highlightIcon, { backgroundColor: '#34C75915' }]}>
               <Ionicons name="cash" size={24} color="#34C759" />
@@ -298,10 +297,10 @@ export default function UpgradeScreen() {
             <Text style={styles.highlightTitle}>Exclusive Perks</Text>
             <Text style={styles.highlightDesc}>Access members-only deals and discounts from restaurants, shops, and cultural venues.</Text>
           </View>
-        </Animated.View>
+        </View>
 
         {isPlus ? (
-          <Animated.View entering={FadeInUp.delay(200).duration(500)} style={styles.activeSection}>
+          <View style={styles.activeSection}>
             <View style={styles.activeBadge}>
               <Ionicons name="checkmark-circle" size={20} color="#34C759" />
               <Text style={styles.activeText}>You&apos;re a CulturePass+ member</Text>
@@ -310,9 +309,9 @@ export default function UpgradeScreen() {
             <Pressable style={styles.cancelBtn} onPress={handleCancel} disabled={loading}>
               <Text style={styles.cancelBtnText}>Cancel Membership</Text>
             </Pressable>
-          </Animated.View>
+          </View>
         ) : (
-          <Animated.View entering={FadeInUp.delay(200).duration(500)} style={styles.ctaSection}>
+          <View style={styles.ctaSection}>
             <Pressable
               style={[styles.subscribeBtn, loading && styles.subscribeBtnDisabled]}
               onPress={handleSubscribe}
@@ -328,7 +327,7 @@ export default function UpgradeScreen() {
               )}
             </Pressable>
             <Text style={styles.ctaFine}>Cancel anytime. Powered by Stripe.</Text>
-          </Animated.View>
+          </View>
         )}
       </ScrollView>
     </View>

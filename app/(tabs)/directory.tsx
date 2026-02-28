@@ -15,7 +15,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors } from '@/constants/theme';
 import { useState, useMemo, useCallback } from 'react';
 import * as Haptics from 'expo-haptics';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useQuery } from '@tanstack/react-query';
 import { queryClient } from '@/lib/query-client';
 import type { Profile } from '@shared/schema';
@@ -70,7 +69,7 @@ function DirectoryCard({ profile, index }: { profile: Profile; index: number }) 
   const tags = getTags(profile);
 
   return (
-    <Animated.View entering={isWeb ? undefined : FadeInDown.delay(index * 60).duration(400)}>
+    <View>
       <Pressable
         style={styles.card}
         onPress={() =>
@@ -176,7 +175,7 @@ function DirectoryCard({ profile, index }: { profile: Profile; index: number }) 
           <Ionicons name="arrow-forward-circle" size={20} color={Colors.primary} />
         </Pressable>
       </Pressable>
-    </Animated.View>
+    </View>
   );
 }
 

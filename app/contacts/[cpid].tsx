@@ -16,7 +16,6 @@ import { goBackOrReplace } from '@/lib/navigation';
 import { Colors } from '@/constants/theme';
 import * as Haptics from 'expo-haptics';
 import { useContacts } from '@/contexts/ContactsContext';
-import Animated, { FadeInDown, ZoomIn } from 'react-native-reanimated';
 import { useCallback } from 'react';
 import * as FileSystem from 'expo-file-system/legacy';
 
@@ -330,10 +329,10 @@ export default function ContactDetailScreen() {
         contentContainerStyle={{ paddingBottom: 40 + bottomInset }}
       >
         {/* Profile card */}
-        <Animated.View entering={FadeInDown.duration(400)} style={styles.profileCard}>
-          <Animated.View entering={ZoomIn.delay(150).duration(350)} style={[styles.avatar, { borderColor: tier.color + '50' }]}>
+        <View style={styles.profileCard}>
+          <View style={[styles.avatar, { borderColor: tier.color + '50' }]}>
             <Text style={[styles.avatarText, { color: tier.color }]}>{initials}</Text>
-          </Animated.View>
+          </View>
 
           <Text style={styles.name}>{contact.name || 'CulturePass User'}</Text>
           {contact.username && (
@@ -378,17 +377,17 @@ export default function ContactDetailScreen() {
               <Text style={[styles.quickActionLabel, { color: Colors.secondary }]}>Share</Text>
             </Pressable>
           </View>
-        </Animated.View>
+        </View>
 
         {/* Bio */}
         {contact.bio && (
-          <Animated.View entering={FadeInDown.delay(80).duration(400)} style={styles.bioCard}>
+          <View style={styles.bioCard}>
             <Text style={styles.bioText}>{contact.bio}</Text>
-          </Animated.View>
+          </View>
         )}
 
         {/* Contact info */}
-        <Animated.View entering={FadeInDown.delay(120).duration(400)} style={styles.infoCard}>
+        <View style={styles.infoCard}>
           {contact.phone && (
             <InfoRow
               icon="call"
@@ -440,10 +439,10 @@ export default function ContactDetailScreen() {
             value={savedDate}
             color={Colors.textSecondary}
           />
-        </Animated.View>
+        </View>
 
         {/* CulturePass section */}
-        <Animated.View entering={FadeInDown.delay(180).duration(400)} style={styles.infoCard}>
+        <View style={styles.infoCard}>
           {contact.username && (
             <>
               <InfoRow
@@ -464,10 +463,10 @@ export default function ContactDetailScreen() {
             value={contact.cpid}
             color={Colors.primary}
           />
-        </Animated.View>
+        </View>
 
         {/* Actions */}
-        <Animated.View entering={FadeInDown.delay(240).duration(400)} style={styles.actionsSection}>
+        <View style={styles.actionsSection}>
           {contact.userId && (
             <Pressable style={styles.actionBtn} onPress={handleViewProfile}>
               <View style={[styles.actionIcon, { backgroundColor: Colors.primary + '15' }]}>
@@ -504,7 +503,7 @@ export default function ContactDetailScreen() {
             <Text style={[styles.actionBtnText, { color: Colors.error }]}>Remove Contact</Text>
             <Ionicons name="chevron-forward" size={16} color={Colors.textTertiary} />
           </Pressable>
-        </Animated.View>
+        </View>
       </ScrollView>
     </View>
   );

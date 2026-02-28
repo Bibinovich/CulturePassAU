@@ -15,7 +15,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useQuery } from '@tanstack/react-query';
 import { Colors } from '@/constants/theme';
 import * as Haptics from 'expo-haptics';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import type { User, Membership } from '@shared/schema';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useCallback, useMemo } from 'react';
@@ -174,7 +173,7 @@ export default function UserProfileScreen() {
             </Pressable>
           </View>
 
-          <Animated.View entering={FadeInDown.delay(60).duration(500).springify()} style={styles.heroCenter}>
+          <View style={styles.heroCenter}>
             <View style={styles.avatarGlow} />
 
             <LinearGradient
@@ -210,9 +209,9 @@ export default function UserProfileScreen() {
                 </View>
               ) : null}
             </View>
-          </Animated.View>
+          </View>
 
-          <Animated.View entering={FadeInDown.delay(130).duration(400)} style={styles.statsBar}>
+          <View style={styles.statsBar}>
             <LinearGradient
               colors={['transparent', CP.teal, CP.purple, CP.teal, 'transparent']}
               start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
@@ -232,10 +231,10 @@ export default function UserProfileScreen() {
               <Text style={styles.statNum}>{formatNumber(user.likesCount ?? 0)}</Text>
               <Text style={styles.statLabel}>Likes</Text>
             </View>
-          </Animated.View>
+          </View>
         </LinearGradient>
 
-        <Animated.View entering={FadeInDown.delay(200).duration(400)} style={styles.tierRow}>
+        <View style={styles.tierRow}>
           <LinearGradient
             colors={[tierConf.color + '25', tierConf.color + '08']}
             start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
@@ -250,10 +249,10 @@ export default function UserProfileScreen() {
               <Text style={styles.memberSinceText}>Since {memberSince}</Text>
             </View>
           ) : null}
-        </Animated.View>
+        </View>
 
         {user.bio ? (
-          <Animated.View entering={FadeInDown.delay(240).duration(400)} style={styles.section}>
+          <View style={styles.section}>
             <View style={styles.sectionHeader}>
               <View style={styles.sectionAccent} />
               <Text style={styles.sectionTitle}>About</Text>
@@ -261,11 +260,11 @@ export default function UserProfileScreen() {
             <View style={styles.card}>
               <Text style={styles.bioText}>{user.bio}</Text>
             </View>
-          </Animated.View>
+          </View>
         ) : null}
 
         {activeSocials.length > 0 && (
-          <Animated.View entering={FadeInDown.delay(280).duration(400)} style={styles.section}>
+          <View style={styles.section}>
             <View style={styles.sectionHeader}>
               <View style={styles.sectionAccent} />
               <Text style={styles.sectionTitle}>Social</Text>
@@ -290,11 +289,11 @@ export default function UserProfileScreen() {
                 </Pressable>
               ))}
             </View>
-          </Animated.View>
+          </View>
         )}
 
         {hasDetails && (
-          <Animated.View entering={FadeInDown.delay(320).duration(400)} style={styles.section}>
+          <View style={styles.section}>
             <View style={styles.sectionHeader}>
               <View style={styles.sectionAccent} />
               <Text style={styles.sectionTitle}>Details</Text>
@@ -341,11 +340,11 @@ export default function UserProfileScreen() {
                 </>
               ) : null}
             </View>
-          </Animated.View>
+          </View>
         )}
 
         {user.culturePassId && (
-          <Animated.View entering={FadeInDown.delay(360).duration(400)} style={styles.section}>
+          <View style={styles.section}>
             <View style={styles.sectionHeader}>
               <View style={styles.sectionAccent} />
               <Text style={styles.sectionTitle}>Digital Identity</Text>
@@ -404,7 +403,7 @@ export default function UserProfileScreen() {
                 <Ionicons name="finger-print" size={20} color={CP.teal + '55'} />
               </View>
             </LinearGradient>
-          </Animated.View>
+          </View>
         )}
       </ScrollView>
     </View>

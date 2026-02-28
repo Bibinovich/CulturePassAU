@@ -4,7 +4,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors } from '@/constants/theme';
 import { router } from 'expo-router';
 import { useQuery } from '@tanstack/react-query';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useAuth } from '@/lib/auth';
 import { api, type WalletTransaction } from '@/lib/api';
 
@@ -38,7 +37,7 @@ function TransactionItem({ item, index }: { item: WalletTransaction; index: numb
   const color = isCredit ? Colors.success : Colors.error;
 
   return (
-    <Animated.View entering={FadeInDown.delay(index * 60)} style={styles.txCard}>
+    <View style={styles.txCard}>
       <View style={[styles.txIcon, { backgroundColor: color + '12' }]}>
         <Ionicons name={getTypeIcon(item.type) as any} size={22} color={color} />
       </View>
@@ -66,7 +65,7 @@ function TransactionItem({ item, index }: { item: WalletTransaction; index: numb
           </Text>
         </View>
       </View>
-    </Animated.View>
+    </View>
   );
 }
 
@@ -108,7 +107,7 @@ export default function TransactionsScreen() {
       </View>
 
       {transactions.length > 0 && (
-        <Animated.View entering={FadeInDown.delay(50)} style={styles.summaryRow}>
+        <View style={styles.summaryRow}>
           <View style={styles.summaryCard}>
             <Ionicons name="arrow-down-circle" size={18} color={Colors.success} />
             <Text style={styles.summaryLabel}>Income</Text>
@@ -123,7 +122,7 @@ export default function TransactionsScreen() {
               -${transactions.filter(t => t.amount < 0).reduce((s, t) => s + Math.abs(t.amount), 0).toFixed(2)}
             </Text>
           </View>
-        </Animated.View>
+        </View>
       )}
 
       <FlatList

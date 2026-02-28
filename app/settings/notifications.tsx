@@ -5,7 +5,6 @@ import { Colors } from '@/constants/theme';
 import { router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import { useState } from 'react';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 
 const NOTIFICATION_SETTINGS = [
   {
@@ -64,15 +63,15 @@ export default function NotificationSettingsScreen() {
       </View>
 
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 40 + (Platform.OS === 'web' ? 34 : insets.bottom) }} showsVerticalScrollIndicator={false}>
-        <Animated.View entering={FadeInDown.delay(100).duration(400)} style={styles.heroCard}>
+        <View style={styles.heroCard}>
           <View style={styles.heroIcon}>
             <Ionicons name="notifications" size={32} color="#FFF" />
           </View>
           <Text style={styles.heroTitle}>Notification Preferences</Text>
           <Text style={styles.heroSub}>Choose what updates you want to receive</Text>
-        </Animated.View>
+        </View>
 
-        <Animated.View entering={FadeInDown.delay(200).duration(400)} style={styles.section}>
+        <View style={styles.section}>
           {NOTIFICATION_SETTINGS.map((item, i) => (
             <View key={item.key} style={styles.settingCard}>
               <View style={styles.settingRow}>
@@ -92,14 +91,14 @@ export default function NotificationSettingsScreen() {
               </View>
             </View>
           ))}
-        </Animated.View>
+        </View>
 
-        <Animated.View entering={FadeInDown.delay(300).duration(400)} style={styles.noteSection}>
+        <View style={styles.noteSection}>
           <Ionicons name="information-circle-outline" size={18} color={Colors.textTertiary} />
           <Text style={styles.noteText}>
             You can change these preferences at any time. Critical account and security notifications will always be sent.
           </Text>
-        </Animated.View>
+        </View>
       </ScrollView>
     </View>
   );

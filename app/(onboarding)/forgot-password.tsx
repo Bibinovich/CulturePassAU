@@ -1,22 +1,40 @@
-import { View, Text, Pressable, StyleSheet, TextInput, Platform, KeyboardAvoidingView, ScrollView, Alert } from 'react-native';
+import { View, Text, Pressable, StyleSheet, TextInput, Platform, KeyboardAvoidingView, ScrollView, Alert, ActivityIndicator } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors } from '@/constants/theme';
 import { useState } from 'react';
 import * as Haptics from 'expo-haptics';
+import { sendPasswordResetEmail } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
 
 export default function ForgotPasswordScreen() {
   const insets = useSafeAreaInsets();
   const topInset = Platform.OS === 'web' ? 67 : insets.top;
   const [email, setEmail] = useState('');
   const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const isValid = email.includes('@') && email.includes('.');
 
-  const handleSubmit = () => {
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    setSent(true);
+  const handleSubmit = async () => {
+    if (!isValid) return;
+    setLoading(true);
+    try {
+      await sendPasswordResetEmail(auth, email.trim().toLowerCase());
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      setSent(true);
+    } catch (err: unknown) {
+      const code = (err as { code?: string }).code ?? '';
+      const msg = code === 'auth/user-not-found'
+        ? 'No account found with that email address.'
+        : code === 'auth/invalid-email'
+        ? 'Please enter a valid email address.'
+        : 'Something went wrong. Please try again.';
+      Alert.alert('Error', msg);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -47,9 +65,9 @@ export default function ForgotPasswordScreen() {
                 </View>
               </View>
 
-              <Pressable style={[styles.submitBtn, !isValid && { opacity: 0.5 }]} onPress={isValid ? handleSubmit : undefined} disabled={!isValid}>
-                <Ionicons name="send" size={18} color="#FFF" />
-                <Text style={styles.submitText}>Send Reset Link</Text>
+              <Pressable style={[styles.submitBtn, (!isValid || loading) && { opacity: 0.5 }]} onPress={handleSubmit} disabled={!isValid || loading}>
+                {loading ? <ActivityIndicator color="#FFF" size={18} /> : <Ionicons name="send" size={18} color="#FFF" />}
+                <Text style={styles.submitText}>{loading ? 'Sending…' : 'Send Reset Link'}</Text>
               </Pressable>
 
               <Pressable style={styles.backRow} onPress={() => router.back()}>

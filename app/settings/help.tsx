@@ -5,7 +5,6 @@ import { Colors } from '@/constants/theme';
 import { router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import { useState } from 'react';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 
 const FAQ_ITEMS = [
   { q: 'What is CulturePass?', a: 'CulturePass is a lifestyle platform designed for cultural diaspora communities. It connects you with events, communities, perks, and local businesses that celebrate your culture.' },
@@ -36,15 +35,15 @@ export default function SettingsHelpScreen() {
       </View>
 
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 40 + (Platform.OS === 'web' ? 34 : insets.bottom) }} showsVerticalScrollIndicator={false}>
-        <Animated.View entering={FadeInDown.delay(100).duration(400)} style={styles.heroCard}>
+        <View style={styles.heroCard}>
           <View style={styles.heroIcon}>
             <Ionicons name="help-buoy" size={32} color="#FFF" />
           </View>
           <Text style={styles.heroTitle}>How can we help?</Text>
           <Text style={styles.heroSub}>Find answers to common questions or reach out to our support team</Text>
-        </Animated.View>
+        </View>
 
-        <Animated.View entering={FadeInDown.delay(200).duration(400)} style={styles.section}>
+        <View style={styles.section}>
           <Text style={styles.sectionTitle}>Frequently Asked Questions</Text>
           {FAQ_ITEMS.map((faq, i) => (
             <Pressable key={i} style={styles.faqCard} onPress={() => {
@@ -58,9 +57,9 @@ export default function SettingsHelpScreen() {
               {expandedFaq === i && <Text style={styles.faqAnswer}>{faq.a}</Text>}
             </Pressable>
           ))}
-        </Animated.View>
+        </View>
 
-        <Animated.View entering={FadeInDown.delay(300).duration(400)} style={styles.section}>
+        <View style={styles.section}>
           <Text style={styles.sectionTitle}>Contact Us</Text>
           <View style={styles.contactCard}>
             {CONTACT_OPTIONS.map((opt, i) => (
@@ -79,9 +78,9 @@ export default function SettingsHelpScreen() {
               </View>
             ))}
           </View>
-        </Animated.View>
+        </View>
 
-        <Animated.View entering={FadeInDown.delay(400).duration(400)} style={styles.section}>
+        <View style={styles.section}>
           <Pressable style={styles.guidelinesCard} onPress={() => {
             Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
             router.push('/legal/guidelines');
@@ -95,7 +94,7 @@ export default function SettingsHelpScreen() {
             </View>
             <Ionicons name="open-outline" size={18} color={Colors.textTertiary} />
           </Pressable>
-        </Animated.View>
+        </View>
       </ScrollView>
     </View>
   );

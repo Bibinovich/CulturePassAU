@@ -65,6 +65,8 @@ function RootLayoutNav() {
       <Stack.Screen name="payment/methods" />
       <Stack.Screen name="payment/transactions" />
       <Stack.Screen name="payment/wallet" />
+      <Stack.Screen name="payment/success" />
+      <Stack.Screen name="payment/cancel" />
 
       <Stack.Screen name="tickets/index" />
       <Stack.Screen name="tickets/[id]" />
@@ -84,10 +86,12 @@ function RootLayoutNav() {
       <Stack.Screen name="map" />
       <Stack.Screen name="membership/upgrade" />
 
+      <Stack.Screen name="settings/index" />
       <Stack.Screen name="settings/about" />
       <Stack.Screen name="settings/help" />
       <Stack.Screen name="settings/notifications" />
       <Stack.Screen name="settings/privacy" />
+      <Stack.Screen name="dashboard/organizer" />
 
       <Stack.Screen name="help/index" />
       <Stack.Screen name="legal/terms" />

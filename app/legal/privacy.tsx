@@ -3,7 +3,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors } from '@/constants/theme';
 import { router } from 'expo-router';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 
 const SECTIONS = [
   { title: '1. Information We Collect', body: 'We collect information you provide directly, including: name, email address, phone number, location (city and country), profile information, social media links, and payment details. We also automatically collect device information, usage data, IP address, and interaction patterns to improve our services.' },
@@ -35,20 +34,20 @@ export default function PrivacyScreen() {
       </View>
 
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 40 + (Platform.OS === 'web' ? 34 : insets.bottom) }} showsVerticalScrollIndicator={false}>
-        <Animated.View entering={FadeInDown.delay(100).duration(400)} style={styles.intro}>
+        <View style={styles.intro}>
           <View style={[styles.iconWrap, { backgroundColor: '#2ECC7115' }]}>
             <Ionicons name="shield-checkmark" size={28} color="#2ECC71" />
           </View>
           <Text style={styles.introTitle}>Privacy Policy</Text>
           <Text style={styles.introDate}>Last updated: 1 February 2026</Text>
           <Text style={styles.introPara}>CulturePass Pty Ltd (&quot;we&quot;, &quot;our&quot;, &quot;us&quot;) is committed to protecting your privacy. This policy explains how we collect, use, and safeguard your personal information.</Text>
-        </Animated.View>
+        </View>
 
         {SECTIONS.map((s, i) => (
-          <Animated.View key={i} entering={FadeInDown.delay(150 + i * 30).duration(400)} style={styles.section}>
+          <View key={i} style={styles.section}>
             <Text style={styles.sectionTitle}>{s.title}</Text>
             <Text style={styles.sectionBody}>{s.body}</Text>
-          </Animated.View>
+          </View>
         ))}
       </ScrollView>
     </View>

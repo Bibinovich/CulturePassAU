@@ -2,7 +2,6 @@ import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useLocalSearchParams, router } from 'expo-router';
-import Animated, { FadeInDown, FadeInUp, ZoomIn } from 'react-native-reanimated';
 import { useColors } from '@/hooks/useColors';
 import * as Haptics from 'expo-haptics';
 import { useEffect } from 'react';
@@ -18,18 +17,18 @@ export default function PaymentCancelScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background, paddingTop: insets.top + 24, paddingBottom: insets.bottom + 24 }]}>
-      <Animated.View entering={ZoomIn.delay(100).springify()} style={[styles.iconCircle, { backgroundColor: colors.error + '15' }]}>
+      <View style={[styles.iconCircle, { backgroundColor: colors.error + '15' }]}>
         <Ionicons name="close-circle" size={80} color={colors.error} />
-      </Animated.View>
+      </View>
 
-      <Animated.View entering={FadeInDown.delay(300).springify()} style={styles.textBlock}>
+      <View style={styles.textBlock}>
         <Text style={[styles.title, { color: colors.text }]}>Payment Cancelled</Text>
         <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
           No charge was made. You can try again whenever you&apos;re ready.
         </Text>
-      </Animated.View>
+      </View>
 
-      <Animated.View entering={FadeInUp.delay(500).springify()} style={styles.actions}>
+      <View style={styles.actions}>
         <Pressable
           style={[styles.primaryBtn, { backgroundColor: colors.primary }]}
           onPress={() => {
@@ -50,7 +49,7 @@ export default function PaymentCancelScreen() {
         >
           <Text style={[styles.secondaryBtnText, { color: colors.textSecondary }]}>Back to Home</Text>
         </Pressable>
-      </Animated.View>
+      </View>
     </View>
   );
 }

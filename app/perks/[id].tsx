@@ -7,7 +7,6 @@ import * as Haptics from 'expo-haptics';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { apiRequest, queryClient } from '@/lib/query-client';
 import { api } from '@/lib/api';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
 import { useAuth } from '@/lib/auth';
@@ -172,24 +171,24 @@ export default function PerkDetailScreen() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 120 }}
       >
-        <Animated.View entering={FadeInDown.delay(100).duration(500)} style={styles.section}>
+        <View style={styles.section}>
           <Text style={styles.title}>{perk.title}</Text>
           <View style={styles.providerRow}>
             <Ionicons name="business-outline" size={14} color={Colors.textSecondary} />
             <Text style={styles.providerText}>{perk.providerName || 'CulturePass'}</Text>
           </View>
-        </Animated.View>
+        </View>
 
         <View style={styles.divider} />
 
-        <Animated.View entering={FadeInDown.delay(200).duration(500)} style={styles.section}>
+        <View style={styles.section}>
           <Text style={styles.sectionTitle}>About this perk</Text>
           <Text style={styles.description}>{perk.description || 'No description available.'}</Text>
-        </Animated.View>
+        </View>
 
         <View style={styles.divider} />
 
-        <Animated.View entering={FadeInDown.delay(300).duration(500)} style={styles.section}>
+        <View style={styles.section}>
           <Text style={styles.sectionTitle}>Details</Text>
           <View style={styles.detailsGrid}>
             <View style={styles.detailItem}>
@@ -223,12 +222,12 @@ export default function PerkDetailScreen() {
               <Text style={styles.detailValue}>{perk.status === 'active' ? 'Active' : 'Inactive'}</Text>
             </View>
           </View>
-        </Animated.View>
+        </View>
 
         {perk.usageLimit && (
           <>
             <View style={styles.divider} />
-            <Animated.View entering={FadeInDown.delay(350).duration(500)} style={styles.section}>
+            <View style={styles.section}>
               <Text style={styles.sectionTitle}>Availability</Text>
               <View style={styles.availabilityCard}>
                 <View style={styles.availRow}>
@@ -239,14 +238,14 @@ export default function PerkDetailScreen() {
                   <View style={[styles.progressFill, { width: `${Math.min(usagePercent, 100)}%` as any, backgroundColor: usagePercent > 80 ? Colors.error : typeInfo.color }]} />
                 </View>
               </View>
-            </Animated.View>
+            </View>
           </>
         )}
 
         {perk.isMembershipRequired && (
           <>
             <View style={styles.divider} />
-            <Animated.View entering={FadeInDown.delay(400).duration(500)} style={styles.section}>
+            <View style={styles.section}>
               <View style={styles.membershipCard}>
                 <View style={styles.membershipIcon}>
                   <Ionicons name="star" size={20} color="#2E86C1" />
@@ -256,14 +255,14 @@ export default function PerkDetailScreen() {
                   <Text style={styles.membershipSub}>This perk requires an active CulturePass+ membership to redeem.</Text>
                 </View>
               </View>
-            </Animated.View>
+            </View>
           </>
         )}
 
         {isIndigenous && (
           <>
             <View style={styles.divider} />
-            <Animated.View entering={FadeInDown.delay(450).duration(500)} style={styles.section}>
+            <View style={styles.section}>
               <View style={styles.indigenousCard}>
                 <View style={styles.indigenousHeader}>
                   <View style={styles.indigenousIconBg}>
@@ -275,19 +274,19 @@ export default function PerkDetailScreen() {
                   This perk supports Aboriginal and Torres Strait Islander businesses and communities. By redeeming this perk, you are helping to grow Indigenous enterprise and cultural visibility.
                 </Text>
               </View>
-            </Animated.View>
+            </View>
           </>
         )}
 
         {perk.endDate && (
           <>
             <View style={styles.divider} />
-            <Animated.View entering={FadeInDown.delay(450).duration(500)} style={styles.section}>
+            <View style={styles.section}>
               <View style={styles.expiryRow}>
                 <Ionicons name="calendar-outline" size={16} color={Colors.textSecondary} />
                 <Text style={styles.expiryText}>Valid until {new Date(perk.endDate).toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' })}</Text>
               </View>
-            </Animated.View>
+            </View>
           </>
         )}
       </ScrollView>

@@ -7,7 +7,6 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { goBackOrReplace } from '@/lib/navigation';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as Haptics from 'expo-haptics';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Colors, shadows } from '@/constants/theme';
 import { useSaved } from '@/contexts/SavedContext';
@@ -175,7 +174,7 @@ function DbCommunityView({ community, topInset, bottomInset }: { community: Comm
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 110 }}>
-        <Animated.View entering={FadeInDown.delay(100).duration(500)} style={styles.statsRow}>
+        <View style={styles.statsRow}>
           <View style={styles.statCard}>
             <View style={[styles.statIconBg, { backgroundColor: color + '12' }]}>
               <Ionicons name="people" size={18} color={color} />
@@ -199,19 +198,19 @@ function DbCommunityView({ community, topInset, bottomInset }: { community: Comm
               <Text style={styles.statLabel}>Origin</Text>
             </View>
           )}
-        </Animated.View>
+        </View>
 
-        <Animated.View entering={FadeInDown.delay(200).duration(500)} style={styles.section}>
+        <View style={styles.section}>
           <Text style={styles.sectionTitle}>About</Text>
           <Text style={styles.description}>{community.description || 'A vibrant cultural community connecting people through shared heritage and traditions.'}</Text>
-        </Animated.View>
+        </View>
 
         {relatedEvents.length > 0 && (
           <>
             <View style={styles.sectionDivider}>
               <View style={styles.accentBar} />
             </View>
-            <Animated.View entering={FadeInDown.delay(300).duration(500)} style={styles.section}>
+            <View style={styles.section}>
               <Text style={styles.sectionTitle}>Related Events</Text>
               {relatedEvents.slice(0, 5).map((event: any) => (
                 <Pressable
@@ -227,7 +226,7 @@ function DbCommunityView({ community, topInset, bottomInset }: { community: Comm
                   <Ionicons name="chevron-forward" size={18} color={Colors.textTertiary} />
                 </Pressable>
               ))}
-            </Animated.View>
+            </View>
           </>
         )}
 
@@ -235,7 +234,7 @@ function DbCommunityView({ community, topInset, bottomInset }: { community: Comm
           <View style={styles.accentBar} />
         </View>
 
-        <Animated.View entering={FadeInDown.delay(400).duration(500)} style={styles.section}>
+        <View style={styles.section}>
           <Text style={styles.sectionTitle}>Wellbeing & Support</Text>
           <View style={styles.wellbeingCard}>
             <View style={styles.wellbeingIconBg}>
@@ -248,7 +247,7 @@ function DbCommunityView({ community, topInset, bottomInset }: { community: Comm
               </Text>
             </View>
           </View>
-        </Animated.View>
+        </View>
       </ScrollView>
 
       <View style={[styles.bottomBar, { paddingBottom: bottomInset + 14 }]}>
@@ -345,7 +344,7 @@ function MockCommunityView({ community, topInset, bottomInset }: { community: an
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 110 }}>
-        <Animated.View entering={FadeInDown.delay(100).duration(500)} style={styles.statsRow}>
+        <View style={styles.statsRow}>
           <View style={styles.statCard}>
             <View style={[styles.statIconBg, { backgroundColor: Colors.primary + '12' }]}>
               <Ionicons name="people" size={18} color={Colors.primary} />
@@ -367,22 +366,22 @@ function MockCommunityView({ community, topInset, bottomInset }: { community: an
             <Text style={styles.statNum}>{community.leaders.length}</Text>
             <Text style={styles.statLabel}>Leaders</Text>
           </View>
-        </Animated.View>
+        </View>
 
-        <Animated.View entering={FadeInDown.delay(200).duration(500)} style={styles.section}>
+        <View style={styles.section}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 8 }}>
             <Ionicons name="finger-print-outline" size={14} color={Colors.secondary} />
             <Text style={{ fontFamily: 'Poppins_600SemiBold', fontSize: 12, color: Colors.secondary }}>{community.cpid}</Text>
           </View>
           <Text style={styles.sectionTitle}>About</Text>
           <Text style={styles.description}>{community.description}</Text>
-        </Animated.View>
+        </View>
 
         <View style={styles.sectionDivider}>
           <View style={styles.accentBar} />
         </View>
 
-        <Animated.View entering={FadeInDown.delay(300).duration(500)} style={styles.section}>
+        <View style={styles.section}>
           <Text style={styles.sectionTitle}>Community Leaders</Text>
           {community.leaders.map((leader: string, idx: number) => (
             <View key={idx} style={styles.leaderRow}>
@@ -395,14 +394,14 @@ function MockCommunityView({ community, topInset, bottomInset }: { community: an
               </View>
             </View>
           ))}
-        </Animated.View>
+        </View>
 
         {communityEvents.length > 0 && (
           <>
             <View style={styles.sectionDivider}>
               <View style={styles.accentBar} />
             </View>
-            <Animated.View entering={FadeInDown.delay(400).duration(500)} style={styles.section}>
+            <View style={styles.section}>
               <Text style={styles.sectionTitle}>Upcoming Events</Text>
               {communityEvents.map((event: any) => (
                 <Pressable
@@ -418,7 +417,7 @@ function MockCommunityView({ community, topInset, bottomInset }: { community: an
                   <Ionicons name="chevron-forward" size={18} color={Colors.textTertiary} />
                 </Pressable>
               ))}
-            </Animated.View>
+            </View>
           </>
         )}
 
@@ -426,7 +425,7 @@ function MockCommunityView({ community, topInset, bottomInset }: { community: an
           <View style={styles.accentBar} />
         </View>
 
-        <Animated.View entering={FadeInDown.delay(500).duration(500)} style={styles.section}>
+        <View style={styles.section}>
           <Text style={styles.sectionTitle}>Wellbeing & Support</Text>
           <View style={styles.wellbeingCard}>
             <View style={styles.wellbeingIconBg}>
@@ -439,7 +438,7 @@ function MockCommunityView({ community, topInset, bottomInset }: { community: an
               </Text>
             </View>
           </View>
-        </Animated.View>
+        </View>
       </ScrollView>
 
       <View style={[styles.bottomBar, { paddingBottom: bottomInset + 14 }]}>

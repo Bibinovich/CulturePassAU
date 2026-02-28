@@ -5,7 +5,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors } from '@/constants/theme';
 import { useState, useMemo } from 'react';
 import * as Haptics from 'expo-haptics';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useQuery } from '@tanstack/react-query';
 import { useOnboarding } from '@/contexts/OnboardingContext';
 import { api } from '@/lib/api';
@@ -305,7 +304,7 @@ export default function SearchScreen() {
           <View style={styles.resultsList}>
             <Text style={styles.resultsCount}>{filteredResults.length} result{filteredResults.length !== 1 ? 's' : ''} found</Text>
             {filteredResults.map((result, index) => (
-              <Animated.View key={`${result.type}-${result.id}`} entering={FadeInDown.delay(index * 40).duration(300)}>
+              <View key={`${result.type}-${result.id}`}>
                 <Pressable style={styles.resultCard} onPress={() => handleResultPress(result)}>
                   {result.imageUrl ? (
                     <Image source={{ uri: result.imageUrl }} style={styles.resultImage} />
@@ -324,7 +323,7 @@ export default function SearchScreen() {
                   </View>
                   <Ionicons name="chevron-forward" size={18} color={Colors.textTertiary} />
                 </Pressable>
-              </Animated.View>
+              </View>
             ))}
           </View>
         )}

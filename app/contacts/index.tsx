@@ -13,7 +13,6 @@ import { Colors } from '@/constants/theme';
 import { router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import { useContacts, SavedContact } from '@/contexts/ContactsContext';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useCallback, useMemo, useState } from 'react';
 
 const TIER_COLORS: Record<string, string> = {
@@ -160,7 +159,7 @@ export default function ContactsScreen() {
         </View>
       </View>
 
-      <Animated.View entering={FadeInDown.duration(300)} style={styles.statsBar}>
+      <View style={styles.statsBar}>
         <View style={styles.statItem}>
           <Text style={styles.statNumber}>{contacts.length}</Text>
           <Text style={styles.statLabel}>Contacts</Text>
@@ -173,7 +172,7 @@ export default function ContactsScreen() {
           <Ionicons name="camera-outline" size={18} color="#FFF" />
           <Text style={styles.scanCtaText}>Scan Card</Text>
         </Pressable>
-      </Animated.View>
+      </View>
 
       {contacts.length === 0 ? (
         <View style={styles.emptyState}>

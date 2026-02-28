@@ -15,14 +15,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useQuery } from '@tanstack/react-query';
 import { Colors } from '@/constants/theme';
 import * as Haptics from 'expo-haptics';
-import Animated, {
-  FadeIn,
-  FadeInDown,
-  FadeInUp,
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from 'react-native-reanimated';
 import type { User, Membership } from '@shared/schema';
 import { LinearGradient } from 'expo-linear-gradient';
 import { memo, useCallback, useMemo } from 'react';
@@ -114,8 +106,6 @@ const SectionHeader = memo(({ title }: { title: string }) => (
 ));
 SectionHeader.displayName = 'SectionHeader';
 
-const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
-
 const SocialCard = memo(({ icon, label, color, accentColor, onPress }: {
   icon: keyof typeof Ionicons.glyphMap;
   label: string;
@@ -123,14 +113,10 @@ const SocialCard = memo(({ icon, label, color, accentColor, onPress }: {
   accentColor: string;
   onPress: () => void;
 }) => {
-  const scale = useSharedValue(1);
-  const animStyle = useAnimatedStyle(() => ({ transform: [{ scale: scale.value }] }));
   return (
-    <AnimatedPressable
-      style={[styles.socialCard, animStyle]}
+    <Pressable
+      style={({ pressed }) => [styles.socialCard, { transform: [{ scale: pressed ? 0.97 : 1 }] }]}
       onPress={onPress}
-      onPressIn={() => { scale.value = withSpring(0.97, { damping: 14 }); }}
-      onPressOut={() => { scale.value = withSpring(1,    { damping: 14 }); }}
     >
       <View style={[styles.socialStrip, { backgroundColor: accentColor }]} />
       <View style={[styles.socialIconWrap, { backgroundColor: color + '14' }]}>
@@ -138,7 +124,7 @@ const SocialCard = memo(({ icon, label, color, accentColor, onPress }: {
       </View>
       <Text style={styles.socialLabel}>{label}</Text>
       <Ionicons name="open-outline" size={14} color={CP.muted} />
-    </AnimatedPressable>
+    </Pressable>
   );
 });
 SocialCard.displayName = 'SocialCard';
@@ -275,7 +261,7 @@ export default function PublicProfileScreen() {
             </Pressable>
           </View>
 
-          <Animated.View entering={FadeInDown.delay(60).duration(500).springify()} style={styles.heroCenter}>
+          <View style={styles.heroCenter}>
             <View style={styles.avatarGlow} />
 
             <LinearGradient
@@ -311,9 +297,9 @@ export default function PublicProfileScreen() {
                 </View>
               ) : null}
             </View>
-          </Animated.View>
+          </View>
 
-          <Animated.View entering={FadeInUp.delay(130).duration(400)} style={styles.statsBar}>
+          <View style={styles.statsBar}>
             <LinearGradient
               colors={['transparent', CP.teal, CP.purple, CP.teal, 'transparent']}
               start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
@@ -324,10 +310,10 @@ export default function PublicProfileScreen() {
             <StatItem value={user.followingCount ?? 0} label="Following" />
             <View style={styles.statDivider} />
             <StatItem value={user.likesCount ?? 0} label="Likes" />
-          </Animated.View>
+          </View>
         </LinearGradient>
 
-        <Animated.View entering={FadeIn.delay(200).duration(400)} style={styles.tierRow}>
+        <View style={styles.tierRow}>
           <LinearGradient
             colors={[tierConf.color + '25', tierConf.color + '08']}
             start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
@@ -342,19 +328,19 @@ export default function PublicProfileScreen() {
               <Text style={styles.memberSinceText}>Since {memberSince}</Text>
             </View>
           ) : null}
-        </Animated.View>
+        </View>
 
         {user.bio ? (
-          <Animated.View entering={FadeInDown.delay(240).duration(400)} style={styles.section}>
+          <View style={styles.section}>
             <SectionHeader title="About" />
             <View style={styles.card}>
               <Text style={styles.bioText}>{user.bio}</Text>
             </View>
-          </Animated.View>
+          </View>
         ) : null}
 
         {activeSocials.length > 0 && (
-          <Animated.View entering={FadeInDown.delay(280).duration(400)} style={styles.section}>
+          <View style={styles.section}>
             <SectionHeader title="Social" />
             <View style={styles.socialGrid}>
               {activeSocials.map((s, i) => (
@@ -368,11 +354,11 @@ export default function PublicProfileScreen() {
                 />
               ))}
             </View>
-          </Animated.View>
+          </View>
         )}
 
         {hasDetails && (
-          <Animated.View entering={FadeInDown.delay(320).duration(400)} style={styles.section}>
+          <View style={styles.section}>
             <SectionHeader title="Details" />
             <View style={styles.card}>
               {locationText ? (
@@ -401,11 +387,11 @@ export default function PublicProfileScreen() {
                 </>
               ) : null}
             </View>
-          </Animated.View>
+          </View>
         )}
 
         {user.culturePassId && (
-          <Animated.View entering={FadeInDown.delay(360).duration(400)} style={styles.section}>
+          <View style={styles.section}>
             <SectionHeader title="Digital Identity" />
 
             <LinearGradient
@@ -481,7 +467,7 @@ export default function PublicProfileScreen() {
               </View>
               <Ionicons name="chevron-forward" size={18} color={CP.muted} />
             </Pressable>
-          </Animated.View>
+          </View>
         )}
       </ScrollView>
     </View>

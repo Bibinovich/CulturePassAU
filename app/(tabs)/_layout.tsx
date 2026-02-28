@@ -1,14 +1,8 @@
 import React from "react";
-import { Platform, StyleSheet, View, useWindowDimensions, useColorScheme } from "react-native";
+import { Platform, StyleSheet, View, useWindowDimensions, useColorScheme, Animated } from "react-native";
 import { Tabs } from "expo-router";
 import { BlurView } from "expo-blur";
 import { Ionicons } from "@expo/vector-icons";
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring,
-  withTiming,
-} from "react-native-reanimated";
 import { LinearGradient } from "expo-linear-gradient";
 import { useColors } from "@/hooks/useColors";
 import { useRole } from "@/hooks/useRole";
@@ -27,28 +21,24 @@ interface TabIconProps {
 }
 
 function AnimatedTabIcon({ name, focused, color, size }: TabIconProps) {
-  const scale = useSharedValue(focused ? 1.1 : 0.9);
-  const opacity = useSharedValue(focused ? 1 : 0.6);
-  const dotOpacity = useSharedValue(focused ? 1 : 0);
+  const scale = React.useRef(new Animated.Value(focused ? 1.1 : 0.9)).current;
+  const opacity = React.useRef(new Animated.Value(focused ? 1 : 0.6)).current;
+  const dotOpacity = React.useRef(new Animated.Value(focused ? 1 : 0)).current;
 
   React.useEffect(() => {
-    scale.value = withSpring(focused ? 1.1 : 0.9, { damping: 15, stiffness: 300 });
-    opacity.value = withTiming(focused ? 1 : 0.6, { duration: 180 });
-    dotOpacity.value = withTiming(focused ? 1 : 0, { duration: 180 });
-  }, [focused]);
-
-  const iconStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
-    opacity: opacity.value,
-  }));
-  const dotStyle = useAnimatedStyle(() => ({ opacity: dotOpacity.value }));
+    Animated.parallel([
+      Animated.spring(scale, { toValue: focused ? 1.1 : 0.9, damping: 15, stiffness: 300, useNativeDriver: true }),
+      Animated.timing(opacity, { toValue: focused ? 1 : 0.6, duration: 180, useNativeDriver: true }),
+      Animated.timing(dotOpacity, { toValue: focused ? 1 : 0, duration: 180, useNativeDriver: true }),
+    ]).start();
+  }, [focused, scale, opacity, dotOpacity]);
 
   return (
     <View style={tabStyles.iconWrapper}>
-      <Animated.View style={iconStyle}>
+      <Animated.View style={{ transform: [{ scale }], opacity }}>
         <Ionicons name={name} size={size} color={color} />
       </Animated.View>
-      <Animated.View style={[tabStyles.dot, { backgroundColor: color }, dotStyle]} />
+      <Animated.View style={[tabStyles.dot, { backgroundColor: color, opacity: dotOpacity }]} />
     </View>
   );
 }

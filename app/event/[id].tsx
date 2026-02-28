@@ -19,7 +19,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useSaved } from '@/contexts/SavedContext';
 import { Colors, shadows } from '@/constants/theme';
 import * as Haptics from 'expo-haptics';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useQuery, useMutation } from '@tanstack/react-query';
@@ -452,7 +451,7 @@ function EventDetail({ event, topInset, bottomInset }: EventDetailProps) {
         contentContainerStyle={{ paddingBottom: 130 }}
       >
         {countdown && (
-          <Animated.View entering={FadeInDown.delay(50).duration(400)} style={styles.countdownContainer}>
+          <View style={styles.countdownContainer}>
             {countdown.ended ? (
               <View style={styles.countdownEndedBox}>
                 <Ionicons name="time-outline" size={18} color={Colors.textSecondary} />
@@ -476,10 +475,10 @@ function EventDetail({ event, topInset, bottomInset }: EventDetailProps) {
                 </View>
               </View>
             )}
-          </Animated.View>
+          </View>
         )}
 
-        <Animated.View entering={FadeInDown.delay(100).duration(500)} style={styles.infoCards}>
+        <View style={styles.infoCards}>
           <View style={styles.infoCard}>
             <View style={[styles.infoIconBg, { backgroundColor: Colors.primary + '12' }]}>
               <Ionicons name="calendar" size={20} color={Colors.primary} />
@@ -510,7 +509,7 @@ function EventDetail({ event, topInset, bottomInset }: EventDetailProps) {
             </View>
             <Ionicons name="open-outline" size={14} color={Colors.textTertiary} />
           </Pressable>
-        </Animated.View>
+        </View>
 
         {isPlus && (
           <View style={styles.earlyAccessBadge}>
@@ -526,7 +525,7 @@ function EventDetail({ event, topInset, bottomInset }: EventDetailProps) {
           <View style={styles.accentBar} />
         </View>
 
-        <Animated.View entering={FadeInDown.delay(200).duration(500)} style={styles.section}>
+        <View style={styles.section}>
           <View style={styles.capacityRow}>
             <Text style={styles.sectionTitle}>Capacity</Text>
             <Text style={styles.capacityLabel}>{capacityPercent}% filled</Text>
@@ -549,16 +548,16 @@ function EventDetail({ event, topInset, bottomInset }: EventDetailProps) {
               {Math.max(0, event.capacity - event.attending)} spots left
             </Text>
           </View>
-        </Animated.View>
+        </View>
 
         <View style={styles.sectionDivider}>
           <View style={styles.accentBar} />
         </View>
 
-        <Animated.View entering={FadeInDown.delay(300).duration(500)} style={styles.section}>
+        <View style={styles.section}>
           <Text style={styles.sectionTitle}>About</Text>
           <Text style={styles.description}>{event.description}</Text>
-        </Animated.View>
+        </View>
 
         <View style={styles.sectionDivider}>
           <View style={styles.accentBar} />
@@ -566,7 +565,7 @@ function EventDetail({ event, topInset, bottomInset }: EventDetailProps) {
 
         {event.indigenousTags && event.indigenousTags.length > 0 && (
           <>
-            <Animated.View entering={FadeInDown.delay(350).duration(500)} style={styles.section}>
+            <View style={styles.section}>
               <View style={styles.educationCard}>
                 <View style={styles.educationHeader}>
                   <View style={styles.educationIconBg}>
@@ -602,14 +601,14 @@ function EventDetail({ event, topInset, bottomInset }: EventDetailProps) {
                   </View>
                 )}
               </View>
-            </Animated.View>
+            </View>
             <View style={styles.sectionDivider}>
               <View style={styles.accentBar} />
             </View>
           </>
         )}
 
-        <Animated.View entering={FadeInDown.delay(400).duration(500)} style={styles.section}>
+        <View style={styles.section}>
           <Text style={styles.sectionTitle}>Tickets</Text>
           {event.tiers.map((tier: any, idx: number) => (
             <Pressable key={`${tier.name}-${idx}`} style={styles.tierCard} onPress={() => openTicketModal(idx)}>
@@ -625,13 +624,13 @@ function EventDetail({ event, topInset, bottomInset }: EventDetailProps) {
               </View>
             </Pressable>
           ))}
-        </Animated.View>
+        </View>
 
         <View style={styles.sectionDivider}>
           <View style={styles.accentBar} />
         </View>
 
-        <Animated.View entering={FadeInDown.delay(500).duration(500)} style={styles.section}>
+        <View style={styles.section}>
           <Text style={styles.sectionTitle}>Event Details</Text>
           <View style={styles.detailRow}>
             <Ionicons name="finger-print-outline" size={16} color={Colors.secondary} />
@@ -655,13 +654,13 @@ function EventDetail({ event, topInset, bottomInset }: EventDetailProps) {
               Refund policy applies. Contact organizer for details.
             </Text>
           </View>
-        </Animated.View>
+        </View>
 
         <View style={styles.sectionDivider}>
           <View style={styles.accentBar} />
         </View>
 
-        <Animated.View entering={FadeInDown.delay(550).duration(500)} style={styles.section}>
+        <View style={styles.section}>
           <Text style={styles.sectionTitle}>Who&apos;s Going</Text>
           <View style={styles.whosGoingRow}>
             <View style={styles.avatarStack}>
@@ -685,7 +684,7 @@ function EventDetail({ event, topInset, bottomInset }: EventDetailProps) {
               )}
             </View>
           </View>
-        </Animated.View>
+        </View>
 
         {/* Post-event rating — only shows after the event has ended */}
         {countdown?.ended && (
@@ -693,7 +692,7 @@ function EventDetail({ event, topInset, bottomInset }: EventDetailProps) {
             <View style={styles.sectionDivider}>
               <View style={styles.accentBar} />
             </View>
-            <Animated.View entering={FadeInDown.delay(580).duration(500)} style={styles.section}>
+            <View style={styles.section}>
               <Text style={styles.sectionTitle}>Rate this Event</Text>
               {feedbackSubmitted ? (
                 <View style={styles.feedbackThanks}>
@@ -734,7 +733,7 @@ function EventDetail({ event, topInset, bottomInset }: EventDetailProps) {
                   )}
                 </>
               )}
-            </Animated.View>
+            </View>
           </>
         )}
 
@@ -742,7 +741,7 @@ function EventDetail({ event, topInset, bottomInset }: EventDetailProps) {
         <View style={styles.sectionDivider}>
           <View style={styles.accentBar} />
         </View>
-        <Animated.View entering={FadeInDown.delay(590).duration(500)} style={[styles.section, styles.discoveryFeedbackRow]}>
+        <View style={[styles.section, styles.discoveryFeedbackRow]}>
           <Text style={styles.discoveryFeedbackLabel}>Is this relevant to you?</Text>
           <View style={styles.discoveryFeedbackBtns}>
             <Pressable
@@ -760,14 +759,14 @@ function EventDetail({ event, topInset, bottomInset }: EventDetailProps) {
               <Text style={styles.discoveryFeedbackBtnText}>No</Text>
             </Pressable>
           </View>
-        </Animated.View>
+        </View>
 
         {relatedEvents.length > 0 && (
           <>
             <View style={styles.sectionDivider}>
               <View style={styles.accentBar} />
             </View>
-            <Animated.View entering={FadeInDown.delay(600).duration(500)} style={styles.section}>
+            <View style={styles.section}>
               <Text style={styles.sectionTitle}>You Might Also Like</Text>
               {relatedEvents.map((re: any) => (
                 <Pressable
@@ -784,7 +783,7 @@ function EventDetail({ event, topInset, bottomInset }: EventDetailProps) {
                   <Ionicons name="chevron-forward" size={18} color={Colors.textTertiary} />
                 </Pressable>
               ))}
-            </Animated.View>
+            </View>
           </>
         )}
       </ScrollView>

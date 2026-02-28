@@ -18,7 +18,6 @@ import { goBackOrReplace } from '@/lib/navigation';
 import * as Haptics from 'expo-haptics';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { apiRequest, queryClient, getQueryFn } from '@/lib/query-client';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useCallback } from 'react';
 import { Ticket } from '@shared/schema';
 
@@ -215,7 +214,7 @@ export default function TicketDetailScreen() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 40 + bottomInset }}
       >
-        <Animated.View entering={FadeInDown.delay(100).duration(500)} style={styles.ticketContainer}>
+        <View style={styles.ticketContainer}>
           <View style={[styles.ticketTop, { backgroundColor: ticket.imageColor || Colors.primary }]}>
             <View style={styles.ticketTopOverlay}>
               <View style={[styles.statusBadge, { backgroundColor: statusInfo.bg }]}>
@@ -317,10 +316,10 @@ export default function TicketDetailScreen() {
               </>
             )}
           </View>
-        </Animated.View>
+        </View>
 
         {isActive && (
-          <Animated.View entering={FadeInDown.delay(200).duration(500)} style={styles.walletSection}>
+          <View style={styles.walletSection}>
             <Text style={styles.walletTitle}>Add to Wallet</Text>
             <View style={styles.walletButtons}>
               {Platform.OS === 'ios' || Platform.OS === 'web' ? (
@@ -340,10 +339,10 @@ export default function TicketDetailScreen() {
                 <Text style={styles.walletBtnText}>Google Wallet</Text>
               </Pressable>
             </View>
-          </Animated.View>
+          </View>
         )}
 
-        <Animated.View entering={FadeInDown.delay(300).duration(500)} style={styles.actionsSection}>
+        <View style={styles.actionsSection}>
           <Pressable
             style={styles.actionBtn}
             onPress={() => router.push({ pathname: '/event/[id]', params: { id: ticket.eventId } })}
@@ -382,7 +381,7 @@ export default function TicketDetailScreen() {
               <Ionicons name="chevron-forward" size={18} color={Colors.textTertiary} />
             </Pressable>
           )}
-        </Animated.View>
+        </View>
       </ScrollView>
     </View>
   );

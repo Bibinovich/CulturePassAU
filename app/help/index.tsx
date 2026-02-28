@@ -8,7 +8,6 @@ import { Colors } from '@/constants/theme';
 import { router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import { useState, useMemo } from 'react';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 
 const isWeb = Platform.OS === 'web';
 
@@ -142,7 +141,7 @@ export default function HelpScreen() {
         keyboardShouldPersistTaps="handled"
       >
         {/* Hero */}
-        <Animated.View entering={isWeb ? undefined : FadeInDown.delay(60).duration(400)} style={styles.heroCard}>
+        <View style={styles.heroCard}>
           <View style={styles.heroIcon}>
             <Ionicons name="help-buoy" size={32} color="#FFF" />
           </View>
@@ -150,10 +149,10 @@ export default function HelpScreen() {
           <Text style={styles.heroSub}>
             Find answers to common questions or reach out to our support team.
           </Text>
-        </Animated.View>
+        </View>
 
         {/* Search */}
-        <Animated.View entering={isWeb ? undefined : FadeInDown.delay(120).duration(400)} style={styles.searchWrap}>
+        <View style={styles.searchWrap}>
           <Ionicons name="search" size={18} color={Colors.textTertiary} />
           <TextInput
             style={styles.searchInput}
@@ -169,11 +168,11 @@ export default function HelpScreen() {
               <Ionicons name="close-circle" size={18} color={Colors.textTertiary} />
             </Pressable>
           )}
-        </Animated.View>
+        </View>
 
         {/* Quick Links */}
         {!search && (
-          <Animated.View entering={isWeb ? undefined : FadeInDown.delay(160).duration(400)} style={styles.section}>
+          <View style={styles.section}>
             <Text style={styles.sectionTitle}>Quick Links</Text>
             <View style={styles.quickRow}>
               {QUICK_LINKS.map(ql => (
@@ -192,12 +191,12 @@ export default function HelpScreen() {
                 </Pressable>
               ))}
             </View>
-          </Animated.View>
+          </View>
         )}
 
         {/* Category Filter Pills */}
         {!search && (
-          <Animated.View entering={isWeb ? undefined : FadeInDown.delay(200).duration(400)}>
+          <View>
             <ScrollView
               horizontal
               showsHorizontalScrollIndicator={false}
@@ -229,7 +228,7 @@ export default function HelpScreen() {
                 </Pressable>
               ))}
             </ScrollView>
-          </Animated.View>
+          </View>
         )}
 
         {/* FAQ Sections */}
@@ -241,11 +240,7 @@ export default function HelpScreen() {
           </View>
         ) : (
           filteredCategories.map((cat, ci) => (
-            <Animated.View
-              key={cat.id}
-              entering={isWeb ? undefined : FadeInDown.delay(240 + ci * 50).duration(400)}
-              style={styles.section}
-            >
+            <View key={cat.id} style={styles.section}>
               <View style={styles.catHeader}>
                 <View style={[styles.catIcon, { backgroundColor: cat.color + '18' }]}>
                   <Ionicons name={cat.icon as any} size={16} color={cat.color} />
@@ -279,12 +274,12 @@ export default function HelpScreen() {
                   </Pressable>
                 );
               })}
-            </Animated.View>
+            </View>
           ))
         )}
 
         {/* Contact Us */}
-        <Animated.View entering={isWeb ? undefined : FadeInDown.delay(400).duration(400)} style={styles.section}>
+        <View style={styles.section}>
           <Text style={styles.sectionTitle}>Contact Us</Text>
           <View style={styles.contactCard}>
             {CONTACT_OPTIONS.map((opt, i) => (
@@ -306,10 +301,10 @@ export default function HelpScreen() {
               </View>
             ))}
           </View>
-        </Animated.View>
+        </View>
 
         {/* Legal */}
-        <Animated.View entering={isWeb ? undefined : FadeInDown.delay(460).duration(400)} style={styles.section}>
+        <View style={styles.section}>
           <Text style={styles.sectionTitle}>Legal</Text>
           <View style={styles.contactCard}>
             {[
@@ -333,10 +328,10 @@ export default function HelpScreen() {
               </View>
             ))}
           </View>
-        </Animated.View>
+        </View>
 
         {/* App Info */}
-        <Animated.View entering={isWeb ? undefined : FadeInDown.delay(520).duration(400)} style={styles.aboutSection}>
+        <View style={styles.aboutSection}>
           <View style={styles.aboutLogo}>
             <Ionicons name="globe" size={28} color={Colors.primary} />
           </View>
@@ -344,7 +339,7 @@ export default function HelpScreen() {
           <Text style={styles.aboutVersion}>Version 1.0.0</Text>
           <Text style={styles.aboutTagline}>Your one-stop lifestyle platform for cultural diaspora communities</Text>
           <Text style={styles.aboutCountries}>Available in Australia · New Zealand · UAE · UK · Canada</Text>
-        </Animated.View>
+        </View>
       </ScrollView>
     </View>
   );

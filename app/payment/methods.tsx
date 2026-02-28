@@ -7,7 +7,6 @@ import * as Haptics from 'expo-haptics';
 import { useState } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { apiRequest, queryClient } from '@/lib/query-client';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useAuth } from '@/lib/auth';
 
 interface PaymentMethod {
@@ -146,16 +145,16 @@ export default function PaymentMethodsScreen() {
             <Text style={styles.loadingText}>Loading...</Text>
           </View>
         ) : methods.length === 0 ? (
-          <Animated.View entering={FadeInDown.delay(100)} style={styles.emptyState}>
+          <View style={styles.emptyState}>
             <View style={styles.emptyIcon}>
               <Ionicons name="card-outline" size={48} color={Colors.textTertiary} />
             </View>
             <Text style={styles.emptyTitle}>No Payment Methods</Text>
             <Text style={styles.emptySubtitle}>Add a card or PayPal to make quick payments</Text>
-          </Animated.View>
+          </View>
         ) : (
           methods.map((method, index) => (
-            <Animated.View key={method.id} entering={FadeInDown.delay(index * 80)} style={styles.cardContainer}>
+            <View key={method.id} style={styles.cardContainer}>
               <View style={[styles.cardGradient, { borderLeftColor: getBrandColor(method.brand) }]}>
                 <View style={styles.cardTop}>
                   <View style={[styles.brandIcon, { backgroundColor: getBrandColor(method.brand) + '15' }]}>
@@ -190,7 +189,7 @@ export default function PaymentMethodsScreen() {
                   </Pressable>
                 </View>
               </View>
-            </Animated.View>
+            </View>
           ))
         )}
 

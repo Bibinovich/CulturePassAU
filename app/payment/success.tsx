@@ -2,7 +2,6 @@ import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useLocalSearchParams, router } from 'expo-router';
-import Animated, { FadeInDown, FadeInUp, ZoomIn } from 'react-native-reanimated';
 import { useColors } from '@/hooks/useColors';
 import * as Haptics from 'expo-haptics';
 import { useEffect } from 'react';
@@ -18,18 +17,18 @@ export default function PaymentSuccessScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background, paddingTop: insets.top + 24, paddingBottom: insets.bottom + 24 }]}>
-      <Animated.View entering={ZoomIn.delay(100).springify()} style={[styles.iconCircle, { backgroundColor: colors.success + '20' }]}>
+      <View style={[styles.iconCircle, { backgroundColor: colors.success + '20' }]}>
         <Ionicons name="checkmark-circle" size={80} color={colors.success} />
-      </Animated.View>
+      </View>
 
-      <Animated.View entering={FadeInDown.delay(300).springify()} style={styles.textBlock}>
+      <View style={styles.textBlock}>
         <Text style={[styles.title, { color: colors.text }]}>Payment Successful</Text>
         <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
           Your ticket is confirmed. Check your email for a receipt.
         </Text>
-      </Animated.View>
+      </View>
 
-      <Animated.View entering={FadeInUp.delay(500).springify()} style={styles.actions}>
+      <View style={styles.actions}>
         {ticketId ? (
           <Pressable
             style={[styles.primaryBtn, { backgroundColor: colors.primary }]}
@@ -52,7 +51,7 @@ export default function PaymentSuccessScreen() {
         >
           <Text style={[styles.secondaryBtnText, { color: colors.text }]}>Back to Home</Text>
         </Pressable>
-      </Animated.View>
+      </View>
     </View>
   );
 }

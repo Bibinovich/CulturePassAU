@@ -7,7 +7,6 @@ import * as Haptics from 'expo-haptics';
 import { useState, useMemo, useEffect } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { apiRequest, getApiUrl, queryClient } from '@/lib/query-client';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import * as ImagePicker from 'expo-image-picker';
 import { manipulateAsync, SaveFormat } from '@/lib/image-manipulator';
 import { fetch } from 'expo/fetch';
@@ -224,7 +223,7 @@ export default function SubmitScreen() {
         </View>
 
         <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 40 + insets.bottom + webBottom }} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
-          <Animated.View entering={FadeInDown.delay(100).duration(400)}>
+          <View>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.tabScroll}>
               {visibleTabs.map((tab) => (
                 <Pressable
@@ -241,9 +240,9 @@ export default function SubmitScreen() {
                 </Pressable>
               ))}
             </ScrollView>
-          </Animated.View>
+          </View>
 
-          <Animated.View entering={FadeInDown.delay(200).duration(400)} style={styles.formSection}>
+          <View style={styles.formSection}>
             <Text style={styles.sectionLabel}>Basic Information</Text>
 
             <Text style={styles.fieldLabel}>
@@ -279,10 +278,10 @@ export default function SubmitScreen() {
               <Ionicons name="image-outline" size={16} color={Colors.primary} />
               <Text style={styles.mediaBtnText}>{imageUri ? 'Replace Media' : 'Upload Media'}</Text>
             </Pressable>
-          </Animated.View>
+          </View>
 
           {activeTab === 'event' && (
-            <Animated.View entering={FadeInDown.delay(300).duration(400)} style={styles.formSection}>
+            <View style={styles.formSection}>
               <Text style={styles.sectionLabel}>Event Details</Text>
 
               <Text style={styles.fieldLabel}>Date *</Text>
@@ -313,11 +312,11 @@ export default function SubmitScreen() {
                     placeholder="100" placeholderTextColor={Colors.textTertiary} keyboardType="numeric" />
                 </View>
               </View>
-            </Animated.View>
+            </View>
           )}
 
           {activeTab === 'perk' && (
-            <Animated.View entering={FadeInDown.delay(300).duration(400)} style={styles.formSection}>
+            <View style={styles.formSection}>
               <Text style={styles.sectionLabel}>Perk Type *</Text>
               <View style={styles.categoryGrid}>
                 {PERK_TYPES.map(pt => (
@@ -366,11 +365,11 @@ export default function SubmitScreen() {
                   </Pressable>
                 ))}
               </View>
-            </Animated.View>
+            </View>
           )}
 
           {(activeTab !== 'event' && activeTab !== 'perk') && (
-            <Animated.View entering={FadeInDown.delay(300).duration(400)} style={styles.formSection}>
+            <View style={styles.formSection}>
               <Text style={styles.sectionLabel}>Location</Text>
               <Text style={styles.fieldLabel}>City</Text>
               <TextInput style={styles.input} value={form.city} onChangeText={v => setForm(p => ({ ...p, city: v }))}
@@ -378,11 +377,11 @@ export default function SubmitScreen() {
               <Text style={styles.fieldLabel}>Country</Text>
               <TextInput style={styles.input} value={form.country} onChangeText={v => setForm(p => ({ ...p, country: v }))}
                 placeholder="Australia" placeholderTextColor={Colors.textTertiary} />
-            </Animated.View>
+            </View>
           )}
 
           {activeTab === 'event' && (
-            <Animated.View entering={FadeInDown.delay(350).duration(400)} style={styles.formSection}>
+            <View style={styles.formSection}>
               <Text style={styles.sectionLabel}>Location</Text>
               <View style={styles.rowFields}>
                 <View style={styles.halfField}>
@@ -396,11 +395,11 @@ export default function SubmitScreen() {
                     placeholder="Australia" placeholderTextColor={Colors.textTertiary} />
                 </View>
               </View>
-            </Animated.View>
+            </View>
           )}
 
           {(activeTab !== 'perk') && (
-            <Animated.View entering={FadeInDown.delay(400).duration(400)} style={styles.formSection}>
+            <View style={styles.formSection}>
               <Text style={styles.sectionLabel}>Contact Details</Text>
               <Text style={styles.fieldLabel}>Contact Email {activeTab !== 'event' ? '*' : ''}</Text>
               <TextInput style={styles.input} value={form.contactEmail} onChangeText={v => setForm(p => ({ ...p, contactEmail: v }))}
@@ -411,11 +410,11 @@ export default function SubmitScreen() {
               <Text style={styles.fieldLabel}>Website</Text>
               <TextInput style={styles.input} value={form.website} onChangeText={v => setForm(p => ({ ...p, website: v }))}
                 placeholder="https://example.com" placeholderTextColor={Colors.textTertiary} autoCapitalize="none" />
-            </Animated.View>
+            </View>
           )}
 
           {(activeTab !== 'perk') && getCategoryOptions().length > 0 && (
-            <Animated.View entering={FadeInDown.delay(500).duration(400)} style={styles.formSection}>
+            <View style={styles.formSection}>
               <Text style={styles.sectionLabel}>{getCategoryLabel()}</Text>
               <View style={styles.categoryGrid}>
                 {getCategoryOptions().map((cat) => (
@@ -431,28 +430,28 @@ export default function SubmitScreen() {
                   </Pressable>
                 ))}
               </View>
-            </Animated.View>
+            </View>
           )}
 
           {activeTab === 'business' && (
-            <Animated.View entering={FadeInDown.delay(600).duration(400)} style={styles.formSection}>
+            <View style={styles.formSection}>
               <Text style={styles.sectionLabel}>Business Details</Text>
               <Text style={styles.fieldLabel}>ABN (Australian Business Number)</Text>
               <TextInput style={styles.input} value={form.abn} onChangeText={v => setForm(p => ({ ...p, abn: v }))}
                 placeholder="XX XXX XXX XXX" placeholderTextColor={Colors.textTertiary} keyboardType="number-pad" />
-            </Animated.View>
+            </View>
           )}
 
           {activeTab === 'artist' && (
-            <Animated.View entering={FadeInDown.delay(600).duration(400)} style={styles.formSection}>
+            <View style={styles.formSection}>
               <Text style={styles.sectionLabel}>Social Media</Text>
               <Text style={styles.fieldLabel}>Social Media Links</Text>
               <TextInput style={[styles.input, styles.textArea]} value={form.socialMedia} onChangeText={v => setForm(p => ({ ...p, socialMedia: v }))}
                 placeholder="Instagram, Facebook, YouTube, etc. (one per line)" placeholderTextColor={Colors.textTertiary} multiline numberOfLines={3} textAlignVertical="top" />
-            </Animated.View>
+            </View>
           )}
 
-          <Animated.View entering={FadeInDown.delay(700).duration(400)} style={styles.submitSection}>
+          <View style={styles.submitSection}>
             <Pressable style={[styles.submitBtn, isPending && { opacity: 0.7 }]} onPress={handleSubmit} disabled={isPending}>
               <Ionicons name="checkmark-circle" size={22} color="#FFF" />
               <Text style={styles.submitBtnText}>{isPending ? 'Submitting...' : 'Submit'}</Text>
@@ -462,7 +461,7 @@ export default function SubmitScreen() {
                 ? 'Your perk will be created and made available to users immediately.'
                 : 'All submissions are reviewed by our team within 2-3 business days. You will receive an email notification once your listing is approved.'}
             </Text>
-          </Animated.View>
+          </View>
         </ScrollView>
       </View>
     </KeyboardAvoidingView>

@@ -3,7 +3,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors } from '@/constants/theme';
 import { router } from 'expo-router';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 
 const SECTIONS = [
   { title: '1. Acceptance of Terms', body: 'By downloading, accessing, or using CulturePass ("the App"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, do not use the App. CulturePass reserves the right to update or modify these Terms at any time. Continued use of the App after changes constitutes acceptance of the revised Terms.' },
@@ -35,20 +34,20 @@ export default function TermsScreen() {
       </View>
 
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 40 + (Platform.OS === 'web' ? 34 : insets.bottom) }} showsVerticalScrollIndicator={false}>
-        <Animated.View entering={FadeInDown.delay(100).duration(400)} style={styles.intro}>
+        <View style={styles.intro}>
           <View style={[styles.iconWrap, { backgroundColor: '#3498DB15' }]}>
             <Ionicons name="document-text" size={28} color="#3498DB" />
           </View>
           <Text style={styles.introTitle}>Terms of Service</Text>
           <Text style={styles.introDate}>Last updated: 1 February 2026</Text>
           <Text style={styles.introPara}>Please read these Terms of Service carefully before using CulturePass. These terms govern your use of our platform across Australia, New Zealand, UAE, UK, and Canada.</Text>
-        </Animated.View>
+        </View>
 
         {SECTIONS.map((s, i) => (
-          <Animated.View key={i} entering={FadeInDown.delay(150 + i * 30).duration(400)} style={styles.section}>
+          <View key={i} style={styles.section}>
             <Text style={styles.sectionTitle}>{s.title}</Text>
             <Text style={styles.sectionBody}>{s.body}</Text>
-          </Animated.View>
+          </View>
         ))}
       </ScrollView>
     </View>
