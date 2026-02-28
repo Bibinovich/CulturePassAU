@@ -12,7 +12,7 @@
 
 import express, { type Request, type Response, type NextFunction } from 'express';
 import Stripe from 'stripe';
-import { randomUUID } from 'node:crypto';
+import { randomUUID, randomInt } from 'node:crypto';
 import multer from 'multer';
 import sharp from 'sharp';
 import rateLimit from 'express-rate-limit';
@@ -331,6 +331,18 @@ for (const user of users) {
 
 function nowIso() {
   return new Date().toISOString();
+}
+
+/**
+ * Generates a cryptographically secure alphanumeric code.
+ */
+export function generateSecureCode(length: number = 6): string {
+  const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  let result = '';
+  for (let i = 0; i < length; i++) {
+    result += chars[randomInt(0, chars.length)];
+  }
+  return result;
 }
 
 const FALLBACK_EVENT_TIMESTAMP = nowIso();
@@ -751,7 +763,7 @@ app.post('/api/auth/register', requireAuth, async (req: Request, res: Response) 
         email: req.user!.email ?? null,
         city: city ?? null,
         country: country ?? null,
-        culturePassId: `CP-U${Math.random().toString(36).slice(2, 8).toUpperCase()}`,
+        culturePassId: `CP-U${generateSecureCode(6)}`,
         createdAt: nowIso(),
       };
       await db.collection('users').doc(uid).set(profile);
@@ -1075,7 +1087,7 @@ app.post('/api/events', requireAuth, requireRole('organizer', 'admin'), moderati
       priceTier: b.priceTier ? String(b.priceTier) : undefined,
       organizerReputationScore: b.organizerReputationScore != null ? Number(b.organizerReputationScore) : 50,
       externalTicketUrl: b.externalTicketUrl ? String(b.externalTicketUrl) : null,
-      cpid: `CP-E-${Math.random().toString(36).slice(2, 8).toUpperCase()}`,
+      cpid: `CP-E-${generateSecureCode(6)}`,
       status: 'draft',
     });
     return res.status(201).json(event);
@@ -1824,7 +1836,7 @@ app.post('/api/tickets', requireAuth, async (req, res) => {
       const event = fallbackEventLookup.get(eventId);
       if (!event) return res.status(404).json({ error: 'Event not found' });
       const priceCents = Number(req.body?.priceCents ?? event.priceCents ?? 0);
-      const ticketCode = `CP-T-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
+      const ticketCode = `CP-T-${generateSecureCode(6)}`;
       const ticket: AppTicket = {
         id: randomUUID(), eventId, userId,
         eventTitle: event.title, eventDate: event.date, eventTime: event.time ?? '', eventVenue: event.venue,
@@ -1865,7 +1877,7 @@ app.post('/api/tickets', requireAuth, async (req, res) => {
       }
 
       const priceCents = Number(req.body?.priceCents ?? event.priceCents ?? 0);
-      const qrCode = `CP-T-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
+      const qrCode = `CP-T-${generateSecureCode(6)}`;
 
       const newTicketPayload = {
         id: ticketRef.id, eventId, userId,
@@ -2950,7 +2962,7 @@ app.post('/api/stripe/create-checkout-session', requireAuth, async (req: Request
     eventTitle: String(ticketData.eventTitle ?? 'Event'), eventDate: String(ticketData.eventDate ?? ''), eventTime: String(ticketData.eventTime ?? ''), eventVenue: String(ticketData.eventVenue ?? ''),
     tierName: String(ticketData.tierName ?? 'General'), quantity: Number(ticketData.quantity ?? 1), totalPriceCents: Number(ticketData.totalPriceCents ?? 0),
     currency: String(ticketData.currency ?? 'AUD').toUpperCase(), status: 'confirmed' as TicketStatus, paymentStatus: 'pending', priority: 'normal',
-    imageColor: ticketData.imageColor ?? undefined, createdAt, ticketCode: `CP-T-${Math.random().toString(36).slice(2, 8).toUpperCase()}`,
+    imageColor: ticketData.imageColor ?? undefined, createdAt, ticketCode: `CP-T-${generateSecureCode(6)}`,
     history: [{ at: createdAt, status: 'confirmed' as TicketStatus, note: 'Draft created, awaiting payment' }], staffAuditTrail: [],
   };
   if (hasFirestoreProject) {
