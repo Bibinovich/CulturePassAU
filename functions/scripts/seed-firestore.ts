@@ -2005,55 +2005,60 @@ async function seed() {
   // Seed events
   console.log('\nSeeding events...');
   const eventsBatch = db.batch();
-  for (const event of EVENTS) {
+  const eventLogs = EVENTS.map((event) => {
     const ref = db.collection('events').doc();
     eventsBatch.set(ref, { ...event, id: ref.id, createdAt: now, updatedAt: now });
-    console.log(`  + ${event.title} (${event.city}, ${event.country})`);
-  }
+    return `  + ${event.title} (${event.city}, ${event.country})`;
+  });
+  console.log(eventLogs.join('\n'));
   await eventsBatch.commit();
   console.log(`  ✓ ${EVENTS.length} events seeded`);
 
   // Seed profiles (communities, businesses, venues, artists)
   console.log('\nSeeding profiles...');
   const profilesBatch = db.batch();
-  for (const profile of PROFILES) {
+  const profileLogs = PROFILES.map((profile) => {
     const ref = db.collection('profiles').doc();
     profilesBatch.set(ref, { ...profile, id: ref.id, createdAt: now, updatedAt: now });
-    console.log(`  + [${profile.entityType}] ${profile.name}`);
-  }
+    return `  + [${profile.entityType}] ${profile.name}`;
+  });
+  console.log(profileLogs.join('\n'));
   await profilesBatch.commit();
   console.log(`  ✓ ${PROFILES.length} profiles seeded`);
 
   // Seed perks
   console.log('\nSeeding perks...');
   const perksBatch = db.batch();
-  for (const perk of PERKS) {
+  const perkLogs = PERKS.map((perk) => {
     const ref = db.collection('perks').doc();
     perksBatch.set(ref, { ...perk, id: ref.id, createdAt: now });
-    console.log(`  + ${perk.title}`);
-  }
+    return `  + ${perk.title}`;
+  });
+  console.log(perkLogs.join('\n'));
   await perksBatch.commit();
   console.log(`  ✓ ${PERKS.length} perks seeded`);
 
   // Seed traditional lands
   console.log('\nSeeding traditional lands...');
   const landsBatch = db.batch();
-  for (const land of TRADITIONAL_LANDS) {
+  const landLogs = TRADITIONAL_LANDS.map((land) => {
     const ref = db.collection('traditionalLands').doc(land.id);
     landsBatch.set(ref, { ...land, createdAt: now });
-    console.log(`  + ${land.city} — ${land.landName}`);
-  }
+    return `  + ${land.city} — ${land.landName}`;
+  });
+  console.log(landLogs.join('\n'));
   await landsBatch.commit();
   console.log(`  ✓ ${TRADITIONAL_LANDS.length} traditional lands seeded`);
 
   // Seed indigenous spotlights
   console.log('\nSeeding Indigenous spotlights...');
   const spotlightsBatch = db.batch();
-  for (const spotlight of INDIGENOUS_SPOTLIGHTS) {
+  const spotlightLogs = INDIGENOUS_SPOTLIGHTS.map((spotlight) => {
     const ref = db.collection('indigenousSpotlights').doc(spotlight.id);
     spotlightsBatch.set(ref, { ...spotlight, createdAt: now });
-    console.log(`  + ${spotlight.title}`);
-  }
+    return `  + ${spotlight.title}`;
+  });
+  console.log(spotlightLogs.join('\n'));
   await spotlightsBatch.commit();
   console.log(`  ✓ ${INDIGENOUS_SPOTLIGHTS.length} spotlights seeded`);
 
