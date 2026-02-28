@@ -28,8 +28,9 @@ import { confirmAndReport } from '@/lib/reporting';
 import { api } from '@/lib/api';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { useAuth } from '@/lib/auth';
+import { EventData } from '@/shared/schema';
 
-type SampleEvent = any;
+type SampleEvent = EventData & { councilTag?: string };
 
 function formatDate(dateStr: string): string {
   const [year, month, day] = dateStr.split('-').map(Number);
@@ -211,7 +212,7 @@ function EventDetail({ event, topInset, bottomInset }: EventDetailProps) {
     },
   });
 
-  const selectedTier = event.tiers[selectedTierIndex];
+  const selectedTier = event.tiers?.[selectedTierIndex];
   const maxQty = buyMode === 'family' ? 1 : Math.min(20, selectedTier?.available ?? 1);
   const familySize = 4;
   const familyDiscount = 0.10;
@@ -257,7 +258,7 @@ function EventDetail({ event, topInset, bottomInset }: EventDetailProps) {
       return;
     }
 
-    const ticketLabel = buyMode === 'family' ? `${selectedTier.name} (Family Pack)` : buyMode === 'group' ? `${selectedTier.name} (Group)` : selectedTier.name;
+    const ticketLabel = buyMode === 'family' ? `${selectedTier?.name ?? 'Ticket'} (Family Pack)` : buyMode === 'group' ? `${selectedTier?.name ?? 'Ticket'} (Group)` : (selectedTier?.name ?? 'Ticket');
 
     if (totalPrice <= 0) {
       purchaseFreeTicket({
@@ -308,7 +309,7 @@ function EventDetail({ event, topInset, bottomInset }: EventDetailProps) {
     const [year, month, day] = event.date.split('-').map(Number);
     if (!year || !month || !day) return null;
     const eventDate = new Date(year, month - 1, day);
-    const timeParts = event.time.match(/(\d+):(\d+)\s*(AM|PM)/i);
+    const timeParts = event.time?.match(/(\d+):(\d+)\s*(AM|PM)/i);
     if (timeParts) {
       let hours = parseInt(timeParts[1], 10);
       const mins = parseInt(timeParts[2], 10);
@@ -327,8 +328,8 @@ function EventDetail({ event, topInset, bottomInset }: EventDetailProps) {
 
   const capacityPercent = useMemo(
     () =>
-      event.capacity > 0
-        ? Math.min(100, Math.round((event.attending / event.capacity) * 100))
+      (event.capacity ?? 0) > 0
+        ? Math.min(100, Math.round(((event.attending ?? 0) / (event.capacity ?? 1)) * 100))
         : 0,
     [event.attending, event.capacity],
   );
@@ -354,7 +355,7 @@ function EventDetail({ event, topInset, bottomInset }: EventDetailProps) {
   );
 
   const avatarCount = 5;
-  const remainingCount = Math.max(0, event.attending - avatarCount);
+  const remainingCount = Math.max(0, (event.attending ?? 0) - avatarCount);
 
   const handleShare = useCallback(async () => {
     try {
@@ -543,9 +544,9 @@ function EventDetail({ event, topInset, bottomInset }: EventDetailProps) {
             />
           </View>
           <View style={styles.capacityDetails}>
-            <Text style={styles.capacityText}>{event.attending} attending</Text>
+            <Text style={styles.capacityText}>{event.attending ?? 0} attending</Text>
             <Text style={styles.capacityText}>
-              {Math.max(0, event.capacity - event.attending)} spots left
+              {Math.max(0, (event.capacity ?? 0) - (event.attending ?? 0))} spots left
             </Text>
           </View>
         </View>
@@ -610,7 +611,7 @@ function EventDetail({ event, topInset, bottomInset }: EventDetailProps) {
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Tickets</Text>
-          {event.tiers.map((tier: any, idx: number) => (
+          {event.tiers?.map((tier: any, idx: number) => (
             <Pressable key={`${tier.name}-${idx}`} style={styles.tierCard} onPress={() => openTicketModal(idx)}>
               <View style={styles.tierInfo}>
                 <Text style={styles.tierName}>{tier.name}</Text>
@@ -877,7 +878,7 @@ function EventDetail({ event, topInset, bottomInset }: EventDetailProps) {
               )}
 
               <Text style={[modalStyles.sectionLabel, { marginTop: 20 }]}>Ticket Tier</Text>
-              {event.tiers.map((tier: any, idx: number) => {
+              {event.tiers?.map((tier: any, idx: number) => {
                 const isSelected = idx === selectedTierIndex;
                 return (
                   <Pressable
