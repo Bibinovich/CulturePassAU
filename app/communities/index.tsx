@@ -2,7 +2,7 @@ import { useMemo, useCallback } from 'react';
 import { View, Text, StyleSheet, RefreshControl } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import * as Haptics from 'expo-haptics';
 import { api } from '@/lib/api';
 
@@ -18,8 +18,6 @@ const COMMUNITY_CATEGORIES: CategoryFilter[] = [
 ];
 
 export default function CommunitiesScreen() {
-  const queryClient = useQueryClient();
-  
   const { data: communities = [], isLoading, isRefetching, refetch } = useQuery({
     queryKey: ['/api/communities'],
     queryFn: () => api.communities.list(),

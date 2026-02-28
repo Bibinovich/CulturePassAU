@@ -7,7 +7,6 @@ import { Colors } from '@/constants/theme';
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getQueryFn } from '@/lib/query-client';
-import { api } from '@/lib/api';
 import type { LocationEntry } from '@/lib/api';
 
 export default function LocationScreen() {

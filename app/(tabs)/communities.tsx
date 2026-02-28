@@ -9,9 +9,7 @@ import {
   FlatList,
   ScrollView,
   ActivityIndicator,
-  useWindowDimensions,
 } from 'react-native';
-import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -20,10 +18,10 @@ import { Colors } from '@/constants/theme';
 import * as Haptics from 'expo-haptics';
 import { useQuery } from '@tanstack/react-query';
 import { queryClient } from '@/lib/query-client';
-import { useState, useMemo, useCallback, useRef } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import type { Profile } from '@shared/schema';
 import { LinearGradient } from 'expo-linear-gradient';
-import { FilterChipRow, FilterItem } from '@/components/FilterChip';
+import { FilterChipRow } from '@/components/FilterChip';
 
 const isWeb = Platform.OS === 'web';
 

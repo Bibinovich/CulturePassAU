@@ -1,11 +1,10 @@
 module.exports = function (api) {
   api.cache(true);
   return {
-    presets: [['babel-preset-expo', { unstable_transformImportMeta: true }]],
+    presets: ['babel-preset-expo'],
     plugins: [
-      // React Compiler — matches experiments.reactCompiler: true in app.json
-      // Auto-memoises components and hooks; requires babel-plugin-react-compiler
-      'babel-plugin-react-compiler',
+      // If you have other plugins, put them here first!
+      'react-native-reanimated/plugin',
     ],
   };
 };

@@ -4,13 +4,12 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors } from '@/constants/theme';
 import { router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
-import { useState, useMemo, useEffect } from 'react';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useState, useEffect } from 'react';
+import { useMutation } from '@tanstack/react-query';
 import { apiRequest, getApiUrl, queryClient } from '@/lib/query-client';
 import * as ImagePicker from 'expo-image-picker';
 import { manipulateAsync, SaveFormat } from '@/lib/image-manipulator';
 import { fetch } from 'expo/fetch';
-import { useAuth } from '@/lib/auth';
 import { useRole } from '@/hooks/useRole';
 
 type SubmitType = 'event' | 'organisation' | 'business' | 'artist' | 'perk';
@@ -67,7 +66,6 @@ export default function SubmitScreen() {
   const [activeTab, setActiveTab] = useState<SubmitType>('event');
   const [form, setForm] = useState({ ...initialForm });
   const [imageUri, setImageUri] = useState<string | null>(null);
-  const { userId } = useAuth();
   const { isAdmin } = useRole();
 
   const visibleTabs = TABS.filter(t => t.key !== 'perk' || isAdmin);
@@ -208,8 +206,6 @@ export default function SubmitScreen() {
   };
 
   const isPending = submitProfileMutation.isPending || submitPerkMutation.isPending;
-
-  const tabScrollIndex = useMemo(() => TABS.findIndex(t => t.key === activeTab), [activeTab]);
 
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={90}>

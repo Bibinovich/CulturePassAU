@@ -7,7 +7,6 @@ import {
  ScrollView,
  Platform,
  Alert,
- Switch,
  Share,
  RefreshControl,
 } from 'react-native';
@@ -26,15 +25,6 @@ import { api, type RewardsSummary } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
 import type { User, Wallet, Membership, EventData } from '@shared/schema';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
-
-const isWeb = Platform.OS === 'web';
-
-interface EventListItem {
-  id: string;
-  title: string;
-  date: string;
-  imageColor?: string;
-}
 
 interface CommunityListItem {
   id: string;
@@ -101,42 +91,6 @@ function MenuItem({
         {value ? <Text style={styles.menuValue}>{value}</Text> : null}
         <Ionicons name="chevron-forward" size={16} color={Colors.textTertiary} />
       </Pressable>
-      {showDivider && <View style={styles.divider} />}
-    </>
-  );
-}
-
-interface ToggleItemProps {
-  icon: string;
-  label: string;
-  value: boolean;
-  onToggle: (v: boolean) => void;
-  color?: string;
-  showDivider?: boolean;
-}
-
-function ToggleItem({
-  icon,
-  label,
-  value,
-  onToggle,
-  color,
-  showDivider = true,
-}: ToggleItemProps) {
-  return (
-    <>
-      <View style={styles.menuItem}>
-        <View style={[styles.menuIcon, { backgroundColor: (color ?? Colors.primary) + '12' }]}>
-          <Ionicons name={icon as any} size={18} color={color ?? Colors.primary} />
-        </View>
-        <Text style={styles.menuLabel}>{label}</Text>
-        <Switch
-          value={value}
-          onValueChange={onToggle}
-          trackColor={{ false: Colors.border, true: Colors.primary + '60' }}
-          thumbColor={value ? Colors.primary : Colors.textTertiary}
-        />
-      </View>
       {showDivider && <View style={styles.divider} />}
     </>
   );

@@ -6,8 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useColors } from "@/hooks/useColors";
 import { useRole } from "@/hooks/useRole";
-import { TabBarTokens } from "@/constants/theme";
-import { gradients } from "@/constants/theme";
+import { TabBarTokens, gradients } from "@/constants/theme";
 import { WebSidebar } from "@/components/web/WebSidebar";
 
 // ---------------------------------------------------------------------------

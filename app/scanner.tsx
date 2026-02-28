@@ -192,12 +192,11 @@ export default function ScannerScreen() {
       const data = await api.tickets.scan({ ticketCode: trimmed, scannedBy: 'staff' });
       const valid = data.valid !== false;
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const result: TicketScanResult = {
         valid,
         message: data.message || (valid ? 'Ticket accepted' : 'Invalid ticket'),
         outcome: (data.outcome as TicketScanResult['outcome']) ?? (valid ? 'accepted' : 'rejected'),
-        ticket: (data.ticket as any) ?? undefined,
+        ticket: (data.ticket as unknown as TicketScanResult['ticket']) ?? undefined,
       };
 
       setTicketResult(result);

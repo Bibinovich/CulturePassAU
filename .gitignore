@@ -55,3 +55,8 @@ google-play-service-account.json
 .vercel
 
 .env
+functions/.env
+functions/.env.*
+
+# Firebase project config (update .firebaserc with your new project ID)
+# .firebaserc is tracked — do NOT commit project IDs if open-sourcing

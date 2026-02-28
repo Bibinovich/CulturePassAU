@@ -1,4 +1,4 @@
-import { View, Text, Pressable, StyleSheet, ScrollView, Image, Platform } from 'react-native';
+import { View, Text, Pressable, StyleSheet, ScrollView, Image } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '@/constants/theme';

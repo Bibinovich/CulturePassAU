@@ -67,7 +67,6 @@ const TIERS = [
 // ---------------------------------------------------------------------------
 // Sub-components
 // ---------------------------------------------------------------------------
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyRef = React.RefObject<any>;
 
 function NavBar({ isDesktop, featuresRef, citiesRef, pricingRef, scrollRef }: {

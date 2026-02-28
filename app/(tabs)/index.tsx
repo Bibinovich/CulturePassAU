@@ -19,8 +19,7 @@ import { useAuth } from '@/lib/auth';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
 import { useQuery } from '@tanstack/react-query';
-import type { User, EventData, Community } from '@shared/schema';
-import { getQueryFn } from '@/lib/query-client';
+import type { EventData, Community } from '@shared/schema';
 import { useMemo, useCallback, useState, useRef, useEffect } from 'react';
 import { LocationPicker } from '@/components/LocationPicker';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
@@ -364,11 +363,6 @@ export default function HomeScreen() {
   const topInset = Platform.OS === 'web' ? 67 : insets.top;
   const { state } = useOnboarding();
   const { isAuthenticated, userId: authUserId, user: authUser } = useAuth();
-
-  const { data: users } = useQuery<User[]>({
-    queryKey: ['/api/users'],
-    queryFn: getQueryFn({ on401: 'returnNull' }),
-  });
 
   const { data: traditionalLandsData = [] } = useQuery<TraditionalLand[]>({
     queryKey: ['/api/indigenous/traditional-lands'],

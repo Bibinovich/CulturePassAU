@@ -1,6 +1,5 @@
-import { Stack } from "expo-router";
+import { Stack, Redirect } from "expo-router";
 import { useOnboarding } from "@/contexts/OnboardingContext";
-import { Redirect } from "expo-router";
 import { ActivityIndicator, Platform, View } from "react-native";
 
 export default function OnboardingLayout() {
