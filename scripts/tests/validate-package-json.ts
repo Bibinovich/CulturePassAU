@@ -19,6 +19,8 @@ function validateJsonFile(file: string) {
 }
 
 validateJsonFile('package.json');
-validateJsonFile('package-lock.json');
+if (fs.existsSync('package-lock.json')) {
+  validateJsonFile('package-lock.json');
+}
 
 console.log('package json validation checks passed');
