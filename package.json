@@ -21,9 +21,10 @@
     "typecheck": "tsc --noEmit",
     "test:native-intent": "tsx scripts/test-native-intent.ts",
     "test:unit": "tsx scripts/tests/unit-services-middleware.ts",
+    "test:config": "tsx lib/tests/config.test.ts",
     "test:integration": "tsx scripts/tests/integration-api-routes.ts",
     "test:e2e:smoke": "tsx scripts/tests/e2e-critical-smoke.ts",
-    "qa:all": "npm run test:package-json && npm run test:unit && npm run test:integration && npm run test:e2e:smoke",
+    "qa:all": "npm run test:package-json && npm run test:unit && npm run test:config && npm run test:integration && npm run test:e2e:smoke",
     "test:package-json": "tsx scripts/tests/validate-package-json.ts",
     "deploy-all": "cd functions && npm run build && cd .. && firebase deploy --only functions && EXPO_NO_TELEMETRY=1 npx expo export --platform web && firebase deploy --only hosting"
   },
@@ -76,7 +77,7 @@
     "react-native-svg": "15.15.3",
     "react-native-web": "^0.21.0",
     "react-native-worklets": "0.7.2",
-    "tsx": "^4.20.6",
+    "tsx": "^4.21.0",
     "ws": "^8.18.0",
     "zod": "^3.24.2",
     "zod-validation-error": "^3.4.0"
