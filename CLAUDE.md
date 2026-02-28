@@ -5,7 +5,7 @@ Project guide for AI agents and engineers. Read this before touching code.
 ## Project Overview
 
 Cross-platform lifestyle/community platform for cultural diaspora communities (AU, NZ, UAE, UK, CA).
-**Stack**: Expo 54 + React Native 0.81 + Expo Router 6 + Firebase (Auth + Firestore + Cloud Functions + Storage).
+**Stack**: Expo 55 + React Native 0.83 + Expo Router 55 + Firebase (Auth + Firestore + Cloud Functions + Storage).
 
 ---
 

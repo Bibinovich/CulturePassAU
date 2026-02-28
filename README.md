@@ -20,7 +20,7 @@ Frontend (Expo + React Native)
 ├── contexts/         # Client state (auth, onboarding, saved, contacts)
 ├── hooks/            # Custom React hooks
 ├── lib/              # Auth, API client, feature flags, utilities
-└── shared/           # Shared TypeScript types (Drizzle schema)
+└── shared/           # Shared TypeScript types (EventData, User, Ticket…)
 
 Backend (Firebase Functions + Express)
 ├── functions/src/            # Express API + middleware + services
@@ -39,30 +39,45 @@ For a full architecture breakdown see [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE
 ```bash
 # 1. Install dependencies
 npm install
+cd functions && npm install && cd ..
 
-# 2. Quality checks
+# 2. Copy environment variables and fill in your values
+cp .env.example .env
+
+# 3. Quality checks
 npm run lint          # ESLint
 npm run typecheck     # TypeScript
 npm run qa:all        # Unit + integration + E2E smoke tests
 
-# 3. Start development
+# 4. Start development
 npm run start         # Expo dev server (iOS / Android / Web)
 firebase emulators:start --only functions,firestore,auth,storage
 ```
 
 ### Environment Variables
 
+Copy `.env.example` → `.env` and fill in the required values:
+
 ```bash
-# Point frontend at your API (recommended)
-export EXPO_PUBLIC_API_URL=http://127.0.0.1:5001/<project>/us-central1/api/
+# Firebase client SDK (baked into bundle at build time)
+EXPO_PUBLIC_FIREBASE_API_KEY=
+EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN=
+EXPO_PUBLIC_FIREBASE_PROJECT_ID=
+EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET=
+EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
+EXPO_PUBLIC_FIREBASE_APP_ID=
 
-# Control feature rollout phase
-export ROLLOUT_PHASE=internal   # internal | pilot | half | full
+# API base URL (use emulator URL for local dev)
+EXPO_PUBLIC_API_URL=http://127.0.0.1:5001/<project>/us-central1/api/
 
-# Optional emulator wiring in Expo dev mode
-export EXPO_PUBLIC_USE_FIREBASE_EMULATORS=true
-export EXPO_PUBLIC_FIREBASE_EMULATOR_HOST=127.0.0.1
+# Stripe — Cloud Functions side only (never in Expo bundle)
+STRIPE_SECRET_KEY=sk_test_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+STRIPE_PRICE_MONTHLY_ID=price_...
+STRIPE_PRICE_YEARLY_ID=price_...
 ```
+
+For EAS builds, mirror these in `eas.json` under `build.*.env`.
 
 ## Build and deploy
 
@@ -136,22 +151,13 @@ See `.github/workflows/quality-gate.yml` for the full pipeline.
 
 ## Tech Stack
 
-- **Frontend**: React 19, React Native 0.81, Expo 54, Expo Router 6
+- **Frontend**: React 19, React Native 0.83, Expo 55, Expo Router 55
 - **State**: TanStack Query 5, React Context
 - **UI**: Reanimated 4, Expo Linear Gradient, Expo Blur / Glass Effect
 - **Backend**: Firebase Cloud Functions (Express), Node.js 22, TypeScript 5.9
 - **Database**: Firestore
 - **Payments**: Stripe
 - **Hosting**: Firebase Hosting (web), Firebase Functions (API), EAS (native builds)
-
-## Notes for Replit to production migration
-
-Set environment variables in your deployment platform:
-
-- `EXPO_PUBLIC_API_URL` (recommended)
-- `EXPO_PUBLIC_DOMAIN` (legacy fallback)
-
-This lets the same codebase run cleanly across local dev, Replit, Firebase, and production infra.
 
 ## License
 
