@@ -664,7 +664,7 @@ export default function HomeScreen() {
           <Ionicons name="globe-outline" size={20} color={Colors.primary} />
           <View>
             <Text style={styles.brandName}>CulturePass</Text>
-            <Text style={styles.brandUrl}>culturepass.app</Text>
+            <Text style={styles.brandUrl}>CulturePass.App</Text>
           </View>
         </View>
         <View style={styles.topBarRight}>
