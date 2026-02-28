@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/api';
 import { Colors } from '@/constants/theme';
 import * as Haptics from 'expo-haptics';
+import { Deal } from '@/shared/schema';
 
 export default function ShoppingDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -73,7 +74,7 @@ export default function ShoppingDetailScreen() {
           {(store.deals?.length ?? 0) > 0 && (
             <>
               <Text style={styles.subTitle}>Current Deals & Offers</Text>
-              {(store.deals ?? []).map((deal: any, i: number) => (
+              {(store.deals ?? []).map((deal: Deal, i: number) => (
                 <View key={i} style={styles.dealCard}>
                   <View style={styles.dealHeader}>
                     <Ionicons name="pricetag" size={18} color={Colors.primary} />

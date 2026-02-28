@@ -155,7 +155,7 @@ export interface Profile {
   isOpen?: boolean;
   cuisine?: string;
   menuHighlights?: string[];
-  deals?: string[];
+  deals?: Deal[];
   deliveryAvailable?: boolean;
   reservationAvailable?: boolean;
   reviews?: Array<{ id: string; userId: string; rating: number; comment?: string; createdAt?: string }>;
@@ -210,6 +210,12 @@ export interface Review {
   rating: number;
   comment?: string;
   createdAt: string | null;
+}
+
+export interface Deal {
+  title: string;
+  discount: string;
+  validTill: string;
 }
 
 // ---------------------------------------------------------------------------
