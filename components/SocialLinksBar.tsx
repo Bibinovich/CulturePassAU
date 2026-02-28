@@ -1,12 +1,12 @@
 import React from "react";
-import { View, Pressable, StyleSheet, Linking, ViewStyle } from "react-native";
+import { View, Pressable, StyleSheet, Linking, ViewStyle, StyleProp } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "@/constants/theme";
 
-interface SocialLinksBarProps {
+export interface SocialLinksBarProps {
   socialLinks?: Record<string, string> | null;
   website?: string | null;
-  style?: ViewStyle;
+  style?: StyleProp<ViewStyle>;
 }
 
 const SOCIAL_PLATFORMS: { key: string; icon: keyof typeof Ionicons.glyphMap; color: string }[] = [
