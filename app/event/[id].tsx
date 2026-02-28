@@ -110,6 +110,13 @@ interface EventDetailProps {
   bottomInset: number;
 }
 
+interface CheckoutSessionResponse {
+  checkoutUrl?: string;
+  ticketId: string;
+  sessionId?: string;
+  paymentIntentId?: string;
+}
+
 function EventDetail({ event, topInset, bottomInset }: EventDetailProps) {
   const { isEventSaved, toggleSaveEvent } = useSaved();
   const { userId } = useAuth();
@@ -171,7 +178,7 @@ function EventDetail({ event, topInset, bottomInset }: EventDetailProps) {
       const res = await apiRequest('POST', '/api/stripe/create-checkout-session', { ticketData: body });
       return await res.json();
     },
-    onSuccess: async (data: any) => {
+    onSuccess: async (data: CheckoutSessionResponse) => {
       if (data.checkoutUrl) {
         setPaymentLoading(true);
         setTicketModalVisible(false);
