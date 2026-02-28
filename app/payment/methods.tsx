@@ -22,6 +22,17 @@ interface PaymentMethod {
   createdAt: string | null;
 }
 
+interface CreatePaymentMethodPayload {
+  userId: string;
+  type: string;
+  label: string;
+  last4: string;
+  brand: string;
+  expiryMonth: number;
+  expiryYear: number;
+  isDefault: boolean;
+}
+
 function getBrandIcon(brand: string | null): string {
   switch (brand?.toLowerCase()) {
     case 'visa': return 'card';
@@ -63,7 +74,7 @@ export default function PaymentMethodsScreen() {
   });
 
   const createMutation = useMutation({
-    mutationFn: async (data: any) => {
+    mutationFn: async (data: CreatePaymentMethodPayload) => {
       await apiRequest('POST', '/api/payment-methods', data);
     },
     onSuccess: () => {
@@ -94,6 +105,10 @@ export default function PaymentMethodsScreen() {
   const handleAdd = () => {
     if (!formData.label || !formData.last4 || !formData.expiryMonth || !formData.expiryYear) {
       Alert.alert('Missing Fields', 'Please fill in all required fields.');
+      return;
+    }
+    if (!userId) {
+      Alert.alert('Error', 'You must be logged in to add a payment method.');
       return;
     }
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
