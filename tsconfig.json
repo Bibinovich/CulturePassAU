@@ -18,6 +18,7 @@
   ],
   "exclude": [
     "functions",
+    "scripts",
     "node_modules",
     "dist"
   ]
