@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { Colors } from '@/constants/theme';
 import BrowsePage, { BrowseItem, CategoryFilter } from '@/components/BrowsePage';
+import { Deal } from '@/shared/schema';
 
 const shoppingCategories: CategoryFilter[] = [
   { label: 'All', icon: 'bag-handle', color: '#1C1C1E' },
@@ -55,12 +56,12 @@ export default function ShoppingScreen() {
   };
 
   const renderItemExtra = (item: BrowseItem) => {
-    const deals = item.deals as any[] | undefined;
+    const deals = item.deals as Deal[] | undefined;
     if (!deals || deals.length === 0) return null;
 
     return (
       <View style={{ gap: 6 }}>
-        {deals.slice(0, 2).map((deal: any, i: number) => (
+        {deals.slice(0, 2).map((deal, i) => (
           <View
             key={i}
             style={{

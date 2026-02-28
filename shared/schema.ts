@@ -36,6 +36,12 @@ export type TicketStatus = 'confirmed' | 'used' | 'cancelled' | 'expired';
 
 export type ReportStatus = 'pending' | 'reviewing' | 'resolved' | 'dismissed';
 
+export interface Deal {
+  title: string;
+  discount: string;
+  validTill: string;
+}
+
 // ---------------------------------------------------------------------------
 // Social links — index signature lets it be used as Record<string, string>
 // ---------------------------------------------------------------------------
@@ -155,7 +161,7 @@ export interface Profile {
   isOpen?: boolean;
   cuisine?: string;
   menuHighlights?: string[];
-  deals?: string[];
+  deals?: Deal[];
   deliveryAvailable?: boolean;
   reservationAvailable?: boolean;
   reviews?: Array<{ id: string; userId: string; rating: number; comment?: string; createdAt?: string }>;
