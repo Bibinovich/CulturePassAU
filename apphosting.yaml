@@ -1,0 +1,22 @@
+# Firebase App Hosting configuration
+# https://firebase.google.com/docs/app-hosting/configure
+
+# Custom build and run commands
+# buildCommand defaults to `npm run build` (declared in package.json)
+scripts:
+  runCommand: "node functions/lib/functions/src/server.js"
+
+# Cloud Run service configuration
+runConfig:
+  cpu: 1
+  memoryMiB: 512
+  concurrency: 80
+  minInstances: 0
+  maxInstances: 10
+
+env:
+  - variable: NODE_ENV
+    value: production
+    availability:
+      - BUILD
+      - RUNTIME
