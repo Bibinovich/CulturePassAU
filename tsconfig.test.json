@@ -1,0 +1,12 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "strict": true,
+    "paths": {
+      "@/*": ["./*"],
+      "@shared/*": ["./shared/*"],
+      "react-native": ["./scripts/tests/mocks/react-native.ts"]
+    }
+  }
+}
